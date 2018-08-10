@@ -6,7 +6,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/main"
-        tools:context="com.ljn.xiaoruireading.view.FirstWelcomActivity">
+        tools:context="com.ljn.xiaoruireading.view.concrete_views.FirstWelcomActivity">
         <TextView
                 android:id="@+id/first_welcome_login_button"
                 android:layout_width="wrap_content"

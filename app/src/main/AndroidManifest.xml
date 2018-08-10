@@ -8,19 +8,19 @@
             android:label="@string/app_name"
             android:supportsRtl="true"
             android:theme="@style/Theme.Design.Light.NoActionBar">
-        <activity android:name=".view.FirstWelcomActivity">
+        <activity android:name=".view.concrete_views.FirstWelcomActivity">
 
         </activity>
-        <activity android:name=".view.HomeActivity">
+        <activity android:name=".view.concrete_views.HomeActivity">
 
         </activity>
-        <activity android:name=".view.LoginActivity">
+        <activity android:name=".view.concrete_views.LoginActivity">
 
         </activity>
-        <activity android:name=".view.RegActivity">
+        <activity android:name=".view.concrete_views.RegActivity">
 
         </activity>
-        <activity android:name=".view.MainActivity">
+        <activity android:name=".view.concrete_views.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 

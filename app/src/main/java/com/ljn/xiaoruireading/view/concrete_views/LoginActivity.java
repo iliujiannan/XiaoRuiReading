@@ -1,4 +1,4 @@
-package com.ljn.xiaoruireading.view;
+package com.ljn.xiaoruireading.view.concrete_views;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,22 +10,30 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.ljn.xiaoruireading.R;
+import com.ljn.xiaoruireading.base.BaseActivity;
+import com.ljn.xiaoruireading.presenter.LoginPresenter;
+import com.ljn.xiaoruireading.view.abstract_views.ILoginView;
 
 /**
  * Created by 12390 on 2018/8/9.
  */
-public class LoginActivity extends BaseActivity implements View.OnClickListener{
+public class LoginActivity extends BaseActivity implements View.OnClickListener,ILoginView {
     private ImageView mBackButton;
     private TextView mRegButton;
     private TextView mLogButton;
     private TextView mForgetPswButton;
     private EditText mUsernameEdit;
     private EditText mPswEdit;
+
+    private LoginPresenter mLoginPresenter;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         mInitComponent();
+
+        mLoginPresenter = new LoginPresenter();
+        mLoginPresenter.attachView(this);
     }
 
     protected void mInitComponent(){
@@ -68,6 +76,13 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener{
         mUsernameEdit.addTextChangedListener(mTextWatcher);
     }
 
+    public void mOnLoginSuccessful(){
+        startActivity(new Intent(LoginActivity.this, HomeActivity.class));
+        finish();
+    }
+    public void mOnLoginFailure(){
+        mShowMessage("username or psw error");
+    }
     @Override
     public void onClick(View v) {
         switch (v.getId()){
@@ -81,8 +96,14 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener{
                 mShowMessage("forget psw");
                 break;
             case R.id.login_log:
-                mShowMessage("doLogin");
+                mLoginPresenter.login(mUsernameEdit.getText().toString(),mPswEdit.getText().toString());
                 break;
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        this.mLoginPresenter.detachView();
     }
 }

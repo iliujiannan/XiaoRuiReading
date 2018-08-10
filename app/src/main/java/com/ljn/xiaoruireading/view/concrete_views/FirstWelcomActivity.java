@@ -1,10 +1,11 @@
-package com.ljn.xiaoruireading.view;
+package com.ljn.xiaoruireading.view.concrete_views;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 import com.ljn.xiaoruireading.R;
+import com.ljn.xiaoruireading.base.BaseActivity;
 
 public class FirstWelcomActivity extends BaseActivity implements View.OnClickListener {
     private TextView mLoginButton = null;
