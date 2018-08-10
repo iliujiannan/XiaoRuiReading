@@ -5,8 +5,8 @@ import com.ljn.xiaoruireading.base.IBaseView;
 /**
  * Created by 12390 on 2018/8/10.
  */
-public interface ILoginView extends IBaseView{
-    void mOnLoginSuccess();
-    void mOnLoginFailure();
+public interface IRegView extends IBaseView{
+    void mOnRegSuccess();
+    void mOnRegFailure();
 
 }

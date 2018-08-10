@@ -14,10 +14,13 @@ import com.ljn.xiaoruireading.base.BaseActivity;
 import com.ljn.xiaoruireading.presenter.LoginPresenter;
 import com.ljn.xiaoruireading.view.abstract_views.ILoginView;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Created by 12390 on 2018/8/9.
  */
-public class LoginActivity extends BaseActivity implements View.OnClickListener,ILoginView {
+public class LoginActivity extends BaseActivity implements View.OnClickListener, ILoginView {
     private ImageView mBackButton;
     private TextView mRegButton;
     private TextView mLogButton;
@@ -26,6 +29,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     private EditText mPswEdit;
 
     private LoginPresenter mLoginPresenter;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,7 +40,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         mLoginPresenter.attachView(this);
     }
 
-    protected void mInitComponent(){
+    protected void mInitComponent() {
         mBackButton = (ImageView) findViewById(R.id.login_back_button);
         mRegButton = (TextView) findViewById(R.id.login_reg);
         mLogButton = (TextView) findViewById(R.id.login_log);
@@ -72,32 +76,41 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
 
             }
         };
+
+        mLogButton.setClickable(false);
         mPswEdit.addTextChangedListener(mTextWatcher);
         mUsernameEdit.addTextChangedListener(mTextWatcher);
     }
 
-    public void mOnLoginSuccessful(){
+    public void mOnLoginSuccess() {
         startActivity(new Intent(LoginActivity.this, HomeActivity.class));
         finish();
     }
-    public void mOnLoginFailure(){
+
+    public void mOnLoginFailure() {
         mShowMessage("username or psw error");
     }
+
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
-            case R.id.login_back_button:
-                finish();
-                break;
-            case R.id.login_reg:
-                startActivity(new Intent(LoginActivity.this, RegActivity.class));
-                break;
-            case R.id.login_fgpsw_bt:
-                mShowMessage("forget psw");
-                break;
-            case R.id.login_log:
-                mLoginPresenter.login(mUsernameEdit.getText().toString(),mPswEdit.getText().toString());
-                break;
+        if (v.isClickable()) {
+            switch (v.getId()) {
+                case R.id.login_back_button:
+                    finish();
+                    break;
+                case R.id.login_reg:
+                    startActivity(new Intent(LoginActivity.this, RegActivity.class));
+                    break;
+                case R.id.login_fgpsw_bt:
+                    mShowMessage("forget psw");
+                    break;
+                case R.id.login_log:
+                    Map user = new HashMap<String, String>();
+                    user.put("username", mUsernameEdit.getText().toString());
+                    user.put("psw", mPswEdit.getText().toString());
+                    mLoginPresenter.login(user);
+                    break;
+            }
         }
     }
 

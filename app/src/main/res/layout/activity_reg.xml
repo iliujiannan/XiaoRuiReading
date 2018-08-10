@@ -106,12 +106,13 @@
                 android:background="@color/sys_line" />
         <EditText
                 android:id="@+id/reg_check_code"
-                android:layout_width="350dp"
+                android:layout_width="250dp"
                 android:layout_height="30dp"
-                android:layout_centerHorizontal="true"
+                android:layout_alignParentLeft="true"
                 android:maxLength="6"
                 android:textCursorDrawable="@null"
                 android:layout_marginTop="300dp"
+                android:inputType="number|numberDecimal"
                 android:background="@null"
                 android:textColorHint="@android:color/darker_gray"
                 android:hint="验证码"
