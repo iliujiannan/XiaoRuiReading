@@ -1,0 +1,125 @@
+package com.ljn.xiaoruireading.view;
+
+import android.app.Fragment;
+import android.app.FragmentTransaction;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.TextView;
+import com.ljn.xiaoruireading.R;
+
+/**
+ * Created by 12390 on 2018/8/8.
+ */
+public class HomeActivity extends BaseActivity implements View.OnClickListener{
+
+    private TextView mTabBookshelf;
+    private TextView mTabBookcity;
+    private TextView mTabBookhouse;
+    private TextView mTabPersonal;
+
+    private FragmentTransaction transaction;
+    private Fragment mBookcityFragment,mBookhouseFragment,mBookshelfFragment,mPersonalFragment;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.fragment_base);
+        mInitComponent();
+    }
+
+    protected void mInitComponent(){
+        transaction = getFragmentManager().beginTransaction();
+
+        mTabPersonal = (TextView)this.findViewById(R.id.txt_personal);
+        mTabBookhouse = (TextView)this.findViewById(R.id.txt_bookhouse);
+        mTabBookcity = (TextView)this.findViewById(R.id.txt_bookcity);
+        mTabBookshelf = (TextView)this.findViewById(R.id.txt_bookshelf);
+
+        mTabBookshelf.setSelected(true);
+        mBookshelfFragment = new BookshelfFragment();
+        transaction.add(R.id.fragment_container,mBookshelfFragment);
+        transaction.commit();
+
+        mTabPersonal.setOnClickListener(this);
+        mTabBookhouse.setOnClickListener(this);
+        mTabBookcity.setOnClickListener(this);
+        mTabBookshelf.setOnClickListener(this);
+
+    }
+    public void hideAllFragment(FragmentTransaction transaction){
+        if(mBookhouseFragment!=null) {
+            transaction.hide(mBookhouseFragment);
+        }
+        if(mBookcityFragment!=null) {
+            transaction.hide(mBookcityFragment);
+        }
+        if(mBookshelfFragment!=null){
+            transaction.hide(mBookshelfFragment);
+        }
+        if(mPersonalFragment!=null){
+            transaction.hide(mPersonalFragment);
+        }
+
+
+
+    }
+    public void selected(){
+        mTabBookhouse.setSelected(false);
+        mTabBookcity.setSelected(false);
+        mTabBookshelf.setSelected(false);
+        mTabPersonal.setSelected(false);
+    }
+    @Override
+    public void onClick(View v) {
+        transaction = getFragmentManager().beginTransaction();
+        hideAllFragment(transaction);
+        switch(v.getId()){
+            case R.id.txt_bookshelf:
+                selected();
+                mTabBookshelf.setSelected(true);
+                if(mBookshelfFragment==null){
+                    mBookshelfFragment = new BookshelfFragment();
+                    transaction.add(R.id.fragment_container,mBookshelfFragment);
+                }else{
+                    transaction.show(mBookshelfFragment);
+                }
+                break;
+
+            case R.id.txt_bookcity:
+                selected();
+
+                mTabBookcity.setSelected(true);
+                if(mBookcityFragment==null){
+                    mBookcityFragment = new BookcityFragment();
+                    transaction.add(R.id.fragment_container,mBookcityFragment);
+                }else{
+                    transaction.show(mBookcityFragment);
+                }
+                break;
+
+            case R.id.txt_bookhouse:
+                selected();
+                mTabBookhouse.setSelected(true);
+                if(mBookhouseFragment==null){
+                    mBookhouseFragment = new BookhouseFragment();
+                    transaction.add(R.id.fragment_container,mBookhouseFragment);
+                }else{
+                    transaction.show(mBookhouseFragment);
+                }
+                break;
+
+            case R.id.txt_personal:
+                selected();
+                mTabPersonal.setSelected(true);
+                if(mPersonalFragment==null){
+                    mPersonalFragment = new PersonalFragment();
+                    transaction.add(R.id.fragment_container,mPersonalFragment);
+                }else{
+                    transaction.show(mPersonalFragment);
+                }
+                break;
+        }
+
+        transaction.commit();
+    }
+}

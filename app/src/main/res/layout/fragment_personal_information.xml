@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+
+    <ScrollView android:layout_width="match_parent" android:layout_height="wrap_content">
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+            <RelativeLayout
+                    android:id="@+id/top_bar"
+                    android:layout_width="match_parent"
+                    android:layout_height="150dp"
+                    android:background="@color/theme_yellow"
+                    android:fitsSystemWindows="true">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/personal_hp"
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        android:layout_marginTop="35dp"
+                        android:layout_marginLeft="30dp"
+                        android:src="@drawable/sys_head"
+                />
+
+                <TextView
+                        android:id="@+id/personal_nickname"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toRightOf="@+id/personal_hp"
+                        android:layout_marginLeft="25dp"
+                        android:text="点击登录/注册"
+                        android:layout_marginTop="50dp"
+                        android:textColor="@android:color/black"
+                        android:textSize="16dp" />
+                <TextView
+                        android:id="@+id/personal_reading_time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toRightOf="@+id/personal_hp"
+                        android:layout_marginLeft="25dp"
+                        android:text="累计阅读0小时|今日读0分钟"
+                        android:layout_marginTop="80dp"
+                        android:textColor="@android:color/white"
+                        android:textSize="12dp" />
+
+                <View android:layout_width="match_parent"
+                      android:layout_height="0.4dp"
+                      android:background="@color/sys_line"
+                      android:layout_alignParentBottom="true"/>
+
+            </RelativeLayout>
+            <android.support.v7.widget.CardView android:layout_width="match_parent"
+                                                android:layout_height="wrap_content">
+                <RelativeLayout android:layout_width="match_parent"
+                              android:layout_height="match_parent">
+                    <RelativeLayout android:id="@+id/personal_shopcart"
+                                  android:layout_width="60dp"
+                                  android:layout_height="65dp"
+                                  android:layout_marginLeft="40dp">
+
+                        <ImageView
+                                android:layout_height="28dp"
+                                android:layout_width="28dp"
+                                android:layout_marginTop="10dp"
+                                android:layout_centerHorizontal="true"
+                                android:src="@drawable/ic_shopcart"/>
+                        <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="购物车"
+                                android:textSize="12dp"
+                                android:layout_centerHorizontal="true"
+                                android:layout_marginTop="40dp"/>
+
+                    </RelativeLayout>
+                    <RelativeLayout android:id="@+id/personal_order"
+                                  android:layout_width="60dp"
+                                  android:layout_height="65dp"
+                                    android:clickable="true"
+                                  android:layout_centerHorizontal="true">
+                        <ImageView
+                                android:layout_height="24dp"
+                                android:layout_width="24dp"
+                                android:layout_marginTop="10dp"
+                                android:layout_centerHorizontal="true"
+                                android:src="@drawable/ic_buyed"/>
+                        <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="已购图书"
+                                android:textSize="12dp"
+                                android:layout_centerHorizontal="true"
+                                android:layout_marginTop="40dp"/>
+
+                    </RelativeLayout>
+                    <RelativeLayout android:id="@+id/personal_money"
+                                  android:layout_width="60dp"
+                                  android:layout_height="65dp"
+                                    android:layout_marginRight="40dp"
+                                  android:layout_alignParentRight="true">
+                        <ImageView
+                                android:layout_height="24dp"
+                                android:layout_width="24dp"
+                                android:layout_centerHorizontal="true"
+                                android:layout_marginTop="10dp"
+                                android:src="@drawable/ic_money"/>
+                        <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="书币"
+                                android:textSize="12dp"
+                                android:layout_centerHorizontal="true"
+                                android:layout_marginTop="40dp"/>
+
+                    </RelativeLayout>
+                    <View android:layout_width="match_parent"
+                          android:layout_height="0.4dp"
+                          android:background="@color/sys_line"
+                          android:layout_alignParentBottom="true"/>
+                </RelativeLayout>
+
+            </android.support.v7.widget.CardView>
+            <android.support.v7.widget.CardView android:id="@+id/personal_recharge"
+                                                android:layout_width="match_parent"
+                                                android:clickable="true"
+                                                android:layout_height="50dp">
+                <TextView android:layout_width="match_parent"
+                          android:layout_height="match_parent"
+                          android:text="去充值 >"
+                          android:gravity="center"
+                          android:textSize="16dp"
+                          android:textColor="@android:color/holo_orange_light"/>
+                <View android:layout_width="match_parent"
+                      android:layout_height="0.4dp"
+                      android:background="@color/sys_line"
+                      android:layout_alignParentBottom="true"/>
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView android:layout_width="match_parent"
+                                                android:id="@+id/personal_change_psw"
+                                                android:layout_marginTop="10dp"
+                                                android:clickable="true"
+                                                android:layout_height="50dp">
+                <TextView android:layout_width="match_parent"
+                          android:layout_height="match_parent"
+                          android:text="修改密码"
+                          android:gravity="center_vertical"
+                          android:layout_marginLeft="30dp"
+                          android:textSize="16dp"
+                          android:textColor="#7b7b7b"/>
+                <TextView
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="320dp"
+                        android:drawableTop="@drawable/ic_enter"
+                />
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView android:layout_width="match_parent"
+                                                android:id="@+id/personal_channge_nickname"
+                                                android:layout_marginTop="0dp"
+                                                android:clickable="true"
+                                                android:layout_height="50dp">
+                <TextView android:layout_width="match_parent"
+                          android:layout_height="match_parent"
+                          android:text="修改昵称"
+                          android:gravity="center_vertical"
+                          android:layout_marginLeft="30dp"
+                          android:textSize="16dp"
+                          android:textColor="#7b7b7b"/>
+                <TextView
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="320dp"
+                        android:drawableTop="@drawable/ic_enter"
+                />
+                <View android:layout_width="320dp"
+                      android:layout_height="0.4dp"
+                      android:layout_gravity="center_horizontal"
+                      android:background="@color/sys_line"
+                      android:layout_alignParentBottom="true"/>
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView android:id="@+id/personal_logout"
+                                                android:layout_width="match_parent"
+                                                android:layout_marginTop="20dp"
+                                                android:clickable="true"
+                                                android:layout_height="50dp">
+                <TextView android:layout_width="match_parent"
+                          android:layout_height="match_parent"
+                          android:text="退出登录"
+                          android:gravity="center"
+                          android:textSize="16dp"
+                          android:textColor="#e8554d"/>
+            </android.support.v7.widget.CardView>
+        </LinearLayout>
+    </ScrollView>
+</RelativeLayout>
