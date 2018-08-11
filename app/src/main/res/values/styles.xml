@@ -8,4 +8,9 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="RederActivityTheme" parent="Theme.Design.Light.NoActionBar">
+
+
+    </style>
+
 </resources>

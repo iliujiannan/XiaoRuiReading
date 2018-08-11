@@ -8,8 +8,8 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.Toast;
 import com.ljn.xiaoruireading.R;
-import com.ljn.xiaoruireading.util.BookShelfViewUtil;
-import com.ljn.xiaoruireading.view.custom_view.ShelfAdapter;
+import com.ljn.xiaoruireading.view.custom_view.bookshelf.BookShelfViewUtil;
+import com.ljn.xiaoruireading.view.custom_view.bookshelf.ShelfAdapter;
 
 /**
  * Created by 12390 on 2018/8/9.

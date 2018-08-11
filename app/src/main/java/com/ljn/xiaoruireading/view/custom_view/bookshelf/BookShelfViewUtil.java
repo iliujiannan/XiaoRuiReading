@@ -1,4 +1,4 @@
-package com.ljn.xiaoruireading.util;
+package com.ljn.xiaoruireading.view.custom_view.bookshelf;
 
 import android.content.Context;
 import android.content.res.AssetManager;
@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 /**
- * Created by yuzw on 1/1/15.
+ * Created by 12390 on 2018/8/9.
  */
 public class BookShelfViewUtil {
 

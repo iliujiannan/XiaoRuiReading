@@ -1,4 +1,4 @@
-package com.ljn.xiaoruireading.view.custom_view;
+package com.ljn.xiaoruireading.view.custom_view.bookshelf;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -11,7 +11,7 @@ import android.widget.GridView;
 import com.ljn.xiaoruireading.R;
 
 /**
- * Created by yuzw on 12/31/14.
+ * Created by 12390 on 2018/8/9.
  */
 public class BookShelfGridView extends GridView {
 

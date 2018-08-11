@@ -1,4 +1,4 @@
-package com.ljn.xiaoruireading.view.custom_view;
+package com.ljn.xiaoruireading.view.custom_view.bookshelf;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -8,12 +8,11 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import com.ljn.xiaoruireading.R;
-import com.ljn.xiaoruireading.util.BookShelfViewUtil;
 
 import java.util.ArrayList;
 
 /**
- * Created by yuzw on 12/31/14.
+ * Created by 12390 on 2018/8/9.
  */
 public class ShelfAdapter extends BaseAdapter {
 
