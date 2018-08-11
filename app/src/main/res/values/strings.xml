@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">小睿读书</string>
     <string name="app_err_msg">系统异常</string>
+    <string name="action_settings">Settings</string>
 </resources>

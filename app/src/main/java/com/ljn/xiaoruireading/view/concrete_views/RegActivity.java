@@ -81,8 +81,7 @@ public class RegActivity extends BaseActivity implements View.OnClickListener, I
             }
         };
 
-        mGetCheckCodeButton.setClickable(false);
-        mRegButton.setClickable(false);
+
 
         mBackButton.setOnClickListener(this);
         mPhoneNumberEdit.addTextChangedListener(mTextWatcher);
@@ -91,6 +90,9 @@ public class RegActivity extends BaseActivity implements View.OnClickListener, I
         mCheckCodeEdit.addTextChangedListener(mTextWatcher);
         mGetCheckCodeButton.setOnClickListener(this);
         mRegButton.setOnClickListener(this);
+
+        mGetCheckCodeButton.setClickable(false);
+        mRegButton.setClickable(false);
     }
 
     @Override
