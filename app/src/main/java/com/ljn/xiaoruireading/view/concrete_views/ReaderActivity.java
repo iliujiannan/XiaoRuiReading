@@ -24,7 +24,8 @@ public class ReaderActivity extends AppCompatActivity implements ViewPager.OnPag
     private ViewPager mViewPager;
 
     private List<View> mViews;
-    public static String[] mData = {"page0", "page1", "page2", "page3", "page4", "page5", "page6", "page7", "page8", "page9"};
+    public static String[] mData = {"一路上黎簇都没有说话，他看着窗外的街道，心中想着，自己是否应该跳下车去，然后一路狂奔。 可是自己能狂奔回哪儿呢？老娘那里？算了吧，老娘虽然还是关心他，但是，老娘已经有了自己的家庭，那里是容不下他的。老爹那里？估计又是一顿胖揍。 自己竟然是在这种时候，明白了什么叫无家可归，他觉得有些可笑。" +
+            "", "page1", "page2", "page3", "page4", "page5", "page6", "page7", "page8", "page9"};
 
     private Integer mCurrentRealPageNums = 0;
 
