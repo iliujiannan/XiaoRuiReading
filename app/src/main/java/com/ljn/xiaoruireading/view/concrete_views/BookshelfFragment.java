@@ -1,6 +1,7 @@
 package com.ljn.xiaoruireading.view.concrete_views;
 
 import android.app.Fragment;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.*;
@@ -15,8 +16,6 @@ import com.ljn.xiaoruireading.view.custom_view.bookshelf.ShelfAdapter;
  * Created by 12390 on 2018/8/9.
  */
 public class BookshelfFragment extends Fragment{
-
-    private static final String tag = MainActivity.class.getSimpleName();
 
     private ShelfAdapter mMyAdapter;
     private GridView mGridView;
@@ -43,8 +42,11 @@ public class BookshelfFragment extends Fragment{
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                Log.d(tag, "position = " + position);
-                Toast.makeText(view.getContext(), "position = " + position, Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getActivity(), ReaderActivity.class);
+                intent.putExtra("book_id", position);
+                intent.putExtra("uri_type", 0);
+                startActivity(intent);
+                //update
             }
         });
     }

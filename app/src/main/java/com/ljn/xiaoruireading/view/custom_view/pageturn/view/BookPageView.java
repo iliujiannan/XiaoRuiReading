@@ -297,7 +297,8 @@ public class BookPageView extends View {
                 setTouchPoint(event.getX(),event.getY(),style);
                 break;
             case MotionEvent.ACTION_UP:
-                startCancelAnim();
+                setVisibility(View.INVISIBLE);
+                onFinishListener.onFinish();
                 break;
         }
         return true;
@@ -306,6 +307,14 @@ public class BookPageView extends View {
     /**
      * 取消翻页动画,计算滑动位置与时间
      */
+
+    private OnFinishListener onFinishListener;
+    public interface OnFinishListener{
+        void onFinish();
+    }
+    public void setOnFinishListener(OnFinishListener onFinishListener){
+        this.onFinishListener = onFinishListener;
+    }
     public void startCancelAnim(){
         int dx,dy;
         //让a滑动到f点所在位置，留出1像素是为了防止当a和f重叠时出现View闪烁的情况

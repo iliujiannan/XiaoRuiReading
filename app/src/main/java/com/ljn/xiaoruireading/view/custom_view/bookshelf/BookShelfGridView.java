@@ -62,4 +62,5 @@ public class BookShelfGridView extends GridView {
         super.dispatchDraw(canvas);
     }
 
+
 }
