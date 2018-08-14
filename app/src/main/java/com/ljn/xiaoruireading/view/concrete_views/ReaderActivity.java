@@ -7,6 +7,7 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.*;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.ljn.xiaoruireading.R;
@@ -25,6 +26,10 @@ public class ReaderActivity extends BaseActivity implements ViewPager.OnPageChan
     private RelativeLayout mPageBottomBar;
     private PagerAdapter mPagerAdapter;
     private ViewPager mViewPager;
+    private ImageView mBackButton;
+    private ImageView mMoreButton;
+    private TextView mCatalogButton;
+    private TextView mSettingButton;
 
     private List<View> mViews;
     public static String[] mData = {"一路上黎簇都没有说话，他看着窗外的街道，心中想着，自己是否应该跳下车去，然后一路狂奔。 可是自己能狂奔回哪儿呢？老娘那里？算了吧，老娘虽然还是关心他，但是，老娘已经有了自己的家庭，那里是容不下他的。老爹那里？估计又是一顿胖揍。 自己竟然是在这种时候，明白了什么叫无家可归，他觉得有些可笑。" +
@@ -60,6 +65,11 @@ public class ReaderActivity extends BaseActivity implements ViewPager.OnPageChan
         mPage2 = inflater.inflate(R.layout.item_page2, null);
         mPageTopBar = (RelativeLayout) findViewById(R.id.page_topbar);
         mPageBottomBar = (RelativeLayout) findViewById(R.id.page_bottombar);
+        mBackButton = (ImageView) findViewById(R.id.page_back_button);
+        mMoreButton = (ImageView) findViewById(R.id.page_more_button);
+        mCatalogButton = (TextView) findViewById(R.id.page_catalog);
+        mSettingButton = (TextView) findViewById(R.id.page_setting);
+
 
         mPageTopBar.setVisibility(View.INVISIBLE);
         mPageBottomBar.setVisibility(View.INVISIBLE);
@@ -81,18 +91,25 @@ public class ReaderActivity extends BaseActivity implements ViewPager.OnPageChan
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
         mCurrentRealPageNums = position;
-        Log.i("mCurrentRealPageNums*", Integer.valueOf(position).toString());
-        TextView textView = null;
-        if (mCurrentRealPageNums % 2 == 0) {
-            textView = (TextView) findViewById(R.id.item_page1_text);
-        } else {
-            textView = (TextView) findViewById(R.id.item_page2_text);
+
+//        Log.i("mCurrentRealPageNums*", Integer.valueOf(position).toString());
+
+        TextView contentText,chapterText, readRateText, pageNumText;
+
+        int id = R.id.item_page1_text;
+        if (mCurrentRealPageNums % 2 == 1) {
+            id = R.id.item_page2_text;
         }
-        if (textView != null) {
-            Log.i("*****", "not null");
-            textView.setText(mData[mCurrentRealPageNums]);
-            textView.setOnClickListener(this);
-        }
+
+        //初始化每一页的四个view
+        contentText = (TextView) findViewById(id);
+        chapterText = (TextView) findViewById(id);
+        readRateText = (TextView) findViewById(id);
+        pageNumText = (TextView) findViewById(id);
+
+
+        contentText.setText(mData[mCurrentRealPageNums]);
+        contentText.setOnClickListener(this);
 
 
     }
