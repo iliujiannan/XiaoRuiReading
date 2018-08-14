@@ -2,7 +2,12 @@
 <resources>
     <color name="sys_line">#B8C1C5</color>
     <color name="theme_yellow">#ecdaa9</color>
-
+    <color name="sys_gray">#aaa</color>
+    <color name="sys_font_gray">#a9a9a9</color>
+    <color name="sys_black">#ff000000</color>
+    <color name="sys_white">#ffffffff</color>
+    <color name="sys_blue">#0dace7</color>
+    <color name="sys_red">#e8554d</color>
 
     <!--pageturn-->
     <color name="colorPrimary">#02A8F3</color>

@@ -5,6 +5,34 @@
                 android:layout_height="match_parent">
 
 
+
+    <RelativeLayout
+            android:id="@+id/page_topbar"
+            android:background="@color/sys_black"
+            android:alpha="0.8"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/top_bar_height">
+        <ImageView
+                android:id="@+id/page_back_button"
+                android:layout_width="@dimen/topbar_back_size"
+                android:layout_height="@dimen/topbar_back_size"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginBottom="@dimen/topbar_back_padding"
+                android:layout_marginStart="@dimen/topbar_back_padding"
+                android:src="@drawable/ic_back_white"
+        />
+
+        <ImageView
+                android:id="@+id/page_more_button"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginBottom="@dimen/topbar_more_padding"
+                android:layout_marginRight="@dimen/topbar_more_padding"
+                android:layout_width="@dimen/topbar_more_size"
+                android:layout_height="@dimen/topbar_more_size"/>
+
+    </RelativeLayout>
     <android.support.v4.view.ViewPager
             android:id="@+id/page_pager"
             android:layout_width="match_parent"

@@ -16,7 +16,7 @@
                 android:background="@drawable/text_login_border"
                 android:gravity="center"
                 android:text="登录"
-                android:textColor="@android:color/black"
+                android:textColor="@color/sys_black"
                 android:textSize="16dp"
                 android:layout_marginLeft="56dp"
                 android:layout_marginBottom="80dp"
@@ -35,7 +35,7 @@
             android:background="@drawable/text_reg_border"
             android:gravity="center"
             android:text="注册"
-            android:textColor="@android:color/white"
+            android:textColor="@color/sys_white"
             android:textSize="16dp"
             android:layout_marginRight="56dp"
             android:layout_marginBottom="80dp"
@@ -55,7 +55,7 @@
             android:text="去看看 >>"
             android:textSize="14dp"
             android:layout_marginBottom="40dp"
-            android:textColor="@android:color/white"
+            android:textColor="@color/sys_white"
     />
 
 </RelativeLayout>

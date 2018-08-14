@@ -11,7 +11,7 @@
               android:text="本周已读"
               android:layout_marginTop="40dp"
               android:textSize="12dp"
-              android:textColor="@android:color/white"
+              android:textColor="@color/sys_white"
               android:layout_height="wrap_content"/>
     <TextView android:layout_width="wrap_content"
               android:id="@+id/bookshelf_top_text_minute"
@@ -19,7 +19,7 @@
               android:layout_toRightOf="@id/bookshelf_top_text_1"
               android:layout_marginTop="36dp"
               android:textSize="18dp"
-              android:textColor="@android:color/white"
+              android:textColor="@color/sys_white"
               android:layout_height="wrap_content"/>
     <TextView android:layout_width="wrap_content"
               android:id="@+id/bookshelf_top_text_3"
@@ -27,7 +27,7 @@
               android:layout_toRightOf="@id/bookshelf_top_text_minute"
               android:layout_marginTop="40dp"
               android:textSize="12dp"
-              android:textColor="@android:color/white"
+              android:textColor="@color/sys_white"
               android:layout_height="wrap_content"/>
     <android.support.v7.widget.CardView
             android:layout_width="300dp"
@@ -37,7 +37,7 @@
             android:layout_centerHorizontal="true"
     >
         <TextView android:layout_width="260dp"
-                  android:textColor="@android:color/black"
+                  android:textColor="@color/sys_black"
                   android:textSize="14dp"
                   android:layout_gravity="center_horizontal"
                   android:gravity="left"
@@ -52,7 +52,7 @@
               android:background="@color/sys_line"/>
 
         <TextView android:layout_width="260dp"
-                  android:textColor="@android:color/black"
+                  android:textColor="@color/sys_black"
                   android:textSize="14dp"
                   android:layout_gravity="center_horizontal"
                   android:gravity="right"
@@ -66,7 +66,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="#EDEDED"
-            android:cacheColorHint="#00000000"
+            android:animationCache="false"
             android:divider="@android:color/transparent"
             android:fadingEdge="none"
             android:horizontalSpacing="0dp"

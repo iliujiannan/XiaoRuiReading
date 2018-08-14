@@ -4,4 +4,10 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="activity_login_body_source">80dp</dimen>
     <dimen name="ic_tab_menu_size">18dp</dimen>
+    <dimen name="top_bar_height">70dp</dimen>
+    <dimen name="topbar_back_size">24dp</dimen>
+    <dimen name="topbar_more_size">24dp</dimen>
+    <dimen name="topbar_back_padding">10dp</dimen>
+    <dimen name="topbar_more_padding">10dp</dimen>
+    <dimen name="higher_bar">150dp</dimen>
 </resources>

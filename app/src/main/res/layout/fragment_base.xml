@@ -36,7 +36,7 @@
                     android:paddingTop="5dp"
                     android:drawableTop="@drawable/tab_menu_bookshelf"
                     android:gravity="center"
-                    android:textColor="@android:color/darker_gray"
+                    android:textColor="@color/sys_gray"
 
                     android:text="书架"/>
 
@@ -50,7 +50,7 @@
                     android:paddingTop="5dp"
                     android:drawableTop="@drawable/tab_menu_bookcity"
                     android:gravity="center"
-                    android:textColor="@android:color/darker_gray"
+                    android:textColor="@color/sys_gray"
                     android:text="书城"/>
 
             <TextView
@@ -63,7 +63,7 @@
                     android:paddingTop="5dp"
                     android:drawableTop="@drawable/tab_menu_bookhouse"
                     android:gravity="center"
-                    android:textColor="@android:color/darker_gray"
+                    android:textColor="@color/sys_gray"
                     android:text="书屋"/>
 
             <TextView
@@ -76,7 +76,7 @@
                     android:paddingTop="5dp"
                     android:drawableTop="@drawable/tab_menu_personal"
                     android:gravity="center"
-                    android:textColor="@android:color/darker_gray"
+                    android:textColor="@color/sys_gray"
                     android:text="我的"/>
 
         </LinearLayout>

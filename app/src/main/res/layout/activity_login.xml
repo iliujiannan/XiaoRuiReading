@@ -2,21 +2,21 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="vertical"
               android:layout_width="match_parent"
-                android:background="#ffffff"
+                android:background="@color/sys_white"
               android:layout_height="match_parent">
     <RelativeLayout
             android:id="@+id/top_bar"
             android:layout_width="match_parent"
-            android:layout_height="70dp"
+            android:layout_height="@dimen/top_bar_height"
             android:background="@color/theme_yellow"
             android:fitsSystemWindows="true">
         <ImageView
                 android:id="@+id/login_back_button"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
+                android:layout_width="@dimen/topbar_back_size"
+                android:layout_height="@dimen/topbar_back_size"
                 android:layout_alignParentBottom="true"
-                android:layout_marginBottom="10dp"
-                android:layout_marginLeft="10dp"
+                android:layout_marginBottom="@dimen/topbar_back_padding"
+                android:layout_marginLeft="@dimen/topbar_back_padding"
                 android:src="@drawable/ic_back"
         />
 
@@ -27,7 +27,7 @@
                 android:text="用户登录"
                 android:layout_marginTop="16dp"
                 android:layout_centerHorizontal="true"
-                android:textColor="@android:color/black"
+                android:textColor="@color/sys_black"
                 android:textSize="18dp" />
 
         <View android:layout_width="match_parent"
@@ -40,7 +40,7 @@
             android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:background="#ffffff"
+            android:background="@color/sys_white"
             android:layout_marginTop="80dp">
 
             <EditText
@@ -54,7 +54,7 @@
                     android:background="@null"
                     android:hint="手机号/账号"
                     android:textCursorDrawable="@null"
-                    android:textColorHint="@android:color/darker_gray"
+                    android:textColorHint="@color/sys_gray"
                     android:textSize="17dp" />
             <View
                     android:layout_width="match_parent"
@@ -74,7 +74,7 @@
                 android:layout_marginTop="160dp"
                 android:background="@null"
                 android:password="true"
-                android:textColorHint="@android:color/darker_gray"
+                android:textColorHint="@color/sys_gray"
                 android:hint="密码"
                 android:textSize="17dp" />
         <View
@@ -92,7 +92,7 @@
                 android:layout_marginTop="225dp"
                 android:layout_alignParentRight="true"
 
-                android:textColor="@android:color/darker_gray"
+                android:textColor="@color/sys_gray"
         />
 
         <TextView
@@ -117,7 +117,7 @@
                   android:id="@+id/login_reg"
                   android:text="没有账号？注册"
                   android:layout_centerHorizontal="true"
-                  android:textColor="#0dace7"
+                  android:textColor="@color/sys_blue"
                   android:layout_marginTop="360dp"
         />
         <ImageView
@@ -132,7 +132,7 @@
                   android:text="点击登录代表同意小睿科技《隐私协议》"
                   android:layout_centerHorizontal="true"
 
-                  android:textColor="#a9a9a9"
+                  android:textColor="@color/sys_font_gray"
                   android:layout_marginTop="520dp"
         />
 
