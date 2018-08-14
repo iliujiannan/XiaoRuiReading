@@ -2,6 +2,8 @@ package com.ljn.xiaoruireading.base;
 
 import android.content.Context;
 
+import java.util.Map;
+
 /**
  * Created by 12390 on 2018/8/10.
  */
@@ -22,6 +24,10 @@ public interface IBaseView {
      * 获取上下文
      * @return 上下文
      */
+
+    void onActionSucc(Map result);
+    void onActionFailed(Map result);
+    
     Context getContext();
 
 

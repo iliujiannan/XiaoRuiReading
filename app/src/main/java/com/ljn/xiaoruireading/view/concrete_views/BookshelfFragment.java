@@ -14,6 +14,8 @@ import com.ljn.xiaoruireading.base.BaseFragment;
 import com.ljn.xiaoruireading.view.custom_view.bookshelf.BookShelfViewUtil;
 import com.ljn.xiaoruireading.view.custom_view.bookshelf.ShelfAdapter;
 
+import java.util.Map;
+
 /**
  * Created by 12390 on 2018/8/9.
  */
@@ -100,4 +102,5 @@ public class BookshelfFragment extends BaseFragment{
 
         return super.onOptionsItemSelected(item);
     }
+
 }

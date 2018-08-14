@@ -1,16 +1,16 @@
 package com.ljn.xiaoruireading.presenter;
 
 import com.ljn.xiaoruireading.base.BasePresenter;
+import com.ljn.xiaoruireading.base.IBaseView;
 import com.ljn.xiaoruireading.base.ICallback;
 import com.ljn.xiaoruireading.model.LoginModel;
-import com.ljn.xiaoruireading.view.abstract_views.ILoginView;
 
 import java.util.Map;
 
 /**
  * Created by 12390 on 2018/8/10.
  */
-public class LoginPresenter extends BasePresenter<ILoginView> {
+public class LoginPresenter extends BasePresenter<IBaseView> {
 
     public void login(Map user) {
         if (!isViewAttached()) {
@@ -19,15 +19,15 @@ public class LoginPresenter extends BasePresenter<ILoginView> {
 
         getView().showLoading();
 
-        LoginModel.mDoLogin(user, new ICallback<Integer>() {
+        LoginModel.mDoLogin(user, new ICallback<Map>() {
             @Override
-            public void onSuccess(Integer data) {
-                getView().mOnLoginSuccess();
+            public void onSuccess(Map data) {
+                getView().onActionSucc(data);
             }
 
             @Override
-            public void onFailure(Integer data) {
-                getView().mOnLoginFailure();
+            public void onFailure(Map data) {
+                getView().onActionFailed(data);
             }
 
             @Override

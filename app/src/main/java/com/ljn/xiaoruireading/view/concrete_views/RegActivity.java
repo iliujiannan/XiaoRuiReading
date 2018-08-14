@@ -121,13 +121,23 @@ public class RegActivity extends BaseActivity implements View.OnClickListener, I
     }
 
     @Override
-    public void mOnRegSuccess() {
+    public void mOnRegSuccess(Map result) {
         startActivity(new Intent(RegActivity.this, HomeActivity.class));
         finish();
     }
 
     @Override
-    public void mOnRegFailure() {
+    public void mOnRegFailure(Map result) {
+
+    }
+
+    @Override
+    public void onActionSucc(Map result) {
+
+    }
+
+    @Override
+    public void onActionFailed(Map result) {
 
     }
 }

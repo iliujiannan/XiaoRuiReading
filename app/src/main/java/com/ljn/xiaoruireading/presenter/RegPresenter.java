@@ -14,14 +14,14 @@ public class RegPresenter extends BasePresenter<IRegView> {
 
 
     public void registe(Map user){
-        RegModel.mDoReg(user, new ICallback<Integer>() {
+        RegModel.mDoReg(user, new ICallback<Map>() {
             @Override
-            public void onSuccess(Integer data) {
-                getView().mOnRegSuccess();
+            public void onSuccess(Map data) {
+                getView().mOnRegSuccess(data);
             }
 
             @Override
-            public void onFailure(Integer data) {
+            public void onFailure(Map data) {
 
             }
 

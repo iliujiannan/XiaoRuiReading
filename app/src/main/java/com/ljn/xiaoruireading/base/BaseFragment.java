@@ -8,6 +8,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.Map;
+
 /**
  * Created by 12390 on 2018/8/14.
  */
@@ -57,4 +59,13 @@ public abstract class BaseFragment extends Fragment implements IBaseView{
         }
     }
 
+    @Override
+    public void onActionSucc(Map result) {
+
+    }
+
+    @Override
+    public void onActionFailed(Map result) {
+
+    }
 }

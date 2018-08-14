@@ -10,6 +10,8 @@ import android.widget.Toast;
 import com.ljn.xiaoruireading.R;
 import com.ljn.xiaoruireading.view.concrete_views.FinishListActivity;
 
+import java.util.Map;
+
 /**
  * Created by 12390 on 2018/8/10.
  */
@@ -61,4 +63,14 @@ public abstract class BaseActivity extends AppCompatActivity implements IBaseVie
         return BaseActivity.this;
     }
 
+
+    @Override
+    public void onActionSucc(Map result) {
+
+    }
+
+    @Override
+    public void onActionFailed(Map result) {
+
+    }
 }
