@@ -37,6 +37,7 @@
             android:layout_centerHorizontal="true"
     >
         <TextView android:layout_width="260dp"
+                  android:id="@+id/bookshelf_saying"
                   android:textColor="@color/sys_black"
                   android:textSize="14dp"
                   android:layout_gravity="center_horizontal"
@@ -52,6 +53,7 @@
               android:background="@color/sys_line"/>
 
         <TextView android:layout_width="260dp"
+                  android:id="@+id/bookshelf_saying_author"
                   android:textColor="@color/sys_black"
                   android:textSize="14dp"
                   android:layout_gravity="center_horizontal"

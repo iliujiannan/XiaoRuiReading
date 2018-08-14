@@ -8,24 +8,31 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import com.ljn.xiaoruireading.R;
+import com.ljn.xiaoruireading.base.BaseFragment;
 
 /**
  * Created by 12390 on 2018/8/9.
  */
-public class PersonalFragment extends Fragment implements View.OnClickListener{
+public class PersonalFragment extends BaseFragment implements View.OnClickListener{
 
     private TextView mPersonalLogARegButton;
+
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_personal_information,container,false);
-        mInitComponent(view);
-        return view;
+    public int mGetContentViewId() {
+        return R.layout.fragment_personal_information;
     }
 
-    private void mInitComponent(View view){
-        mPersonalLogARegButton = (TextView) view.findViewById(R.id.personal_nickname);
+    @Override
+    protected void mInitAllMembersView(View mRootView) {
+        mPersonalLogARegButton = (TextView) mRootView.findViewById(R.id.personal_nickname);
 
         mPersonalLogARegButton.setOnClickListener(this);
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
+        return super.onCreateView(inflater, container, savedInstanceState);
     }
 
     @Override

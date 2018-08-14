@@ -8,6 +8,7 @@
     <color name="sys_white">#ffffffff</color>
     <color name="sys_blue">#0dace7</color>
     <color name="sys_red">#e8554d</color>
+    <color name="sys_transparent">#00ffffff</color>
 
     <!--pageturn-->
     <color name="colorPrimary">#02A8F3</color>

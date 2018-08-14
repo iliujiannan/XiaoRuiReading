@@ -7,34 +7,47 @@ import android.util.Log;
 import android.view.*;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.TextView;
 import android.widget.Toast;
 import com.ljn.xiaoruireading.R;
+import com.ljn.xiaoruireading.base.BaseFragment;
 import com.ljn.xiaoruireading.view.custom_view.bookshelf.BookShelfViewUtil;
 import com.ljn.xiaoruireading.view.custom_view.bookshelf.ShelfAdapter;
 
 /**
  * Created by 12390 on 2018/8/9.
  */
-public class BookshelfFragment extends Fragment{
+public class BookshelfFragment extends BaseFragment{
 
     private ShelfAdapter mMyAdapter;
     private GridView mGridView;
+    private TextView mReadTime;
+    private TextView mSaying;
+    private TextView mSayingAuthor;
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_bookshelf,container,false);
-        mInitComponent(view);
-        return view;
+    public int mGetContentViewId() {
+        return R.layout.fragment_bookshelf;
     }
 
-    private void mInitComponent(View view){
+    @Override
+    protected void mInitAllMembersView(View view) {
         mMyAdapter = new ShelfAdapter(view.getContext());
         mGridView = (GridView) view.findViewById(R.id.bookshelf_grid);
+        mReadTime = (TextView) view.findViewById(R.id.bookshelf_top_text_minute);
+        mSaying = (TextView) view.findViewById(R.id.bookshelf_saying);
+        mSayingAuthor = (TextView) view.findViewById(R.id.bookshelf_saying_author);
+
         mGridView.setAdapter(mMyAdapter);
         mSetAllListener();
 
         updateView(view);
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        return super.onCreateView(inflater, container, savedInstanceState);
     }
 
     private void mSetAllListener(){

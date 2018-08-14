@@ -5,11 +5,12 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.*;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.ljn.xiaoruireading.R;
+import com.ljn.xiaoruireading.base.BaseActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,9 +18,11 @@ import java.util.List;
 /**
  * Created by 12390 on 2018/8/11.
  */
-public class ReaderActivity extends AppCompatActivity implements ViewPager.OnPageChangeListener {
+public class ReaderActivity extends BaseActivity implements ViewPager.OnPageChangeListener, View.OnClickListener {
     private View mPage1, mPage2;
 
+    private RelativeLayout mPageTopBar;
+    private RelativeLayout mPageBottomBar;
     private PagerAdapter mPagerAdapter;
     private ViewPager mViewPager;
 
@@ -36,25 +39,30 @@ public class ReaderActivity extends AppCompatActivity implements ViewPager.OnPag
         int flag = WindowManager.LayoutParams.FLAG_FULLSCREEN;
         //设置当前窗体为全屏显示
         window.setFlags(flag, flag);
-        setContentView(R.layout.activity_page);
+        setContentView(R.layout.activity_reader);
         mInitData();
         mInitComponent();
     }
 
-    private void mInitData(){
+    private void mInitData() {
         Intent intent = getIntent();
-        if(intent!=null) {
+        if (intent != null) {
             Integer bookId = intent.getIntExtra("book_id", -1);
             Integer uri_type = intent.getIntExtra("uri_type", -1);
             Log.i("ljn:", "" + bookId);
         }
     }
+
     protected void mInitComponent() {
         mViewPager = (ViewPager) findViewById(R.id.page_pager);
         LayoutInflater inflater = getLayoutInflater();
         mPage1 = inflater.inflate(R.layout.item_page1, null);
         mPage2 = inflater.inflate(R.layout.item_page2, null);
+        mPageTopBar = (RelativeLayout) findViewById(R.id.page_topbar);
+        mPageBottomBar = (RelativeLayout) findViewById(R.id.page_bottombar);
 
+        mPageTopBar.setVisibility(View.INVISIBLE);
+        mPageBottomBar.setVisibility(View.INVISIBLE);
 
         mViews = new ArrayList<>();// 将要分页显示的View装入数组中
         mViews.add(mPage1);
@@ -83,6 +91,7 @@ public class ReaderActivity extends AppCompatActivity implements ViewPager.OnPag
         if (textView != null) {
             Log.i("*****", "not null");
             textView.setText(mData[mCurrentRealPageNums]);
+            textView.setOnClickListener(this);
         }
 
 
@@ -96,6 +105,11 @@ public class ReaderActivity extends AppCompatActivity implements ViewPager.OnPag
     @Override
     public void onPageScrollStateChanged(int state) {
 
+    }
+
+    @Override
+    public void onClick(View v) {
+        mChangePageSettingState();
     }
 
 
@@ -128,6 +142,32 @@ public class ReaderActivity extends AppCompatActivity implements ViewPager.OnPag
             return view == o;
         }
 
+    }
+
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+
+        if (keyCode == KeyEvent.KEYCODE_MENU) {
+            if (event.getDownTime() > 1000) {
+//                mShowMessage("long");
+                mChangePageSettingState();
+            }
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+    private void mChangePageSettingState() {
+        int flags = (mPageTopBar.getVisibility() == View.INVISIBLE)
+                ? WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN
+                : WindowManager.LayoutParams.FLAG_FULLSCREEN;
+        int cFlag = (mPageTopBar.getVisibility() != View.INVISIBLE)
+                ? WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN
+                : WindowManager.LayoutParams.FLAG_FULLSCREEN;
+        getWindow().clearFlags(cFlag);
+        getWindow().setFlags(flags, flags);
+        mPageTopBar.setVisibility((mPageTopBar.getVisibility() == View.INVISIBLE) ? View.VISIBLE : View.INVISIBLE);
+        mPageBottomBar.setVisibility((mPageBottomBar.getVisibility() == View.INVISIBLE) ? View.VISIBLE : View.INVISIBLE);
     }
 
 }
