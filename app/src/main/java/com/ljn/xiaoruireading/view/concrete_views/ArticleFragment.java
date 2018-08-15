@@ -7,6 +7,7 @@ import android.os.Message;
 import android.support.v4.view.ViewPager;
 import android.view.*;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import com.ljn.xiaoruireading.R;
 import com.ljn.xiaoruireading.base.BaseFragment;
@@ -31,6 +32,7 @@ public class ArticleFragment extends BaseFragment implements ViewPager.OnPageCha
     private ArticleAdapter mAdapter;
     private List<View> mViews;
     private List<ImageView> imgs;
+    private LinearLayout dotContainer;
 
     private Handler mHandler;
     private Timer mTimer;
@@ -56,7 +58,13 @@ public class ArticleFragment extends BaseFragment implements ViewPager.OnPageCha
         mInitData(mRootView);
 
 
-        mArticlePager = (ViewPager) mRootView.findViewById(R.id.article_pager);
+
+        View vpView = LayoutInflater.from(mContext).inflate(R.layout.item_article_pager,null);
+
+        //小圆点
+        dotContainer = (LinearLayout) vpView.findViewById(R.id.article_dot);
+
+        mArticlePager = (ViewPager) vpView.findViewById(R.id.article_pager);
         mAdapter = new ArticleAdapter(mContext, mViews);
 
 
@@ -66,10 +74,33 @@ public class ArticleFragment extends BaseFragment implements ViewPager.OnPageCha
         mArticlePager.setAdapter(mAdapter);
         mArticleListView.setAdapter(mListAdapter);
 
+        mArticleListView.addHeaderView(vpView);
+
+
+        mInitDoc();
 
         mSetAllListener();
     }
+    private void mInitDoc() {
+        imgs = new ArrayList<>();
+        dotContainer.removeAllViews();
 
+
+        for (int i = 0; i < mViews.size(); i++) {
+            ImageView imageView = new ImageView(mContext);
+            if (i == 0) {
+                imageView.setImageResource(R.drawable.doc_select);
+            } else {
+                imageView.setImageResource(R.drawable.doc_select_off);
+            }
+            //添加到集合
+            imgs.add(imageView);
+            //添加到线性布局
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+            params.setMargins(8, 0, 8, 0);
+            dotContainer.addView(imageView, params);
+        }
+    }
     private  void mSetAllListener(){
         mArticlePager.setOnPageChangeListener(this);
         mAdapter.setmListener(new ArticleAdapter.LPagerImgClickListener() {
@@ -82,11 +113,11 @@ public class ArticleFragment extends BaseFragment implements ViewPager.OnPageCha
 
 
     private void mInitData(View view) {
-        mInitViewPagerData(view);
-        mInitListViewData(view);
+        mInitViewPagerData();
+        mInitListViewData();
 
     }
-    private void mInitListViewData(View view){
+    private void mInitListViewData(){
         mArticleModels = new ArrayList<>();
         for(int i=0;i<5;i++) {
             ArticleModel articleModel = new ArticleModel();
@@ -95,9 +126,9 @@ public class ArticleFragment extends BaseFragment implements ViewPager.OnPageCha
 
     }
 
-    private void mInitViewPagerData(View view){
+    private void mInitViewPagerData(){
         mViews = new ArrayList<View>();
-        String[] array = BookShelfViewUtil.listAssets(view.getContext());
+        String[] array = BookShelfViewUtil.listAssets(mContext);
         List<String> realList = new ArrayList<>();
         for(int i=0;i<array.length;i++){
             String temp = array[i];
@@ -116,7 +147,6 @@ public class ArticleFragment extends BaseFragment implements ViewPager.OnPageCha
             mViews.add(iv);
         }
 
-        imgs = new ArrayList<ImageView>(mViews.size());
     }
 
     private void mImgPlay(final int pos){

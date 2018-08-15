@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="sys_line">#B8C1C5</color>
+    <color name="sys_line">#f5f5f5</color>
     <color name="theme_yellow">#ecdaa9</color>
     <color name="sys_gray">#aaa</color>
     <color name="sys_font_gray">#a9a9a9</color>

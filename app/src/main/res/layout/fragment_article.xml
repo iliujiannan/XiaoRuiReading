@@ -19,8 +19,9 @@
                 android:text="热门"
                 android:layout_marginTop="40dp"
                 android:layout_centerHorizontal="true"
-                android:textColor="@color/sys_red"
-                android:textSize="@dimen/sys_general_font_size"/>
+                android:textStyle="bold"
+                android:textColor="@color/sys_black"
+                android:textSize="@dimen/sys_large_font_size"/>
 
         <View android:layout_width="match_parent"
               android:layout_height="0.4dp"
@@ -29,14 +30,12 @@
 
     </RelativeLayout>
 
-    <android.support.v4.view.ViewPager
-            android:id="@+id/article_pager"
-            android:layout_width="match_parent"
-            android:layout_height="180dp"/>
+
 
     <ListView
             android:id="@+id/article_listview"
-            android:layout_marginTop="30dp"
+            android:divider="@color/sys_line"
+            android:dividerHeight="8dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
