@@ -19,8 +19,8 @@
 
                 <de.hdodenhof.circleimageview.CircleImageView
                         android:id="@+id/personal_hp"
-                        android:layout_width="80dp"
-                        android:layout_height="80dp"
+                        android:layout_width="@dimen/general_photo"
+                        android:layout_height="@dimen/general_photo"
                         android:layout_marginTop="35dp"
                         android:layout_marginLeft="30dp"
                         android:src="@drawable/sys_head"
@@ -35,7 +35,7 @@
                         android:text="点击登录/注册"
                         android:layout_marginTop="50dp"
                         android:textColor="@color/sys_black"
-                        android:textSize="16dp" />
+                        android:textSize="@dimen/sys_general_font_size" />
                 <TextView
                         android:id="@+id/personal_reading_time"
                         android:layout_width="wrap_content"
@@ -132,7 +132,7 @@
                           android:layout_height="match_parent"
                           android:text="去充值 >"
                           android:gravity="center"
-                          android:textSize="16dp"
+                          android:textSize="@dimen/sys_general_font_size"
                           android:textColor="@android:color/holo_orange_light"/>
                 <View android:layout_width="match_parent"
                       android:layout_height="0.4dp"
@@ -150,11 +150,11 @@
                           android:text="修改密码"
                           android:gravity="center_vertical"
                           android:layout_marginLeft="30dp"
-                          android:textSize="16dp"
+                          android:textSize="@dimen/sys_general_font_size"
                           android:textColor="#7b7b7b"/>
                 <TextView
-                        android:layout_width="16dp"
-                        android:layout_height="16dp"
+                        android:layout_width="@dimen/sys_general_font_size"
+                        android:layout_height="@dimen/sys_general_font_size"
                         android:layout_gravity="center_vertical"
                         android:layout_marginLeft="320dp"
                         android:drawableTop="@drawable/ic_enter"
@@ -171,11 +171,11 @@
                           android:text="修改昵称"
                           android:gravity="center_vertical"
                           android:layout_marginLeft="30dp"
-                          android:textSize="16dp"
+                          android:textSize="@dimen/sys_general_font_size"
                           android:textColor="#7b7b7b"/>
                 <TextView
-                        android:layout_width="16dp"
-                        android:layout_height="16dp"
+                        android:layout_width="@dimen/sys_general_font_size"
+                        android:layout_height="@dimen/sys_general_font_size"
                         android:layout_gravity="center_vertical"
                         android:layout_marginLeft="320dp"
                         android:drawableTop="@drawable/ic_enter"
@@ -196,7 +196,7 @@
                           android:layout_height="match_parent"
                           android:text="退出登录"
                           android:gravity="center"
-                          android:textSize="16dp"
+                          android:textSize="@dimen/sys_general_font_size"
                           android:textColor="@color/sys_red"/>
             </android.support.v7.widget.CardView>
         </LinearLayout>

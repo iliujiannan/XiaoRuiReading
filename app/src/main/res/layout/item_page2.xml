@@ -7,7 +7,7 @@
     <TextView
             android:id="@+id/page2_chapter_id"
             android:text="第一章"
-            android:textSize="10dp"
+            android:textSize="@dimen/sys_mini_font_size"
             android:paddingTop="10dp"
             android:paddingLeft="15dp"
             android:layout_height="wrap_content"
@@ -30,7 +30,7 @@
     <TextView
             android:id="@+id/page2_read_rate"
             android:text="0.00%"
-            android:textSize="10dp"
+            android:textSize="@dimen/sys_mini_font_size"
             android:paddingTop="10dp"
             android:paddingLeft="15dp"
             android:layout_alignParentBottom="true"
@@ -40,7 +40,7 @@
     <TextView
             android:id="@+id/page2_page_num"
             android:text="1"
-            android:textSize="10dp"
+            android:textSize="@dimen/sys_mini_font_size"
             android:paddingBottom="10dp"
             android:paddingRight="15dp"
             android:layout_alignParentBottom="true"

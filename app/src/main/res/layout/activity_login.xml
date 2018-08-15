@@ -25,7 +25,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="用户登录"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="@dimen/sys_general_font_size"
                 android:layout_centerHorizontal="true"
                 android:textColor="@color/sys_black"
                 android:textSize="18dp" />
@@ -108,7 +108,7 @@
                 android:layout_marginTop="280dp"
                 android:layout_centerHorizontal="true"
                 android:text="登录"
-                android:textSize="16dp"
+                android:textSize="@dimen/sys_general_font_size"
                 android:background="@drawable/text_login_logbt_border"
         />
 

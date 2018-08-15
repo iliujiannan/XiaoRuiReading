@@ -25,7 +25,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="注册"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="@dimen/sys_general_font_size"
                 android:layout_centerHorizontal="true"
                 android:textColor="@color/sys_black"
                 android:textSize="18dp" />

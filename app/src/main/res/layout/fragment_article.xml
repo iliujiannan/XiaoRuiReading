@@ -17,7 +17,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="热门"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="@dimen/sys_general_font_size"
                 android:layout_centerInParent="true"
                 android:textColor="@color/sys_red"
                 android:textSize="18dp" />
@@ -33,6 +33,11 @@
             android:id="@+id/article_pager"
             android:layout_width="match_parent"
             android:layout_height="180dp"/>
+
+    <ListView
+            android:id="@+id/article_listview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
 
 
 </LinearLayout>
