@@ -14,6 +14,8 @@
     <dimen name="page_top_bar">90dp</dimen>
     <dimen name="mini_photo">40dp</dimen>
     <dimen name="general_photo">80dp</dimen>
-    <dimen name="sys_mini_font_size">10dp</dimen>
-    <dimen name="sys_general_font_size">16dp</dimen>
+    <dimen name="sys_mini_font_size">10sp</dimen>
+    <dimen name="sys_general_font_size">16sp</dimen>
+    <dimen name="sys_mid_font_size">14sp</dimen>
+    <dimen name="sys_large_font_size">18sp</dimen>
 </resources>

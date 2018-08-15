@@ -24,10 +24,10 @@
         <ImageView
                 android:id="@+id/page_more_button"
                 android:layout_alignParentBottom="true"
-                android:layout_alignParentRight="true"
+                android:layout_alignParentStart="true"
                 android:scaleType="centerInside"
                 android:layout_marginBottom="@dimen/topbar_more_padding"
-                android:layout_marginRight="@dimen/topbar_more_padding"
+                android:layout_marginEnd="@dimen/topbar_more_padding"
                 android:src="@drawable/ic_more_white"
                 android:layout_width="@dimen/topbar_more_size"
                 android:layout_height="@dimen/topbar_more_size"/>
