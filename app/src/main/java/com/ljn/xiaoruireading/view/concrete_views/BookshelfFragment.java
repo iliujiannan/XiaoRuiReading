@@ -17,13 +17,15 @@ import java.util.List;
 /**
  * Created by 12390 on 2018/8/9.
  */
-public class BookshelfFragment extends BaseFragment{
+public class BookshelfFragment extends BaseFragment {
 
     private ShelfAdapter mMyAdapter;
     private GridView mGridView;
     private TextView mReadTime;
     private TextView mSaying;
     private TextView mSayingAuthor;
+
+    private boolean mIsLongPress = false;
 
 
     @Override
@@ -50,20 +52,33 @@ public class BookshelfFragment extends BaseFragment{
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
-    private void mSetAllListener(){
+    private void mSetAllListener() {
         mGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                Intent intent = new Intent(getActivity(), ReaderActivity.class);
-                intent.putExtra("book_id", position);
-                intent.putExtra("uri_type", 0);
-                startActivity(intent);
-                //update
+                if(!mIsLongPress) {
+                    Intent intent = new Intent(getActivity(), ReaderActivity.class);
+                    intent.putExtra("book_id", position);
+                    intent.putExtra("uri_type", 0);
+                    startActivity(intent);
+                    //update
+                }else{
+                    mIsLongPress = false;
+                }
+            }
+        });
+        mGridView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+
+                //doDelete
+                mShowMessage("item " + position + "被长按");
+                mIsLongPress = true;
+                return false;
             }
         });
     }
-
 
 
     private void updateView(View view) {
@@ -71,9 +86,9 @@ public class BookshelfFragment extends BaseFragment{
         String[] array = BookShelfViewUtil.listAssets(view.getContext());
         mMyAdapter.items.clear();
         List<String> realList = new ArrayList<>();
-        for(int i=0;i<array.length;i++){
+        for (int i = 0; i < array.length; i++) {
             String temp = array[i];
-            if(mIsLegle(temp)){
+            if (mIsLegle(temp)) {
                 realList.add(temp);
             }
         }
@@ -87,8 +102,8 @@ public class BookshelfFragment extends BaseFragment{
         mMyAdapter.notifyDataSetChanged();
     }
 
-    private boolean mIsLegle(String temp){
-        if(temp.contains("shelf")){
+    private boolean mIsLegle(String temp) {
+        if (temp.contains("shelf")) {
             return true;
         }
         return false;
