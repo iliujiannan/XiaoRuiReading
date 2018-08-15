@@ -1,18 +1,18 @@
 package com.ljn.xiaoruireading.view.concrete_views;
 
-import android.content.Context;
 import android.graphics.Bitmap;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.*;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
+import android.widget.ListView;
 import com.ljn.xiaoruireading.R;
 import com.ljn.xiaoruireading.base.BaseFragment;
+import com.ljn.xiaoruireading.model.ArticleModel;
+import com.ljn.xiaoruireading.view.concrete_views.Adapter.ArticleAdapter;
+import com.ljn.xiaoruireading.view.concrete_views.Adapter.ArticleListAdapter;
 import com.ljn.xiaoruireading.view.custom_view.bookshelf.BookShelfViewUtil;
 
 import java.util.ArrayList;
@@ -39,6 +39,10 @@ public class ArticleFragment extends BaseFragment implements ViewPager.OnPageCha
     //end
 
 
+    private ListView mArticleListView;
+    private ArticleListAdapter mListAdapter;
+    private List<ArticleModel> mArticleModels;
+
 
 
     @Override
@@ -48,16 +52,26 @@ public class ArticleFragment extends BaseFragment implements ViewPager.OnPageCha
 
     @Override
     protected void mInitAllMembersView(View mRootView) {
-        mArticlePager = (ViewPager) mRootView.findViewById(R.id.article_pager);
+
         mInitData(mRootView);
-        //自定义adapter
+
+
+        mArticlePager = (ViewPager) mRootView.findViewById(R.id.article_pager);
         mAdapter = new ArticleAdapter(mContext, mViews);
+
+
+        mArticleListView = (ListView) mRootView.findViewById(R.id.article_listview);
+        mListAdapter = new ArticleListAdapter(mContext,R.layout.item_article_list,mArticleModels);
+
         mArticlePager.setAdapter(mAdapter);
-        mArticlePager.setOnPageChangeListener(this);
+        mArticleListView.setAdapter(mListAdapter);
+
+
         mSetAllListener();
     }
 
     private  void mSetAllListener(){
+        mArticlePager.setOnPageChangeListener(this);
         mAdapter.setmListener(new ArticleAdapter.LPagerImgClickListener() {
             @Override
             public void ImgClick(int position) {
@@ -68,6 +82,20 @@ public class ArticleFragment extends BaseFragment implements ViewPager.OnPageCha
 
 
     private void mInitData(View view) {
+        mInitViewPagerData(view);
+        mInitListViewData(view);
+
+    }
+    private void mInitListViewData(View view){
+        mArticleModels = new ArrayList<>();
+        for(int i=0;i<5;i++) {
+            ArticleModel articleModel = new ArticleModel();
+            mArticleModels.add(articleModel);
+        }
+
+    }
+
+    private void mInitViewPagerData(View view){
         mViews = new ArrayList<View>();
         String[] array = BookShelfViewUtil.listAssets(view.getContext());
         List<String> realList = new ArrayList<>();
@@ -89,7 +117,6 @@ public class ArticleFragment extends BaseFragment implements ViewPager.OnPageCha
         }
 
         imgs = new ArrayList<ImageView>(mViews.size());
-        System.out.println(mViews.size());
     }
 
     private void mImgPlay(final int pos){

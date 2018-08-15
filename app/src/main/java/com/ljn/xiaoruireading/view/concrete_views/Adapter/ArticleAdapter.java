@@ -1,4 +1,4 @@
-package com.ljn.xiaoruireading.view.concrete_views;
+package com.ljn.xiaoruireading.view.concrete_views.Adapter;
 
 import android.content.Context;
 import android.support.v4.view.PagerAdapter;
@@ -58,7 +58,7 @@ public class ArticleAdapter extends PagerAdapter {
 
     }
 
-    interface LPagerImgClickListener {
+    public interface LPagerImgClickListener {
         void ImgClick(int position);
     }
 
