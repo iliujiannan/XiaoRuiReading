@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import java.util.Map;
 
@@ -17,12 +18,14 @@ public abstract class BaseFragment extends Fragment implements IBaseView{
     public abstract int mGetContentViewId();
     protected abstract void mInitAllMembersView(View mRootView);
     protected Context mContext;
+    protected LayoutInflater mInflater;
     protected View mRootView;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mRootView = inflater.inflate(mGetContentViewId(), container, false);
         this.mContext = getActivity();
+        this.mInflater = inflater;
         mInitAllMembersView(mRootView);
         return mRootView;
     }
@@ -67,5 +70,9 @@ public abstract class BaseFragment extends Fragment implements IBaseView{
     @Override
     public void onActionFailed(Map result) {
 
+    }
+    protected void mShowMessage(String msg){
+        Toast.makeText(getActivity(), msg,
+                Toast.LENGTH_SHORT).show();
     }
 }

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+    <RelativeLayout
+            android:id="@+id/top_bar"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/top_bar_height"
+            android:background="@color/sys_white"
+
+            android:fitsSystemWindows="true">
+
+        <TextView
+                android:id="@+id/article_text_bar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="热门"
+                android:layout_marginTop="16dp"
+                android:layout_centerInParent="true"
+                android:textColor="@color/sys_red"
+                android:textSize="18dp" />
+
+        <View android:layout_width="match_parent"
+              android:layout_height="0.4dp"
+              android:background="@color/sys_line"
+              android:layout_alignParentBottom="true"/>
+
+    </RelativeLayout>
+
+    <android.support.v4.view.ViewPager
+            android:id="@+id/article_pager"
+            android:layout_width="match_parent"
+            android:layout_height="180dp"/>
+
+
+</LinearLayout>

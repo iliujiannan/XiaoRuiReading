@@ -26,13 +26,14 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_base);
         mInitComponent();
+        mSetStatusBar(getResources().getColor(R.color.sys_transparent));
     }
 
     protected void mInitComponent(){
         transaction = getFragmentManager().beginTransaction();
 
         mTabPersonal = (TextView)this.findViewById(R.id.txt_personal);
-        mTabBookhouse = (TextView)this.findViewById(R.id.txt_bookhouse);
+        mTabBookhouse = (TextView)this.findViewById(R.id.txt_article);
         mTabBookcity = (TextView)this.findViewById(R.id.txt_bookcity);
         mTabBookshelf = (TextView)this.findViewById(R.id.txt_bookshelf);
 
@@ -98,11 +99,11 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener{
                 }
                 break;
 
-            case R.id.txt_bookhouse:
+            case R.id.txt_article:
                 selected();
                 mTabBookhouse.setSelected(true);
                 if(mBookhouseFragment==null){
-                    mBookhouseFragment = new BookhouseFragment();
+                    mBookhouseFragment = new ArticleFragment();
                     transaction.add(R.id.fragment_container,mBookhouseFragment);
                 }else{
                     transaction.show(mBookhouseFragment);

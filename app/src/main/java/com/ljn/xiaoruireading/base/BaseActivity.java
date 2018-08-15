@@ -1,15 +1,22 @@
 package com.ljn.xiaoruireading.base;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.ColorInt;
 import android.support.annotation.Nullable;
+import android.support.v4.graphics.ColorUtils;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.view.WindowManager;
 import android.widget.Toast;
 import com.ljn.xiaoruireading.R;
 import com.ljn.xiaoruireading.view.concrete_views.FinishListActivity;
 
+import java.lang.reflect.Field;
 import java.util.Map;
 
 /**
@@ -73,4 +80,34 @@ public abstract class BaseActivity extends AppCompatActivity implements IBaseVie
     public void onActionFailed(Map result) {
 
     }
+
+    public void mSetStatusBar(@ColorInt int color) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+
+            // 设置状态栏底色颜色
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            getWindow().setStatusBarColor(color);
+
+            // 如果亮色，设置状态栏文字为黑色
+            if (mIsLightColor(color)) {
+                getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+            } else {
+                getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_VISIBLE);
+            }
+        }
+
+    }
+
+    /**
+     * 判断颜色是不是亮色
+     *
+     * @param color
+     * @return
+     * @from https://stackoverflow.com/questions/24260853/check-if-color-is-dark-or-light-in-android
+     */
+    private boolean mIsLightColor(@ColorInt int color) {
+        return ColorUtils.calculateLuminance(color) >= 0.5;
+    }
+
 }

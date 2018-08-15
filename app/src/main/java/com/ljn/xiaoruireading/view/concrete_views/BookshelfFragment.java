@@ -1,20 +1,18 @@
 package com.ljn.xiaoruireading.view.concrete_views;
 
-import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.*;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.TextView;
-import android.widget.Toast;
 import com.ljn.xiaoruireading.R;
 import com.ljn.xiaoruireading.base.BaseFragment;
 import com.ljn.xiaoruireading.view.custom_view.bookshelf.BookShelfViewUtil;
 import com.ljn.xiaoruireading.view.custom_view.bookshelf.ShelfAdapter;
 
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by 12390 on 2018/8/9.
@@ -72,8 +70,14 @@ public class BookshelfFragment extends BaseFragment{
 
         String[] array = BookShelfViewUtil.listAssets(view.getContext());
         mMyAdapter.items.clear();
-
-        for (String name : array) {
+        List<String> realList = new ArrayList<>();
+        for(int i=0;i<array.length;i++){
+            String temp = array[i];
+            if(mIsLegle(temp)){
+                realList.add(temp);
+            }
+        }
+        for (String name : realList) {
             ShelfAdapter.Item item = new ShelfAdapter.Item();
             item.filename = name;
 
@@ -81,6 +85,13 @@ public class BookshelfFragment extends BaseFragment{
         }
 
         mMyAdapter.notifyDataSetChanged();
+    }
+
+    private boolean mIsLegle(String temp){
+        if(temp.contains("shelf")){
+            return true;
+        }
+        return false;
     }
 
     @Override
