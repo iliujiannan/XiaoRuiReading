@@ -11,7 +11,7 @@ import java.util.List;
  * Created by 12390 on 2018/8/15.
  */
 
-public class ArticleAdapter extends PagerAdapter {
+public class ArticleTurnAdapter extends PagerAdapter {
 
     Context ctx;
     List<View> mlist;
@@ -22,7 +22,7 @@ public class ArticleAdapter extends PagerAdapter {
 
     LPagerImgClickListener mListener;
 
-    public ArticleAdapter(Context ctx, List<View> mlist) {
+    public ArticleTurnAdapter(Context ctx, List<View> mlist) {
         this.ctx = ctx;
         this.mlist = mlist;
     }

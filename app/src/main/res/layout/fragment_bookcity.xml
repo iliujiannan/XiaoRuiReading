@@ -3,10 +3,92 @@
               android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="match_parent">
-    <TextView android:layout_width="wrap_content"
-              android:layout_marginTop="50dp"
-              android:layout_height="wrap_content"
-              android:text="书城"
-    />
+
+    <RelativeLayout
+            android:id="@+id/top_bar"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/mid_bar_size"
+            android:background="@color/sys_white"
+
+            android:fitsSystemWindows="true">
+        <EditText
+                android:layout_height="30dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginBottom="50dp"
+                android:layout_alignParentBottom="true"
+                android:background="@drawable/text_search_border"
+                android:hint="搜索书城"
+                android:textCursorDrawable="@null"
+                android:paddingStart="5dp"
+                android:textSize="@dimen/sys_mid_font_size"
+                android:textColorHint="@color/sys_font_gray"
+                android:layout_width="280dp"/>
+
+        <RelativeLayout android:layout_width="match_parent"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginStart="20dp"
+                        android:layout_height="40dp">
+            <TextView
+                    android:id="@+id/page_bookcity_class1"
+                    android:textSize="@dimen/sys_mid_font_size"
+                    android:text="全部"
+                    android:textColor="@color/sys_font_gray"
+                    android:layout_centerVertical="true"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"/>
+            <TextView
+                    android:id="@+id/page_bookcity_class2"
+                    android:layout_toEndOf="@+id/page_bookcity_class1"
+                    android:textSize="@dimen/sys_mid_font_size"
+                    android:text="出版"
+                    android:textColor="@color/sys_font_gray"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="25dp"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"/>
+            <TextView
+                    android:id="@+id/page_bookcity_class3"
+                    android:layout_toEndOf="@+id/page_bookcity_class2"
+                    android:textSize="@dimen/sys_mid_font_size"
+                    android:text="女生"
+                    android:textColor="@color/sys_font_gray"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="25dp"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"/>
+            <TextView
+                    android:id="@+id/page_bookcity_class4"
+                    android:layout_toEndOf="@+id/page_bookcity_class3"
+                    android:textSize="@dimen/sys_mid_font_size"
+                    android:text="男生"
+                    android:textColor="@color/sys_font_gray"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="25dp"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"/>
+            <TextView
+                    android:id="@+id/page_bookcity_class5"
+                    android:layout_toEndOf="@+id/page_bookcity_class4"
+                    android:textSize="@dimen/sys_mid_font_size"
+                    android:text="悬疑"
+                    android:textColor="@color/sys_font_gray"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="25dp"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"/>
+        </RelativeLayout>
+        <View android:layout_width="match_parent"
+              android:layout_height="0.4dp"
+              android:background="@color/sys_line"
+              android:layout_alignParentBottom="true"/>
+
+    </RelativeLayout>
+
+
+    <android.support.v4.view.ViewPager
+            android:id="@+id/bookcity_pager"
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"/>
 
 </LinearLayout>

@@ -34,7 +34,7 @@
 
     <ListView
             android:id="@+id/article_listview"
-            android:divider="@color/sys_line"
+            android:divider="@color/sys_divider"
             android:dividerHeight="8dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>

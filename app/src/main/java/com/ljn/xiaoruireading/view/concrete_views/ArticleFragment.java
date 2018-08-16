@@ -12,7 +12,7 @@ import android.widget.ListView;
 import com.ljn.xiaoruireading.R;
 import com.ljn.xiaoruireading.base.BaseFragment;
 import com.ljn.xiaoruireading.model.ArticleModel;
-import com.ljn.xiaoruireading.view.concrete_views.Adapter.ArticleAdapter;
+import com.ljn.xiaoruireading.view.concrete_views.Adapter.ArticleTurnAdapter;
 import com.ljn.xiaoruireading.view.concrete_views.Adapter.ArticleListAdapter;
 import com.ljn.xiaoruireading.view.custom_view.bookshelf.BookShelfViewUtil;
 
@@ -29,7 +29,7 @@ public class ArticleFragment extends BaseFragment implements ViewPager.OnPageCha
 
     //轮播图
     private ViewPager mArticlePager;
-    private ArticleAdapter mAdapter;
+    private ArticleTurnAdapter mAdapter;
     private List<View> mViews;
     private List<ImageView> imgs;
     private LinearLayout dotContainer;
@@ -65,7 +65,7 @@ public class ArticleFragment extends BaseFragment implements ViewPager.OnPageCha
         dotContainer = (LinearLayout) vpView.findViewById(R.id.article_dot);
 
         mArticlePager = (ViewPager) vpView.findViewById(R.id.article_pager);
-        mAdapter = new ArticleAdapter(mContext, mViews);
+        mAdapter = new ArticleTurnAdapter(mContext, mViews);
 
 
         mArticleListView = (ListView) mRootView.findViewById(R.id.article_listview);
@@ -103,7 +103,7 @@ public class ArticleFragment extends BaseFragment implements ViewPager.OnPageCha
     }
     private  void mSetAllListener(){
         mArticlePager.setOnPageChangeListener(this);
-        mAdapter.setmListener(new ArticleAdapter.LPagerImgClickListener() {
+        mAdapter.setmListener(new ArticleTurnAdapter.LPagerImgClickListener() {
             @Override
             public void ImgClick(int position) {
                 mShowMessage("图片" + position + "被点击了");

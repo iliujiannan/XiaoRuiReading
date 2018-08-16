@@ -5,11 +5,20 @@ package com.ljn.xiaoruireading.model;
  */
 public class ArticleModel {
 
+    private String mArticleId;
     private String mPhotoUrl;
     private String mNickname;
     private String mTitle;
     private String mDescription;
     private String mRa;
+
+    public String getmArticleId() {
+        return mArticleId;
+    }
+
+    public void setmArticleId(String mArticleId) {
+        this.mArticleId = mArticleId;
+    }
 
     public String getmPhotoUrl() {
         return mPhotoUrl;
