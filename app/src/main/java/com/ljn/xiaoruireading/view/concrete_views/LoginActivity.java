@@ -11,7 +11,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import com.ljn.xiaoruireading.R;
 import com.ljn.xiaoruireading.base.BaseActivity;
+import com.ljn.xiaoruireading.base.BaseModel;
 import com.ljn.xiaoruireading.base.IBaseView;
+import com.ljn.xiaoruireading.model.LoginModel;
 import com.ljn.xiaoruireading.presenter.LoginPresenter;
 
 import java.util.HashMap;
@@ -97,7 +99,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                     break;
                 case R.id.login_log:
                     Map user = new HashMap<String, String>();
-                    user.put("username", mUsernameEdit.getText().toString());
+                    user.put("userPhone", mUsernameEdit.getText().toString());
                     user.put("psw", mPswEdit.getText().toString());
                     mLoginPresenter.login(user);
                     break;
@@ -112,13 +114,19 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     }
 
     @Override
-    public void onActionSucc(Map result) {
-        startActivity(new Intent(LoginActivity.this, HomeActivity.class));
-        finish();
+    public void onActionSucc(BaseModel result) {
+        if(getIntent().getStringExtra("from")==null) {
+            finish();
+        }else{
+            startActivity(new Intent(LoginActivity.this, HomeActivity.class));
+            finish();
+        }
+
+
     }
 
     @Override
-    public void onActionFailed(Map result) {
-        mShowMessage("username or psw error");
+    public void onActionFailed(BaseModel result) {
+        mShowMessage("server error");
     }
 }

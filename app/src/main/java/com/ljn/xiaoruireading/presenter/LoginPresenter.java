@@ -19,26 +19,20 @@ public class LoginPresenter extends BasePresenter<IBaseView> {
 
         getView().showLoading();
 
-        LoginModel.mDoLogin(user, new ICallback<Map>() {
+        LoginModel.mDoLogin(user, new ICallback<LoginModel>() {
+
             @Override
-            public void onSuccess(Map data) {
+            public void onSuccess(LoginModel data) {
+
                 getView().onActionSucc(data);
-            }
-
-            @Override
-            public void onFailure(Map data) {
-                getView().onActionFailed(data);
-            }
-
-            @Override
-            public void onError() {
-
-            }
-
-            @Override
-            public void onComplete() {
                 getView().hideLoading();
             }
+
+            @Override
+            public void onFailure(LoginModel data) {
+                getView().hideLoading();
+            }
+
         });
     }
 }

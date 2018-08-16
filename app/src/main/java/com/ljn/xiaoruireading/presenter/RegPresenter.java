@@ -25,15 +25,6 @@ public class RegPresenter extends BasePresenter<IRegView> {
 
             }
 
-            @Override
-            public void onError() {
-
-            }
-
-            @Override
-            public void onComplete() {
-
-            }
         });
     }
 }

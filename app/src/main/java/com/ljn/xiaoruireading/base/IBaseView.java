@@ -25,8 +25,8 @@ public interface IBaseView {
      * @return 上下文
      */
 
-    void onActionSucc(Map result);
-    void onActionFailed(Map result);
+    void onActionSucc(BaseModel result);
+    void onActionFailed(BaseModel result);
     
     Context getContext();
 

@@ -128,7 +128,9 @@ public class ArticleFragment extends BaseFragment implements ViewPager.OnPageCha
 
     private void mInitViewPagerData(){
         mViews = new ArrayList<View>();
+
         String[] array = BookShelfViewUtil.listAssets(mContext);
+
         List<String> realList = new ArrayList<>();
         for(int i=0;i<array.length;i++){
             String temp = array[i];
@@ -136,6 +138,7 @@ public class ArticleFragment extends BaseFragment implements ViewPager.OnPageCha
                 realList.add(temp);
             }
         }
+
         for (String name : realList) {
             ImageView iv = new ImageView(mContext);
             iv.setScaleType(ImageView.ScaleType.CENTER_CROP);

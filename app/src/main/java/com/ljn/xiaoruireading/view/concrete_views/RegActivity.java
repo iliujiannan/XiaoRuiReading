@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import com.ljn.xiaoruireading.R;
 import com.ljn.xiaoruireading.base.BaseActivity;
+import com.ljn.xiaoruireading.base.BaseModel;
 import com.ljn.xiaoruireading.presenter.RegPresenter;
 import com.ljn.xiaoruireading.view.abstract_views.IRegView;
 
@@ -132,12 +133,12 @@ public class RegActivity extends BaseActivity implements View.OnClickListener, I
     }
 
     @Override
-    public void onActionSucc(Map result) {
+    public void onActionSucc(BaseModel result) {
 
     }
 
     @Override
-    public void onActionFailed(Map result) {
+    public void onActionFailed(BaseModel result) {
 
     }
 }

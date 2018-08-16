@@ -72,12 +72,12 @@ public abstract class BaseActivity extends AppCompatActivity implements IBaseVie
 
 
     @Override
-    public void onActionSucc(Map result) {
+    public void onActionSucc(BaseModel result) {
 
     }
 
     @Override
-    public void onActionFailed(Map result) {
+    public void onActionFailed(BaseModel result) {
 
     }
 

@@ -36,13 +36,18 @@ public class FirstWelcomActivity extends BaseActivity implements View.OnClickLis
 
     @Override
     public void onClick(View v) {
+        Intent intent;
         switch (v.getId()){
             case R.id.first_welcome_login_button:
-                startActivity(new Intent(FirstWelcomActivity.this,LoginActivity.class));
+                intent = new Intent(FirstWelcomActivity.this,LoginActivity.class);
+                intent.putExtra("from", "wel");
+                startActivity(intent);
                 break;
             case R.id.first_welcome_reg_button:
 //                mShowMessage("reg");
-                startActivity(new Intent(FirstWelcomActivity.this,RegActivity.class));
+                intent = new Intent(FirstWelcomActivity.this,RegActivity.class);
+                intent.putExtra("from", "wel");
+                startActivity(intent);
                 break;
             case R.id.first_welcome_visit_button:
                 startActivity(new Intent(FirstWelcomActivity.this,HomeActivity.class));

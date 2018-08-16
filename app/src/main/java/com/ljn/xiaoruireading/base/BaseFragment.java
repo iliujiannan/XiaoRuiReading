@@ -63,12 +63,12 @@ public abstract class BaseFragment extends Fragment implements IBaseView{
     }
 
     @Override
-    public void onActionSucc(Map result) {
+    public void onActionSucc(BaseModel result) {
 
     }
 
     @Override
-    public void onActionFailed(Map result) {
+    public void onActionFailed(BaseModel result) {
 
     }
     protected void mShowMessage(String msg){
