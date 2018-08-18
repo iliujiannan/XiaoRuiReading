@@ -32,7 +32,7 @@ public class LoginPresenter extends BasePresenter<IBaseView> {
                             getView().onActionSucc(data);
                         }else{
                             Looper.prepare();
-                            getView().onActionFailed(data);
+                            getView().onActionFailed(data.getMsg());
                             Looper.loop();
                         }
 //                        getView().hideLoading();

@@ -8,6 +8,7 @@ import java.util.Map;
  * Created by 12390 on 2018/8/10.
  */
 public interface IBaseView {
+
     /**
      * 显示正在加载view
      */

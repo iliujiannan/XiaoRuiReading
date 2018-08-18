@@ -42,7 +42,7 @@
                         android:layout_height="wrap_content"
                         android:layout_toEndOf="@+id/personal_hp"
                         android:layout_marginStart="25dp"
-                        android:text="累计阅读0小时|今日读0分钟"
+                        android:text="累计阅读0分钟"
                         android:layout_marginTop="80dp"
                         android:textColor="@color/sys_white"
                         android:textSize="@dimen/sys_mid_font_size" />

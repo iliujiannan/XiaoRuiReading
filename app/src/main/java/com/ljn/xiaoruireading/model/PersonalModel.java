@@ -2,6 +2,7 @@ package com.ljn.xiaoruireading.model;
 
 import com.google.gson.Gson;
 import com.ljn.xiaoruireading.base.BaseModel;
+import com.ljn.xiaoruireading.base.BaseModelCallBack;
 import com.ljn.xiaoruireading.base.ICallback;
 import com.ljn.xiaoruireading.util.HttpUtil;
 import okhttp3.Call;
@@ -15,7 +16,16 @@ import java.io.IOException;
  * Created by 12390 on 2018/8/14.
  */
 public class PersonalModel extends BaseModel{
+    private Integer userMoney;
     private User userData;
+
+    public Integer getUserMoney() {
+        return userMoney;
+    }
+
+    public void setUserMoney(Integer userMoney) {
+        this.userMoney = userMoney;
+    }
 
     public User getUserData() {
         return userData;
@@ -136,15 +146,70 @@ public class PersonalModel extends BaseModel{
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                System.out.println("***************调用前7");
+//                System.out.println("***************调用前7");
 //                System.out.println(response.body().string());
-
-                BaseModel baseModel = new BaseModel();
                 String s = response.body().string();
                 PersonalModel personalModel = new Gson().fromJson(s, PersonalModel.class);
                 callback.onSuccess(personalModel);
             }
         });
     }
+    public static void mDoLogout(Integer userId, String secretKey, final ICallback<BaseModel> callback){
+        HttpUtil httpUtil = new HttpUtil();
+
+        FormBody.Builder form = new FormBody.Builder();
+        form.add("userId", userId.toString());
+        form.add("secretKey", secretKey);
+        httpUtil.mDoPost(form, "log_out", new BaseModelCallBack(callback));
+    }
+
+    public static void mDoChangePsw(Integer userId, String oldPsw, String newPsw, final ICallback<BaseModel> callback){
+        HttpUtil httpUtil = new HttpUtil();
+
+        FormBody.Builder form = new FormBody.Builder();
+        form.add("userId", userId.toString());
+        form.add("psw", oldPsw);
+        form.add("newpsw", newPsw);
+        httpUtil.mDoPost(form, "modify_psw", new BaseModelCallBack(callback));
+    }
+
+
+    public static void mDoChangeNickname(Integer userId, String secretKey, String nickname, final ICallback<BaseModel> callback){
+        HttpUtil httpUtil = new HttpUtil();
+        FormBody.Builder form = new FormBody.Builder();
+        form.add("userId", userId.toString());
+        form.add("secretKey", secretKey);
+        form.add("newNickname", nickname);
+        httpUtil.mDoPost(form, "modify_nickname", new BaseModelCallBack(callback));
+    }
+
+    public static void mDoRecharge(Integer userId, String secretKey, Integer money, final ICallback<BaseModel> callback){
+        HttpUtil httpUtil = new HttpUtil();
+
+        FormBody.Builder form = new FormBody.Builder();
+        form.add("userId", userId.toString());
+        form.add("secretKey", secretKey);
+        form.add("chargeMoneyAmount", money.toString());
+        httpUtil.mDoPost(form, "charge_money", new BaseModelCallBack(callback));
+    }
+
+    public static void mDoGetMoneyInfo(Integer userId, String secretKey, final ICallback<BaseModel> callback){
+        HttpUtil httpUtil = new HttpUtil();
+
+        FormBody.Builder form = new FormBody.Builder();
+        form.add("userId", userId.toString());
+        form.add("secretKey", secretKey);
+        httpUtil.mDoPost(form, "get_purse_money", new BaseModelCallBack(callback) {
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                Gson gson = new Gson();
+                String s = response.body().string();
+                System.out.println(s);
+                PersonalModel personalModel = gson.fromJson(s, PersonalModel.class);
+                callback.onSuccess(personalModel);
+            }
+        });
+    }
+
+
 }
-//{"status":1,"msg":"Ok","userData":{"userId":2,"userPhone":"15248113901","userPhoto":"http://cdn.duitang.com/uploads/item/201508/30/20150830105732_nZCLV.jpeg","userNickName":"user_15248113901","psw":"","secretKey":"21f0b84bde661cad2be79e431fbcc4c5","userType":0,"userReadDailly":0,"userReadTotally":0}}

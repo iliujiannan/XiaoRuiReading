@@ -21,7 +21,6 @@ public class RegPresenter extends BasePresenter<IRegView> {
         if (!isViewAttached()) {
             return;
         }
-        BaseModel result;
         if(values.get(1).equals(values.get(2))){
             RegModel.mDoReg(keys,values, new ICallback<RegModel>() {
                 @Override
@@ -36,15 +35,14 @@ public class RegPresenter extends BasePresenter<IRegView> {
                 @Override
                 public void onFailure(RegModel data) {
                     Looper.prepare();
-                    getView().onActionFailed(data);
+                    getView().onActionFailed(data.getMsg());
                     Looper.loop();
                 }
 
             });
         }else{
-            result = new BaseModel();
-            result.setMsg("密码不一致");
-            getView().onActionFailed(result);
+
+            getView().onActionFailed("密码不一致");
         }
 
     }
@@ -53,8 +51,6 @@ public class RegPresenter extends BasePresenter<IRegView> {
         if (!isViewAttached()) {
             return;
         }
-        BaseModel result;
-
         if(PhoneNumberCheck.isMobiPhoneNum(phone)){
             RegModel.mDoGetCheckCode(phone, new ICallback<RegModel>() {
                 @Override
@@ -65,24 +61,20 @@ public class RegPresenter extends BasePresenter<IRegView> {
                         getView().onActionSucc(data);
 
                     }else{
-                        System.out.println(data.getMsg());
-                        Looper.prepare();
-                        getView().onActionFailed(data);
-                        Looper.loop();
+                        onFailure(data);
                     }
                 }
 
                 @Override
                 public void onFailure(RegModel data) {
                     Looper.prepare();
-                    getView().onActionFailed(data);
+                    getView().onActionFailed(data.getMsg());
                     Looper.loop();
                 }
             });
         }else{
-            result = new BaseModel();
-            result.setMsg("请检查手机号");
-            getView().onActionFailed(result);
+
+            getView().onActionFailed("请检查手机号");
         }
 
     }
