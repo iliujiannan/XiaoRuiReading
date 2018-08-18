@@ -3,6 +3,7 @@ package com.ljn.xiaoruireading.base;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -24,6 +25,8 @@ import java.util.Map;
  */
 public abstract class BaseActivity extends AppCompatActivity implements IBaseView{
     private ProgressDialog mProgressDialog;
+    public static SharedPreferences mSharedPreferences;
+    public final static String SP_NAME = "xrreading";
 
 
     @Override
@@ -77,9 +80,10 @@ public abstract class BaseActivity extends AppCompatActivity implements IBaseVie
     }
 
     @Override
-    public void onActionFailed(BaseModel result) {
-
+    public void onActionFailed(String msg) {
+        mShowMessage(msg);
     }
+
 
     public void mSetStatusBar(@ColorInt int color) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {

@@ -12,6 +12,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.ljn.xiaoruireading.R;
 import com.ljn.xiaoruireading.base.BaseActivity;
+import com.ljn.xiaoruireading.base.BaseModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -128,6 +129,7 @@ public class ReaderActivity extends BaseActivity implements ViewPager.OnPageChan
     public void onClick(View v) {
         mChangePageSettingState();
     }
+
 
 
     class MPagerAdaper extends PagerAdapter {

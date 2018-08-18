@@ -68,9 +68,10 @@ public abstract class BaseFragment extends Fragment implements IBaseView{
     }
 
     @Override
-    public void onActionFailed(BaseModel result) {
+    public void onActionFailed(String msg) {
 
     }
+
     protected void mShowMessage(String msg){
         Toast.makeText(getActivity(), msg,
                 Toast.LENGTH_SHORT).show();

@@ -11,6 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import com.ljn.xiaoruireading.R;
 import com.ljn.xiaoruireading.base.BaseFragment;
+import com.ljn.xiaoruireading.base.BaseModel;
 import com.ljn.xiaoruireading.model.ArticleModel;
 import com.ljn.xiaoruireading.view.concrete_views.Adapter.ArticleTurnAdapter;
 import com.ljn.xiaoruireading.view.concrete_views.Adapter.ArticleListAdapter;
@@ -210,7 +211,5 @@ public class ArticleFragment extends BaseFragment implements ViewPager.OnPageCha
     @Override
     public void onPageScrollStateChanged(int state) {
     }
-
-
 
 }

@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.TextView;
 import com.ljn.xiaoruireading.R;
 import com.ljn.xiaoruireading.base.BaseActivity;
+import com.ljn.xiaoruireading.base.BaseModel;
 
 /**
  * Created by 12390 on 2018/8/8.
@@ -26,6 +27,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_base);
         mInitComponent();
+
         mSetStatusBar(getResources().getColor(R.color.sys_transparent));
     }
 
@@ -123,5 +125,9 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener{
         }
 
         transaction.commit();
+    }
+
+    public void mUpdateAllFragmentData(BaseModel result){
+        ((PersonalFragment)mPersonalFragment).mUpdateData(result);
     }
 }

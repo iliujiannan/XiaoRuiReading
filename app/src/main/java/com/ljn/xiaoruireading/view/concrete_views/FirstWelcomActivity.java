@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.TextView;
 import com.ljn.xiaoruireading.R;
 import com.ljn.xiaoruireading.base.BaseActivity;
+import com.ljn.xiaoruireading.base.BaseModel;
 
 public class FirstWelcomActivity extends BaseActivity implements View.OnClickListener {
     private TextView mLoginButton = null;
@@ -51,8 +52,9 @@ public class FirstWelcomActivity extends BaseActivity implements View.OnClickLis
                 break;
             case R.id.first_welcome_visit_button:
                 startActivity(new Intent(FirstWelcomActivity.this,HomeActivity.class));
-                finish();
                 break;
         }
+        finish();
     }
+
 }

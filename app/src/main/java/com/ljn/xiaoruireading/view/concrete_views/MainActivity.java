@@ -7,12 +7,13 @@ import android.os.Handler;
 import android.support.annotation.Nullable;
 import com.ljn.xiaoruireading.R;
 import com.ljn.xiaoruireading.base.BaseActivity;
+import com.ljn.xiaoruireading.base.BaseModel;
 
 /**
  * Created by 12390 on 2018/8/9.
  */
 public class MainActivity extends BaseActivity {
-    private SharedPreferences mSharedPreferences;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -21,7 +22,7 @@ public class MainActivity extends BaseActivity {
 
         new Handler().postDelayed(new Runnable() {
             public void run() {
-                mSharedPreferences = getSharedPreferences("xrreading", MODE_PRIVATE);
+                mSharedPreferences = getSharedPreferences(SP_NAME, MODE_PRIVATE);
 
                 if (mSharedPreferences.getBoolean("isFirst", true)) {
                     mSharedPreferences.edit().putBoolean("isFirst", false).commit();
@@ -41,4 +42,5 @@ public class MainActivity extends BaseActivity {
     protected void mInitComponent() {
 
     }
+
 }

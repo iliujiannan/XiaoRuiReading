@@ -14,6 +14,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import com.ljn.xiaoruireading.R;
 import com.ljn.xiaoruireading.base.BaseFragment;
+import com.ljn.xiaoruireading.base.BaseModel;
 import com.ljn.xiaoruireading.model.BookCityModel;
 import com.ljn.xiaoruireading.view.concrete_views.Adapter.BookCityListAdapter;
 import com.ljn.xiaoruireading.view.concrete_views.Adapter.BookCityPagerAdapter;
@@ -231,6 +232,7 @@ public class BookcityFragment extends BaseFragment implements View.OnClickListen
         }
 
     }
+
 
     class MyPagerListener implements ViewPager.OnPageChangeListener {
 

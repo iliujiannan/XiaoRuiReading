@@ -26,7 +26,7 @@ public interface IBaseView {
      */
 
     void onActionSucc(BaseModel result);
-    void onActionFailed(BaseModel result);
+    void onActionFailed(String msg);
     
     Context getContext();
 

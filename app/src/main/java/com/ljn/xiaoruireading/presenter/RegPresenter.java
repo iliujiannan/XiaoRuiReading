@@ -1,10 +1,14 @@
 package com.ljn.xiaoruireading.presenter;
 
+import android.os.Looper;
+import com.ljn.xiaoruireading.base.BaseModel;
 import com.ljn.xiaoruireading.base.BasePresenter;
 import com.ljn.xiaoruireading.base.ICallback;
 import com.ljn.xiaoruireading.model.RegModel;
+import com.ljn.xiaoruireading.util.PhoneNumberCheck;
 import com.ljn.xiaoruireading.view.abstract_views.IRegView;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -13,18 +17,73 @@ import java.util.Map;
 public class RegPresenter extends BasePresenter<IRegView> {
 
 
-    public void registe(Map user){
-        RegModel.mDoReg(user, new ICallback<Map>() {
-            @Override
-            public void onSuccess(Map data) {
-                getView().mOnRegSuccess(data);
-            }
+    public void mRegiste(List<String> keys, final List<String> values){
+        if (!isViewAttached()) {
+            return;
+        }
+        BaseModel result;
+        if(values.get(1).equals(values.get(2))){
+            RegModel.mDoReg(keys,values, new ICallback<RegModel>() {
+                @Override
+                public void onSuccess(RegModel data) {
+                    if(data.getStatus()==1){
+                        getView().mOnRegSuccess(data);
+                    }else{
+                        onFailure(data);
+                    }
+                }
 
-            @Override
-            public void onFailure(Map data) {
+                @Override
+                public void onFailure(RegModel data) {
+                    Looper.prepare();
+                    getView().onActionFailed(data);
+                    Looper.loop();
+                }
 
-            }
+            });
+        }else{
+            result = new BaseModel();
+            result.setMsg("密码不一致");
+            getView().onActionFailed(result);
+        }
 
-        });
+    }
+
+    public void mGetCheckCode(String phone){
+        if (!isViewAttached()) {
+            return;
+        }
+        BaseModel result;
+
+        if(PhoneNumberCheck.isMobiPhoneNum(phone)){
+            RegModel.mDoGetCheckCode(phone, new ICallback<RegModel>() {
+                @Override
+                public void onSuccess(RegModel data) {
+                    if(data.getStatus()==1) {
+//                        System.out.println("还没爆**********111");
+
+                        getView().onActionSucc(data);
+
+                    }else{
+                        System.out.println(data.getMsg());
+                        Looper.prepare();
+                        getView().onActionFailed(data);
+                        Looper.loop();
+                    }
+                }
+
+                @Override
+                public void onFailure(RegModel data) {
+                    Looper.prepare();
+                    getView().onActionFailed(data);
+                    Looper.loop();
+                }
+            });
+        }else{
+            result = new BaseModel();
+            result.setMsg("请检查手机号");
+            getView().onActionFailed(result);
+        }
+
     }
 }

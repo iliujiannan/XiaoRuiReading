@@ -8,6 +8,7 @@ import android.widget.GridView;
 import android.widget.TextView;
 import com.ljn.xiaoruireading.R;
 import com.ljn.xiaoruireading.base.BaseFragment;
+import com.ljn.xiaoruireading.base.BaseModel;
 import com.ljn.xiaoruireading.view.custom_view.bookshelf.BookShelfViewUtil;
 import com.ljn.xiaoruireading.view.custom_view.bookshelf.ShelfAdapter;
 
@@ -128,5 +129,7 @@ public class BookshelfFragment extends BaseFragment {
 
         return super.onOptionsItemSelected(item);
     }
+
+
 
 }

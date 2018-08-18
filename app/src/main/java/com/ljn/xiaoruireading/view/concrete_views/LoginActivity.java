@@ -1,7 +1,9 @@
 package com.ljn.xiaoruireading.view.concrete_views;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -98,10 +100,11 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                     mShowMessage("forget psw");
                     break;
                 case R.id.login_log:
-                    Map user = new HashMap<String, String>();
+                    final Map user = new HashMap<String, String>();
                     user.put("userPhone", mUsernameEdit.getText().toString());
                     user.put("psw", mPswEdit.getText().toString());
                     mLoginPresenter.login(user);
+
                     break;
             }
         }
@@ -115,9 +118,15 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
 
     @Override
     public void onActionSucc(BaseModel result) {
-        if(getIntent().getStringExtra("from")==null) {
+        System.out.println("*********sec:" + ((LoginModel)result).getSecretKey());
+        mSharedPreferences = getSharedPreferences(BaseActivity.SP_NAME, MODE_PRIVATE);
+        mSharedPreferences.edit().putString("secretKey", ((LoginModel)result).getSecretKey()).commit();
+        mSharedPreferences.edit().putInt("userId", ((LoginModel)result).getUserId()).commit();
+        if (getIntent().getStringExtra("from") == null) {
+            setResult(1);
             finish();
-        }else{
+        } else {
+
             startActivity(new Intent(LoginActivity.this, HomeActivity.class));
             finish();
         }
@@ -125,8 +134,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
 
     }
 
-    @Override
-    public void onActionFailed(BaseModel result) {
-        mShowMessage("server error");
-    }
+
+
+
 }

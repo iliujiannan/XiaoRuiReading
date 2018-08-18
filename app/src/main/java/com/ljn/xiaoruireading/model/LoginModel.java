@@ -4,69 +4,65 @@ import android.os.Handler;
 import com.google.gson.Gson;
 import com.ljn.xiaoruireading.base.BaseModel;
 import com.ljn.xiaoruireading.base.ICallback;
-import okhttp3.*;
+import com.ljn.xiaoruireading.util.HttpUtil;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.FormBody;
+import okhttp3.Response;
 
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.Map;
 
 /**
  * Created by 12390 on 2018/8/10.
  */
-public class LoginModel extends BaseModel{
+public class LoginModel extends BaseModel {
 
-    private Integer mUserId;
-    private String mSecretKey;
+    private Integer userId;
+    private String secretKey;
 
-    public Integer getmUserId() {
-        return mUserId;
+    public Integer getUserId() {
+        return userId;
     }
 
-    public void setmUserId(Integer mUserId) {
-        this.mUserId = mUserId;
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 
-    public String getmSecretKey() {
-        return mSecretKey;
+    public String getSecretKey() {
+        return secretKey;
     }
 
-    public void setmSecretKey(String mSecretKey) {
-        this.mSecretKey = mSecretKey;
+    public void setSecretKey(String secretKey) {
+        this.secretKey = secretKey;
     }
 
+    public static void mDoLogin(final Map user, final ICallback<LoginModel> callback) {
+        FormBody.Builder formBody = new FormBody.Builder();//创建表单请求体
 
+        formBody.add("userPhone", (String) user.get("userPhone"));//传递键值对参数
 
-    public static void mDoLogin(final Map user, final ICallback<LoginModel> callback){
-        new Handler().post(new Runnable() {
+        formBody.add("psw", (String) user.get("psw"));
+
+        HttpUtil httpUtil = new HttpUtil();
+        httpUtil.mDoPost(formBody, "login", new Callback() {
             @Override
-            public void run() {
-                OkHttpClient client = new OkHttpClient();//创建OkHttpClient对象。
-                FormBody.Builder formBody = new FormBody.Builder();//创建表单请求体
+            public void onFailure(Call call, IOException e) {
 
-                formBody.add("userPhone", (String) user.get("userPhone"));//传递键值对参数
+                LoginModel model = new LoginModel();
+                model.setStatus(0);
+                model.setMsg("server error");
+                callback.onFailure(model);
+            }
 
-                formBody.add("psw", (String) user.get("psw"));
-
-                Request request = new Request.Builder()//创建Request 对象。
-                        .url(baseUri + "login")
-                        .post(formBody.build())//传递请求体
-                        .build();
-
-
-                client.newCall(request).enqueue(new Callback() {
-                    @Override
-                    public void onFailure(Call call, IOException e) {
-                    }
-
-                    @Override
-                    public void onResponse(Call call, Response response) throws IOException {
-                        Gson gson = new Gson();
-                        LoginModel loginModel = gson.fromJson(response.body().string(), LoginModel.class);
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                Gson gson = new Gson();
+                LoginModel loginModel = gson.fromJson(response.body().string(), LoginModel.class);
 //                        System.out.println("****还没爆"+response.body().string());
-                        callback.onSuccess(loginModel);
-                    }
-                });//回调方法的使用与get异步请求相同，此时略。
+                callback.onSuccess(loginModel);
             }
         });
+
     }
 }

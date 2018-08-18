@@ -2,6 +2,8 @@ package com.ljn.xiaoruireading.view.concrete_views;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.annotation.Nullable;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -12,10 +14,13 @@ import android.widget.TextView;
 import com.ljn.xiaoruireading.R;
 import com.ljn.xiaoruireading.base.BaseActivity;
 import com.ljn.xiaoruireading.base.BaseModel;
+import com.ljn.xiaoruireading.model.RegModel;
 import com.ljn.xiaoruireading.presenter.RegPresenter;
 import com.ljn.xiaoruireading.view.abstract_views.IRegView;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -30,7 +35,7 @@ public class RegActivity extends BaseActivity implements View.OnClickListener, I
     private TextView mGetCheckCodeButton;
     private TextView mRegButton;
 
-    RegPresenter mRegPresenter;
+    private RegPresenter mRegPresenter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -83,7 +88,6 @@ public class RegActivity extends BaseActivity implements View.OnClickListener, I
         };
 
 
-
         mBackButton.setOnClickListener(this);
         mPhoneNumberEdit.addTextChangedListener(mTextWatcher);
         mPswEdit.addTextChangedListener(mTextWatcher);
@@ -105,16 +109,22 @@ public class RegActivity extends BaseActivity implements View.OnClickListener, I
                     finish();
                     break;
                 case R.id.reg_get_check_code:
-                    mShowMessage("get check code");
+                    mRegPresenter.mGetCheckCode(mPhoneNumberEdit.getText().toString());
+
                     break;
                 case R.id.reg_reg:
 //                mShowMessage("do reg");
-                    Map user = new HashMap<String, String>();
-                    user.put("phone", mPhoneNumberEdit.getText().toString());
-                    user.put("psw", mPswEdit.getText().toString());
-                    user.put("repsw", mRePswEdit.getText().toString());
-                    user.put("checkcode", mCheckCodeEdit.getText().toString());
-                    mRegPresenter.registe(user);
+                    List<String> keys = new ArrayList<>();
+                    List<String> values = new ArrayList<>();
+                    keys.add("userPhone");
+                    values.add(mPhoneNumberEdit.getText().toString());
+                    keys.add("psw");
+                    values.add(mPswEdit.getText().toString());
+                    keys.add("repsw");
+                    values.add(mRePswEdit.getText().toString());
+                    keys.add("checkCode");
+                    values.add(mCheckCodeEdit.getText().toString());
+                    mRegPresenter.mRegiste(keys, values);
                     break;
             }
         }
@@ -122,23 +132,56 @@ public class RegActivity extends BaseActivity implements View.OnClickListener, I
     }
 
     @Override
-    public void mOnRegSuccess(Map result) {
-        startActivity(new Intent(RegActivity.this, HomeActivity.class));
+    public void mOnRegSuccess(BaseModel result) {
         finish();
     }
 
     @Override
-    public void mOnRegFailure(Map result) {
-
+    public void mOnRegFailure(String msg) {
+        onActionFailed(msg);
     }
 
     @Override
     public void onActionSucc(BaseModel result) {
 
+
+//        System.out.println("还没爆**********222");
+
+        Integer second = 60;
+
+        mGetCheckCodeButton.setClickable(false);
+        while ((second--) >= 0) {
+            runOnUiThread(new MRunnable(second));
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
+
+
+//        System.out.println("还没爆**********333");
+
+
     }
 
-    @Override
-    public void onActionFailed(BaseModel result) {
+    class MRunnable implements Runnable {
+        int s;
 
+        MRunnable(int _s) {
+            s = _s;
+        }
+
+        @Override
+        public void run() {
+            mGetCheckCodeButton.setText(s + "秒后可重新获取");
+            if(s<=0){
+                mGetCheckCodeButton.setText("获取验证码");
+                mGetCheckCodeButton.setClickable(true);
+            }
+        }
     }
+
+
 }
