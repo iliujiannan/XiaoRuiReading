@@ -24,6 +24,8 @@ import com.ljn.xiaoruireading.base.BaseModel;
 import com.ljn.xiaoruireading.base.IBaseView;
 import com.ljn.xiaoruireading.model.PersonalModel;
 import com.ljn.xiaoruireading.presenter.PersonalPresenter;
+import com.ljn.xiaoruireading.util.HttpUtil;
+import com.ljn.xiaoruireading.util.ImageUtil;
 import com.ljn.xiaoruireading.view.abstract_views.IPersonalView;
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -90,7 +92,9 @@ public class PersonalFragment extends BaseFragment implements View.OnClickListen
     }
 
     public void mUpdateData(final BaseModel result) {
-          if (!secretKey.equals("")) {
+        if (!secretKey.equals("")) {
+            System.out.println(HttpUtil.baseUri + ((PersonalModel) result).getUserData().getUserPhoto());
+            final Bitmap bm = ImageUtil.getHttpBitmap(HttpUtil.baseUri + ((PersonalModel) result).getUserData().getUserPhoto());
             getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
@@ -98,14 +102,9 @@ public class PersonalFragment extends BaseFragment implements View.OnClickListen
                     mPersonalLogARegButton.setText(nickName);
                     mTotalReadTime.setText("累计阅读" + ((PersonalModel) result).getUserData().getUserReadTotally() + "分钟");
                     mLogoutBt.setVisibility(View.VISIBLE);
-                    URL url;
-                    try {
-                        url = new URL(((PersonalModel) result).getUserData().getUserPhoto());
-//                        Bitmap pngBM = BitmapFactory.decodeStream(url.openStream());
-//                        mHead.setImageBitmap(pngBM);
-                    } catch (MalformedURLException e) {
-                        e.printStackTrace();
-                    }
+
+                     mHead.setImageBitmap(bm);
+
                 }
             });
 
@@ -190,13 +189,14 @@ public class PersonalFragment extends BaseFragment implements View.OnClickListen
         mUpdateData(result);
     }
 
-    private void mClearUserData(){
+    private void mClearUserData() {
 
         secretKey = "";
         userID = 0;
         mSharedPreferences.edit().putString("secretKey", "").commit();
         mSharedPreferences.edit().putInt("userId", 0).commit();
     }
+
     @Override
     public void mLogoutFailed(String msg) {
         onActionFailed(msg);
@@ -247,11 +247,12 @@ public class PersonalFragment extends BaseFragment implements View.OnClickListen
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                mShowDialogueMyMoney(((PersonalModel)result).getUserMoney());
+                mShowDialogueMyMoney(((PersonalModel) result).getUserMoney());
             }
         });
 
     }
+
     @Override
     public void mGetMoneyInfoFailed(String msg) {
         onActionFailed(msg);
@@ -290,7 +291,7 @@ public class PersonalFragment extends BaseFragment implements View.OnClickListen
         builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                String oldPsw= mEditText1.getText().toString();
+                String oldPsw = mEditText1.getText().toString();
                 String newPsw = mEditText2.getText().toString();
                 mPersonalPresenter.mAlterPsw(userID, oldPsw, newPsw);
             }
@@ -402,9 +403,9 @@ public class PersonalFragment extends BaseFragment implements View.OnClickListen
 
     }
 
-    private void mShowDialogueMyMoney(Integer money){
+    private void mShowDialogueMyMoney(Integer money) {
         TextView textView = new TextView(mContext);
-        textView.setText("当前拥有"+ money + "书币");
+        textView.setText("当前拥有" + money + "书币");
         textView.setGravity(Gravity.CENTER);
         LinearLayout mLinearLayout = new LinearLayout(mContext);
         mLinearLayout.setOrientation(LinearLayout.VERTICAL);
