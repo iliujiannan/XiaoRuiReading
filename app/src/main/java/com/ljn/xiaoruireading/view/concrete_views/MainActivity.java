@@ -1,13 +1,11 @@
 package com.ljn.xiaoruireading.view.concrete_views;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import com.ljn.xiaoruireading.R;
 import com.ljn.xiaoruireading.base.BaseActivity;
-import com.ljn.xiaoruireading.base.BaseModel;
 
 /**
  * Created by 12390 on 2018/8/9.

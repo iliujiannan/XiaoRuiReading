@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+    <RelativeLayout
+            android:id="@+id/top_bar"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/large_bar"
+            android:background="@color/sys_gray"
+            android:fitsSystemWindows="true">
+        <LinearLayout
+                android:id="@+id/book_detail_txt_infor"
+                android:orientation="vertical"
+                android:layout_width="220dp"
+                android:layout_height="match_parent">
+            <ImageView
+                    android:id="@+id/book_detail_back_bt"
+                    android:layout_width="@dimen/topbar_back_size"
+                    android:layout_height="@dimen/topbar_back_size"
+                    android:layout_marginTop="30dp"
+                    android:layout_marginBottom="@dimen/topbar_back_padding"
+                    android:layout_marginStart="@dimen/topbar_back_padding"
+                    android:src="@drawable/ic_back_white"
+            />
+            <TextView android:id="@+id/book_detail_title"
+                      android:text="如何让你爱的人爱上你"
+                      android:textSize="@dimen/sys_general_font_size"
+                      android:textStyle="bold"
+                      android:layout_marginTop="10dp"
+                      android:textColor="@color/sys_white"
+                      android:layout_marginStart="@dimen/topbar_back_padding"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"/>
+            <RelativeLayout android:layout_width="wrap_content"
+                            android:layout_marginTop="15dp"
+                            android:layout_marginStart="@dimen/topbar_back_padding"
+                            android:layout_height="16dp">
+                <TextView android:id="@+id/book_detail_author"
+                          android:text="张爱玲"
+                          android:textSize="@dimen/sys_small_font_size"
+                          android:layout_centerVertical="true"
+                          android:textColor="@color/sys_orange"
+
+                          android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"/>
+                <View
+                        android:layout_width="0.5dp"
+                        android:layout_height="14dp"
+                        android:layout_marginStart="4dp"
+                        android:layout_toEndOf="@+id/book_detail_author"
+                        android:background="@color/sys_white" />
+                <TextView android:id="@+id/book_detail_lable"
+                          android:text="出版"
+                          android:layout_toEndOf="@+id/book_detail_author"
+                          android:textSize="@dimen/sys_small_font_size"
+                          android:layout_centerVertical="true"
+                          android:textColor="@color/sys_orange"
+                          android:layout_marginStart="8dp"
+                          android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"/>
+            </RelativeLayout>
+            <TextView android:id="@+id/book_detail_ca"
+                      android:text="共20章"
+                      android:textSize="@dimen/sys_small_font_size"
+                      android:textColor="@color/sys_white"
+                      android:layout_marginStart="@dimen/topbar_back_padding"
+                      android:layout_marginTop="10dp"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"/>
+            <TextView android:id="@+id/book_detail_price"
+                      android:text="1000书币"
+                      android:textSize="@dimen/sys_small_font_size"
+                      android:textColor="@color/sys_white"
+                      android:layout_marginStart="@dimen/topbar_back_padding"
+                      android:layout_marginTop="10dp"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"/>
+            <TextView android:id="@+id/book_detail_la"
+                      android:text="1080次下载"
+                      android:textSize="@dimen/sys_small_font_size"
+                      android:textColor="@color/sys_red"
+                      android:layout_marginStart="@dimen/topbar_back_padding"
+                      android:layout_marginTop="10dp"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+        <RelativeLayout android:layout_width="wrap_content"
+
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginEnd="30dp"
+                        android:layout_marginTop="80dp"
+
+                        android:layout_toEndOf="@+id/book_detail_txt_infor"
+                        android:layout_height="match_parent">
+            <ImageView
+                    android:src="@drawable/sys_article"
+                    android:scaleType="centerCrop"
+                    android:layout_width="120dp"
+                    android:layout_height="150dp"/>
+
+        </RelativeLayout>
+
+
+    </RelativeLayout>
+    <RelativeLayout android:layout_width="match_parent"
+
+                  android:layout_height="300dp">
+        <TextView
+                  android:text="简介"
+                  android:textSize="@dimen/sys_general_font_size"
+                  android:textStyle="bold"
+                  android:layout_marginTop="16dp"
+                  android:textColor="@color/sys_black"
+                  android:layout_marginStart="@dimen/topbar_back_padding"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"/>
+
+        <TextView android:id="@+id/book_detail_description"
+                  android:text="@string/sys_book_description"
+                  android:textSize="@dimen/sys_small_font_size"
+
+                  android:textColor="@color/sys_font_gray"
+                  android:padding="@dimen/topbar_back_padding"
+                  android:layout_centerHorizontal="true"
+                  android:layout_marginTop="35dp"
+                  android:lineSpacingExtra="8dp"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"/>
+        <View android:layout_width="match_parent"
+              android:layout_height="0.4dp"
+              android:background="@color/sys_line"
+              android:layout_alignParentBottom="true"/>
+    </RelativeLayout>
+    <RelativeLayout
+            android:layout_width="match_parent"
+            android:background="@color/sys_red"
+            android:layout_height="match_parent">
+        <ImageView
+                android:id="@+id/book_detail_botoomic"
+                android:src="@drawable/ic_add2shelf"
+                android:scaleType="centerCrop"
+                android:layout_height="28dp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="10dp"
+                android:layout_width="28dp"/>
+        <TextView
+                android:id="@+id/book_detail_bootombt"
+                android:text="加入书架"
+                android:textColor="@color/sys_white"
+                android:textSize="@dimen/sys_mid_font_size"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="40dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+    </RelativeLayout>
+
+</LinearLayout>

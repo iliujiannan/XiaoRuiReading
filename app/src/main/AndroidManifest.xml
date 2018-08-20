@@ -24,6 +24,9 @@
         <activity android:name=".view.concrete_views.ReaderActivity">
 
         </activity>
+        <activity android:name=".view.concrete_views.BookDetailActivity">
+
+        </activity>
         <activity android:name=".view.concrete_views.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>

@@ -72,6 +72,7 @@ public abstract class BaseFragment extends Fragment implements IBaseView{
     @Override
     public void onActionFailed(String msg) {
 
+        mShowMessage(msg);
     }
 
     protected void mShowMessage(String msg){

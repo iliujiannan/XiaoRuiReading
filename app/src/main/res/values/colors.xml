@@ -10,6 +10,7 @@
     <color name="sys_blue">#0dace7</color>
     <color name="sys_red">#e8554d</color>
     <color name="sys_transparent">#00ffffff</color>
+    <color name="sys_orange">#FEC006</color>
 
     <!--pageturn-->
     <color name="colorPrimary">#02A8F3</color>

@@ -4,13 +4,10 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Looper;
 import android.support.v7.widget.CardView;
-import android.text.InputType;
 import android.text.method.PasswordTransformationMethod;
 import android.view.*;
 import android.widget.EditText;
@@ -21,17 +18,12 @@ import com.ljn.xiaoruireading.R;
 import com.ljn.xiaoruireading.base.BaseActivity;
 import com.ljn.xiaoruireading.base.BaseFragment;
 import com.ljn.xiaoruireading.base.BaseModel;
-import com.ljn.xiaoruireading.base.IBaseView;
 import com.ljn.xiaoruireading.model.PersonalModel;
 import com.ljn.xiaoruireading.presenter.PersonalPresenter;
 import com.ljn.xiaoruireading.util.HttpUtil;
 import com.ljn.xiaoruireading.util.ImageUtil;
 import com.ljn.xiaoruireading.view.abstract_views.IPersonalView;
 import de.hdodenhof.circleimageview.CircleImageView;
-
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
 
 /**
  * Created by 12390 on 2018/8/9.

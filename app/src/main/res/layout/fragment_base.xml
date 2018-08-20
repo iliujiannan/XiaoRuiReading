@@ -8,7 +8,7 @@
             android:id="@+id/tab_menu"
             android:layout_width="match_parent"
             android:layout_alignParentBottom="true"
-            android:layout_height="49dp">
+            android:layout_height="@dimen/sys_bootom_bar_height">
 
 
         <View android:layout_width="match_parent"

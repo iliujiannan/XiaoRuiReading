@@ -2,4 +2,7 @@
     <string name="app_name">小睿读书</string>
     <string name="app_err_msg">系统异常</string>
     <string name="action_settings">Settings</string>
+    <string name="sys_book_description">
+        《六个梦》是2005年6月长江文艺出版社出版的小说，作者是琼瑶。该小说讲述了六个梦，六个山盟海誓，六个缘定三生的故事。这部小说包括六个故事：《追寻》、《哑妻》、《三朵花》、《生命的鞭》、《归人记》和《流亡曲》。“黄叶无风自落，秋云不雨长阴，天若有情天亦老，摇摇幽恨难禁，惆怅旧欢如梦，觉来无处追寻！”……六个梦（追寻、哑妻、三朵花、生命之鞭、归人记、流亡曲），六个悬疑精彩、浪漫细腻、动人心弦却又凄美绝伦的故事就这样拉开了序幕……
+    </string>
 </resources>

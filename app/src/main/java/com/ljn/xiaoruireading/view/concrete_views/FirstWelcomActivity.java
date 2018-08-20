@@ -6,7 +6,6 @@ import android.view.View;
 import android.widget.TextView;
 import com.ljn.xiaoruireading.R;
 import com.ljn.xiaoruireading.base.BaseActivity;
-import com.ljn.xiaoruireading.base.BaseModel;
 
 public class FirstWelcomActivity extends BaseActivity implements View.OnClickListener {
     private TextView mLoginButton = null;

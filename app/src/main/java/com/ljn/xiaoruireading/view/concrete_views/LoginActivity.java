@@ -1,9 +1,7 @@
 package com.ljn.xiaoruireading.view.concrete_views;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -14,7 +12,6 @@ import android.widget.TextView;
 import com.ljn.xiaoruireading.R;
 import com.ljn.xiaoruireading.base.BaseActivity;
 import com.ljn.xiaoruireading.base.BaseModel;
-import com.ljn.xiaoruireading.base.IBaseView;
 import com.ljn.xiaoruireading.model.LoginModel;
 import com.ljn.xiaoruireading.presenter.LoginPresenter;
 
@@ -24,7 +21,7 @@ import java.util.Map;
 /**
  * Created by 12390 on 2018/8/9.
  */
-public class LoginActivity extends BaseActivity implements View.OnClickListener, IBaseView {
+public class LoginActivity extends BaseActivity implements View.OnClickListener{
     private ImageView mBackButton;
     private TextView mRegButton;
     private TextView mLogButton;

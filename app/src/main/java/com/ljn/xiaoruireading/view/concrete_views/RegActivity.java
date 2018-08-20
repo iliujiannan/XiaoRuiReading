@@ -1,9 +1,6 @@
 package com.ljn.xiaoruireading.view.concrete_views;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.support.annotation.Nullable;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -14,14 +11,11 @@ import android.widget.TextView;
 import com.ljn.xiaoruireading.R;
 import com.ljn.xiaoruireading.base.BaseActivity;
 import com.ljn.xiaoruireading.base.BaseModel;
-import com.ljn.xiaoruireading.model.RegModel;
 import com.ljn.xiaoruireading.presenter.RegPresenter;
 import com.ljn.xiaoruireading.view.abstract_views.IRegView;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by 12390 on 2018/8/9.
