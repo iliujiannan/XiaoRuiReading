@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import com.ljn.xiaoruireading.R;
 import com.ljn.xiaoruireading.model.ArticleModel;
+import com.ljn.xiaoruireading.model.Book;
 import com.ljn.xiaoruireading.model.BookCityModel;
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -28,7 +29,7 @@ public class BookCityListAdapter extends ArrayAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        BookCityModel Book = (BookCityModel) getItem(position); // 获取当前项的Fruit实例
+        Book book = (Book) getItem(position); // 获取当前项的Fruit实例
 
 
         View view = LayoutInflater.from(getContext()).inflate(mResourceId, null);//实例化一个对象

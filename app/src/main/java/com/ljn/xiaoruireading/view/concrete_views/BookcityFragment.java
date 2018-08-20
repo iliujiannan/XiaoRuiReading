@@ -15,7 +15,9 @@ import android.widget.TextView;
 import com.ljn.xiaoruireading.R;
 import com.ljn.xiaoruireading.base.BaseFragment;
 import com.ljn.xiaoruireading.base.BaseModel;
+import com.ljn.xiaoruireading.model.Book;
 import com.ljn.xiaoruireading.model.BookCityModel;
+import com.ljn.xiaoruireading.presenter.BookCityPresenter;
 import com.ljn.xiaoruireading.view.concrete_views.Adapter.BookCityListAdapter;
 import com.ljn.xiaoruireading.view.concrete_views.Adapter.BookCityPagerAdapter;
 import com.ljn.xiaoruireading.view.concrete_views.Adapter.BookCityTurnAdapter;
@@ -32,23 +34,26 @@ import java.util.TimerTask;
 public class BookcityFragment extends BaseFragment implements View.OnClickListener {
 
 
+    BookCityPresenter bookCityPresenter;
+
     //最外层pager
     private ViewPager mPager;
     private BookCityPagerAdapter mPagerAdapter;
     List<View> mPagers;
 
     //轮播图
-    private ViewPager mBookCityTurn;
-    private BookCityTurnAdapter mTurnAdapter;
+    private List<ViewPager> mBookCityTurnList = new ArrayList<>();
+    private List<BookCityTurnAdapter> mTurnAdapterList = new ArrayList<>();
 
 
     //end
 
     //内层listview
 
-    private ListView mBookCityListView;
-    private BookCityListAdapter mBookCityListAdapter;
-    private List<BookCityModel> mBookCityModels;
+    private List<ListView> mBookCityListViewList = new ArrayList<>();
+    private List<BookCityListAdapter> mBookCityListAdapterList = new ArrayList<>();
+
+    private List<List<Book>> mBookList = new ArrayList();
 
 
     //分类
@@ -81,7 +86,8 @@ public class BookcityFragment extends BaseFragment implements View.OnClickListen
 
         mPagers = new ArrayList<>();
 
-        for (int i = 1; i < 6; i++) {
+        for (int i = 0; i < 5; i++) {
+
             mInitOnePage(i);
         }
 
@@ -117,7 +123,7 @@ public class BookcityFragment extends BaseFragment implements View.OnClickListen
         List<ImageView> imgs = new ArrayList<>();
 
 
-        mInitData(mTurnViews, imgs);
+        mInitData(mTurnViews, imgs, ind);
         //轮播图
         View vpView = LayoutInflater.from(mContext).inflate(R.layout.item_bookcity_turn, null);
         //每一页
@@ -125,13 +131,14 @@ public class BookcityFragment extends BaseFragment implements View.OnClickListen
         //小圆点
         mDotContainer = (LinearLayout) vpView.findViewById(R.id.bookcity_turn_dot);
 
-        mBookCityTurn = (ViewPager) vpView.findViewById(R.id.bookcity_turn_pager);
-        mTurnAdapter = new BookCityTurnAdapter(mContext, mTurnViews);
+        ViewPager mBookCityTurn = (ViewPager) vpView.findViewById(R.id.bookcity_turn_pager);
+        BookCityTurnAdapter mTurnAdapter = new BookCityTurnAdapter(mContext, mTurnViews);
 
         //每一页的listview
 
-        mBookCityListView = (ListView) pgView.findViewById(R.id.page_bookcity_listview);
-        mBookCityListAdapter = new BookCityListAdapter(mContext, R.layout.item_bookcity_list, mBookCityModels);
+        ListView mBookCityListView = (ListView) pgView.findViewById(R.id.page_bookcity_listview);
+        BookCityListAdapter mBookCityListAdapter =
+                new BookCityListAdapter(mContext, R.layout.item_bookcity_list, mBookList.get(ind));
 
         mBookCityTurn.setAdapter(mTurnAdapter);
         mBookCityListView.setAdapter(mBookCityListAdapter);
@@ -141,35 +148,38 @@ public class BookcityFragment extends BaseFragment implements View.OnClickListen
 
         mInitDoc(mDotContainer, mTurnViews, imgs);
 
-        mSetAllListener(mTurnViews.size());
-
-
-        mPagers.add(pgView);
-    }
-
-    private void mSetAllListener(int size) {
-        mBookCityTurn.setOnPageChangeListener(new MyTurnListener(mBookCityTurn, size));
+        mBookCityTurn.setOnPageChangeListener(new MyTurnListener(mBookCityTurn, mTurnViews.size()));
         mTurnAdapter.setmListener(new BookCityTurnAdapter.LPagerImgClickListener() {
             @Override
             public void ImgClick(int position) {
                 mShowMessage("图片" + position + "被点击了");
             }
         });
+
+
+        //添加新的一页
+        mBookCityTurnList.add(mBookCityTurn);
+        mBookCityListViewList.add(mBookCityListView);
+        mBookCityListAdapterList.add(mBookCityListAdapter);
+        mTurnAdapterList.add(mTurnAdapter);
+        mPagers.add(pgView);
     }
 
 
-    private void mInitData(List<View> mTurnViews, List<ImageView> imgs) {
+
+    private void mInitData(List<View> mTurnViews, List<ImageView> imgs, int ind) {
         mInitTurnData(mTurnViews, imgs);
-        mInitListViewData();
+        mInitListViewData(ind);
 
     }
 
-    private void mInitListViewData() {
-        mBookCityModels = new ArrayList<>();
+    private void mInitListViewData(int ind) {
+        List<Book> books = new ArrayList<>();
         for (int i = 0; i < 5; i++) {
-            BookCityModel bookCityModel = new BookCityModel();
-            mBookCityModels.add(bookCityModel);
+            Book book = new Book();
+            books.add(book);
         }
+        mBookList.add(books);
 
     }
 
@@ -207,6 +217,8 @@ public class BookcityFragment extends BaseFragment implements View.OnClickListen
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        bookCityPresenter = new BookCityPresenter();
+        bookCityPresenter.attachView(this);
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
