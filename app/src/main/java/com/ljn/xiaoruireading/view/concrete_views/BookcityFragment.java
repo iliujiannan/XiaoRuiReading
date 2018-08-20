@@ -1,5 +1,6 @@
 package com.ljn.xiaoruireading.view.concrete_views;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
@@ -8,16 +9,15 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.TextView;
+import android.widget.*;
 import com.ljn.xiaoruireading.R;
 import com.ljn.xiaoruireading.base.BaseFragment;
 import com.ljn.xiaoruireading.base.BaseModel;
 import com.ljn.xiaoruireading.model.Book;
 import com.ljn.xiaoruireading.model.BookCityModel;
 import com.ljn.xiaoruireading.presenter.BookCityPresenter;
+import com.ljn.xiaoruireading.util.HttpUtil;
+import com.ljn.xiaoruireading.util.ImageUtil;
 import com.ljn.xiaoruireading.view.concrete_views.Adapter.BookCityListAdapter;
 import com.ljn.xiaoruireading.view.concrete_views.Adapter.BookCityPagerAdapter;
 import com.ljn.xiaoruireading.view.concrete_views.Adapter.BookCityTurnAdapter;
@@ -39,12 +39,11 @@ public class BookcityFragment extends BaseFragment implements View.OnClickListen
     //最外层pager
     private ViewPager mPager;
     private BookCityPagerAdapter mPagerAdapter;
-    List<View> mPagers;
+    private List<View> mPagers;
 
     //轮播图
     private List<ViewPager> mBookCityTurnList = new ArrayList<>();
     private List<BookCityTurnAdapter> mTurnAdapterList = new ArrayList<>();
-
 
     //end
 
@@ -63,6 +62,8 @@ public class BookcityFragment extends BaseFragment implements View.OnClickListen
 
 
     private Integer mCurrPage = 0;
+
+    private Integer mNumPerTurn = 3;
 
     @Override
     public int mGetContentViewId() {
@@ -83,6 +84,8 @@ public class BookcityFragment extends BaseFragment implements View.OnClickListen
             mClassViews.add(tmpv);
         }
 
+        mChangeClassTextColor(0);
+        mUpdateData();
 
         mPagers = new ArrayList<>();
 
@@ -96,12 +99,12 @@ public class BookcityFragment extends BaseFragment implements View.OnClickListen
         mPager.setOnPageChangeListener(new MyPagerListener());
     }
 
-    private void mInitDoc(LinearLayout mDotContainer, List<View> mTurnViews, List<ImageView> imgs) {
+    private void mInitDoc(LinearLayout mDotContainer, int size, List<ImageView> imgs) {
         imgs = new ArrayList<>();
         mDotContainer.removeAllViews();
 
 
-        for (int i = 0; i < mTurnViews.size(); i++) {
+        for (int i = 0; i < size; i++) {
             ImageView imageView = new ImageView(mContext);
             if (i == 0) {
                 imageView.setImageResource(R.drawable.doc_select);
@@ -118,12 +121,12 @@ public class BookcityFragment extends BaseFragment implements View.OnClickListen
     }
 
     private void mInitOnePage(int ind) {
+
         LinearLayout mDotContainer;
-        List<View> mTurnViews = new ArrayList<>();
         List<ImageView> imgs = new ArrayList<>();
 
+        mInitData();
 
-        mInitData(mTurnViews, imgs, ind);
         //轮播图
         View vpView = LayoutInflater.from(mContext).inflate(R.layout.item_bookcity_turn, null);
         //每一页
@@ -132,7 +135,8 @@ public class BookcityFragment extends BaseFragment implements View.OnClickListen
         mDotContainer = (LinearLayout) vpView.findViewById(R.id.bookcity_turn_dot);
 
         ViewPager mBookCityTurn = (ViewPager) vpView.findViewById(R.id.bookcity_turn_pager);
-        BookCityTurnAdapter mTurnAdapter = new BookCityTurnAdapter(mContext, mTurnViews);
+        BookCityTurnAdapter mTurnAdapter = new BookCityTurnAdapter(mContext);
+        mTurnAdapter.mUpdateData(null);
 
         //每一页的listview
 
@@ -146,9 +150,9 @@ public class BookcityFragment extends BaseFragment implements View.OnClickListen
         mBookCityListView.addHeaderView(vpView);
 
 
-        mInitDoc(mDotContainer, mTurnViews, imgs);
+        mInitDoc(mDotContainer, mNumPerTurn, imgs);
 
-        mBookCityTurn.setOnPageChangeListener(new MyTurnListener(mBookCityTurn, mTurnViews.size()));
+        mBookCityTurn.setOnPageChangeListener(new MyTurnListener(mBookCityTurn, mNumPerTurn));
         mTurnAdapter.setmListener(new BookCityTurnAdapter.LPagerImgClickListener() {
             @Override
             public void ImgClick(int position) {
@@ -163,17 +167,32 @@ public class BookcityFragment extends BaseFragment implements View.OnClickListen
         mBookCityListAdapterList.add(mBookCityListAdapter);
         mTurnAdapterList.add(mTurnAdapter);
         mPagers.add(pgView);
+
+        mBookCityListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(getActivity(), BookDetailActivity.class);
+                intent.putExtra("bookId", position);
+                startActivityForResult(intent, 99);
+
+            }
+        });
     }
 
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode==1){
+            //update shelf
+        }
+    }
 
-    private void mInitData(List<View> mTurnViews, List<ImageView> imgs, int ind) {
-        mInitTurnData(mTurnViews, imgs);
-        mInitListViewData(ind);
+    private void mInitData() {
+        mInitListViewData();
 
     }
 
-    private void mInitListViewData(int ind) {
+    private void mInitListViewData() {
         List<Book> books = new ArrayList<>();
         for (int i = 0; i < 5; i++) {
             Book book = new Book();
@@ -183,36 +202,52 @@ public class BookcityFragment extends BaseFragment implements View.OnClickListen
 
     }
 
-    private void mInitTurnData(List<View> mTurnViews, List<ImageView> imgs) {
 
-        String[] array = BookShelfViewUtil.listAssets(mContext);
-        List<String> realList = new ArrayList<>();
-        for (int i = 0; i < array.length; i++) {
-            String temp = array[i];
-            if (mIsLegle(temp)) {
-                realList.add(temp);
-            }
+    private void mUpdatePageData(){
+        mUpdateTurnData();
+
+        final List<Bitmap> bitmaps = new ArrayList<>();
+        for(Book book:mBookList.get(mCurrPage)){
+            Bitmap bitmap = ImageUtil.getHttpBitmap(HttpUtil.baseUri+book.getBookImg());
+            bitmaps.add(bitmap);
         }
-        for (String name : realList) {
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                mUpdateListData(bitmaps);
+                mTurnAdapterList.get(mCurrPage).notifyDataSetChanged();
+                mPagerAdapter.notifyDataSetChanged();
+            }
+        });
+
+    }
+
+    private void mUpdateTurnData(){
+        List<Book> books = new ArrayList<>();
+        for (int i=0;i<mNumPerTurn;i++){
+            books.add(mBookList.get(mCurrPage).get(i));
+        }
+        final List<ImageView> imageViews = new ArrayList<>();
+        for (Book book: books){
             ImageView iv = new ImageView(mContext);
             iv.setScaleType(ImageView.ScaleType.CENTER_CROP);
 
-            Bitmap bitmap = BookShelfViewUtil.readCover(name, mContext);
-
+            Bitmap bitmap = ImageUtil.getHttpBitmap(HttpUtil.baseUri + book.getBookImg());
             iv.setImageBitmap(bitmap);
+            imageViews.add(iv);
+            mTurnAdapterList.get(mCurrPage).mUpdateData(imageViews);
 
-            mTurnViews.add(iv);
         }
-
     }
 
 
-    private boolean mIsLegle(String temp) {
-        if (temp.contains("article")) {
-            return true;
-        }
-        return false;
+    private void mUpdateListData(List<Bitmap> bitmaps){
+        BookCityListAdapter mBookCityListAdapter =
+                new BookCityListAdapter(mContext, R.layout.item_bookcity_list, mBookList.get(mCurrPage));
+        mBookCityListAdapter.setBitmaps(bitmaps);
+        mBookCityListViewList.get(mCurrPage).setAdapter(mBookCityListAdapter);
     }
+
 
 
     @Override
@@ -234,33 +269,52 @@ public class BookcityFragment extends BaseFragment implements View.OnClickListen
     }
 
     private void mChangeClassTextColor(int ind) {
-        mCurrPage = ind;
         for (int i = 0; i < ids.length; i++) {
             if (i != ind) {
                 mClassViews.get(i).setTextColor(mContext.getResources().getColor(R.color.sys_font_gray));
             } else {
-                mClassViews.get(ind).setTextColor(mContext.getResources().getColor(R.color.sys_red));
+                mClassViews.get(i).setTextColor(mContext.getResources().getColor(R.color.sys_red));
             }
         }
 
     }
 
+    private void mUpdateData(){
+        bookCityPresenter.mGetBooks(mCurrPage.toString());
+    }
+
+    @Override
+    public void onActionSucc(BaseModel result) {
+        int i = mBookList.get(mCurrPage).size();
+        for(int j=0;j<i;j++){
+            mBookList.get(mCurrPage).remove(0);
+        }
+        for (Book book: ((BookCityModel)result).getBooks()){
+            mBookList.get(mCurrPage).add(book);
+        }
+        mUpdatePageData();
+
+
+
+    }
 
     class MyPagerListener implements ViewPager.OnPageChangeListener {
 
         @Override
         public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-            mChangeClassTextColor(position);
+            System.out.println(position);
+
         }
 
         @Override
         public void onPageSelected(int position) {
-
+            mChangeClassTextColor(position);
+            mCurrPage = position;
+            mUpdateData();
         }
 
         @Override
         public void onPageScrollStateChanged(int state) {
-
         }
     }
 

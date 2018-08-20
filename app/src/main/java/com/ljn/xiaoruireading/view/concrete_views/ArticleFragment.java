@@ -12,7 +12,11 @@ import android.widget.ListView;
 import com.ljn.xiaoruireading.R;
 import com.ljn.xiaoruireading.base.BaseFragment;
 import com.ljn.xiaoruireading.base.BaseModel;
+import com.ljn.xiaoruireading.model.Article;
 import com.ljn.xiaoruireading.model.ArticleModel;
+import com.ljn.xiaoruireading.presenter.ArticlePresenter;
+import com.ljn.xiaoruireading.util.HttpUtil;
+import com.ljn.xiaoruireading.util.ImageUtil;
 import com.ljn.xiaoruireading.view.concrete_views.Adapter.ArticleTurnAdapter;
 import com.ljn.xiaoruireading.view.concrete_views.Adapter.ArticleListAdapter;
 import com.ljn.xiaoruireading.view.custom_view.bookshelf.BookShelfViewUtil;
@@ -31,7 +35,6 @@ public class ArticleFragment extends BaseFragment implements ViewPager.OnPageCha
     //轮播图
     private ViewPager mArticlePager;
     private ArticleTurnAdapter mAdapter;
-    private List<View> mViews;
     private List<ImageView> imgs;
     private LinearLayout dotContainer;
 
@@ -40,11 +43,14 @@ public class ArticleFragment extends BaseFragment implements ViewPager.OnPageCha
     private TimerTask mTask;
     private boolean mIsTurning = false;
     //end
+    public static Integer mNumPerTurn = 4;
 
 
     private ListView mArticleListView;
     private ArticleListAdapter mListAdapter;
-    private List<ArticleModel> mArticleModels;
+    private List<Article> articles;
+
+    ArticlePresenter articlePresenter;
 
 
 
@@ -56,7 +62,7 @@ public class ArticleFragment extends BaseFragment implements ViewPager.OnPageCha
     @Override
     protected void mInitAllMembersView(View mRootView) {
 
-        mInitData(mRootView);
+        mInitData();
 
 
 
@@ -66,11 +72,11 @@ public class ArticleFragment extends BaseFragment implements ViewPager.OnPageCha
         dotContainer = (LinearLayout) vpView.findViewById(R.id.article_dot);
 
         mArticlePager = (ViewPager) vpView.findViewById(R.id.article_pager);
-        mAdapter = new ArticleTurnAdapter(mContext, mViews);
+        mAdapter = new ArticleTurnAdapter(mContext);
 
 
         mArticleListView = (ListView) mRootView.findViewById(R.id.article_listview);
-        mListAdapter = new ArticleListAdapter(mContext,R.layout.item_article_list,mArticleModels);
+        mListAdapter = new ArticleListAdapter(mContext,R.layout.item_article_list,articles);
 
         mArticlePager.setAdapter(mAdapter);
         mArticleListView.setAdapter(mListAdapter);
@@ -81,13 +87,50 @@ public class ArticleFragment extends BaseFragment implements ViewPager.OnPageCha
         mInitDoc();
 
         mSetAllListener();
+
+        mUpdateData();
+    }
+
+    public void mUpdateTurnAndList(){
+
+        mUpdateTurn();
+        List<Bitmap> bitmaps = new ArrayList<>();
+        List<Article> articleList = new ArrayList<>();
+
+        for(int i=mNumPerTurn;i<articles.size();i++){
+            Bitmap bitmap = ImageUtil.getHttpBitmap(HttpUtil.baseUri + articles.get(i).getArticleImg());
+            bitmaps.add(bitmap);
+            articleList.add(articles.get(i));
+        }
+        mListAdapter = new ArticleListAdapter(mContext, R.layout.item_article_list, articleList);
+        mListAdapter.setBitmaps(bitmaps);
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                mAdapter.notifyDataSetChanged();
+                mArticleListView.setAdapter(mListAdapter);
+            }
+        });
+    }
+
+    private void mUpdateTurn(){
+        List<ImageView> imageViews = new ArrayList<>();
+        for(int i=0;i<mNumPerTurn;i++){
+            ImageView iv = new ImageView(mContext);
+            iv.setScaleType(ImageView.ScaleType.CENTER_CROP);
+
+            Bitmap bitmap = ImageUtil.getHttpBitmap(HttpUtil.baseUri + articles.get(i).getArticleImg());
+            System.out.println(HttpUtil.baseUri + articles.get(i).getArticleImg());
+            iv.setImageBitmap(bitmap);
+            imageViews.add(iv);
+
+        }
+        mAdapter.mUpdateData(imageViews);
     }
     private void mInitDoc() {
         imgs = new ArrayList<>();
         dotContainer.removeAllViews();
-
-
-        for (int i = 0; i < mViews.size(); i++) {
+        for (int i = 0; i < mNumPerTurn; i++) {
             ImageView imageView = new ImageView(mContext);
             if (i == 0) {
                 imageView.setImageResource(R.drawable.doc_select);
@@ -112,46 +155,31 @@ public class ArticleFragment extends BaseFragment implements ViewPager.OnPageCha
         });
     }
 
+    private void mUpdateData(){
+        articlePresenter.mGetArticles();
+    }
 
-    private void mInitData(View view) {
-        mInitViewPagerData();
+
+    @Override
+    public void onActionSucc(BaseModel result) {
+        articles = ((ArticleModel)result).getArticles();
+       mUpdateTurnAndList();
+    }
+
+    private void mInitData() {
         mInitListViewData();
 
     }
     private void mInitListViewData(){
-        mArticleModels = new ArrayList<>();
+        articles = new ArrayList<>();
         for(int i=0;i<5;i++) {
-            ArticleModel articleModel = new ArticleModel();
-            mArticleModels.add(articleModel);
+            Article article = new Article();
+            articles.add(article);
         }
 
     }
 
-    private void mInitViewPagerData(){
-        mViews = new ArrayList<View>();
 
-        String[] array = BookShelfViewUtil.listAssets(mContext);
-
-        List<String> realList = new ArrayList<>();
-        for(int i=0;i<array.length;i++){
-            String temp = array[i];
-            if(mIsLegle(temp)){
-                realList.add(temp);
-            }
-        }
-
-        for (String name : realList) {
-            ImageView iv = new ImageView(mContext);
-            iv.setScaleType(ImageView.ScaleType.CENTER_CROP);
-
-            Bitmap bitmap = BookShelfViewUtil.readCover(name, mContext);
-
-            iv.setImageBitmap(bitmap);
-
-            mViews.add(iv);
-        }
-
-    }
 
     private void mImgPlay(final int pos){
         if(!mIsTurning){
@@ -169,7 +197,7 @@ public class ArticleFragment extends BaseFragment implements ViewPager.OnPageCha
             mHandler = new Handler() {
                 @Override
                 public void handleMessage(Message msg) {
-                    mArticlePager.setCurrentItem((pos+1)%mViews.size());
+                    mArticlePager.setCurrentItem((pos+1)%mNumPerTurn);
                 }
             };
         }else{
@@ -177,22 +205,19 @@ public class ArticleFragment extends BaseFragment implements ViewPager.OnPageCha
             mTimer.cancel();
             mTask.cancel();
             mIsTurning = false;
-            mImgPlay(pos%mViews.size());
+            mImgPlay(pos%mNumPerTurn);
         }
 
     }
 
 
-    private boolean mIsLegle(String temp){
-        if(temp.contains("article")){
-            return true;
-        }
-        return false;
-    }
+
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        articlePresenter = new ArticlePresenter();
+        articlePresenter.attachView(this);
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 

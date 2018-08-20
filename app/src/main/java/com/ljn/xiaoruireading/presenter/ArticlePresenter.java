@@ -5,13 +5,15 @@ import android.os.Looper;
 import com.ljn.xiaoruireading.base.BasePresenter;
 import com.ljn.xiaoruireading.base.IBaseView;
 import com.ljn.xiaoruireading.base.ICallback;
+import com.ljn.xiaoruireading.model.ArticleModel;
 import com.ljn.xiaoruireading.model.BookCityModel;
 
 /**
- * Created by 12390 on 2018/8/18.
+ * Created by 12390 on 2018/8/20.
  */
-public class BookCityPresenter extends BasePresenter<IBaseView> {
-    public void mGetBooks(final String label){
+public class ArticlePresenter extends BasePresenter<IBaseView> {
+
+    public void mGetArticles(){
         if (!isViewAttached()) {
             return;
         }
@@ -19,9 +21,9 @@ public class BookCityPresenter extends BasePresenter<IBaseView> {
         new Handler().post(new Runnable() {
             @Override
             public void run() {
-                BookCityModel.mDoGetBooks(label, new ICallback<BookCityModel>() {
+                ArticleModel.mDoGetArticles(new ICallback<ArticleModel>() {
                     @Override
-                    public void onSuccess(BookCityModel data) {
+                    public void onSuccess(ArticleModel data) {
                         Looper.prepare();
                         if(data.getStatus()==1) {
                             getView().onActionSucc(data);
@@ -32,9 +34,10 @@ public class BookCityPresenter extends BasePresenter<IBaseView> {
                     }
 
                     @Override
-                    public void onFailure(BookCityModel data) {
+                    public void onFailure(ArticleModel data) {
                         getView().onActionFailed(data.getMsg());
                     }
+
                 });
             }
         });
