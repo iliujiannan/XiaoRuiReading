@@ -1,11 +1,13 @@
 package com.ljn.xiaoruireading.view.concrete_views;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.view.ViewPager;
 import android.view.*;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -14,6 +16,7 @@ import com.ljn.xiaoruireading.base.BaseFragment;
 import com.ljn.xiaoruireading.base.BaseModel;
 import com.ljn.xiaoruireading.model.Article;
 import com.ljn.xiaoruireading.model.ArticleModel;
+import com.ljn.xiaoruireading.model.PersonalModel;
 import com.ljn.xiaoruireading.presenter.ArticlePresenter;
 import com.ljn.xiaoruireading.util.HttpUtil;
 import com.ljn.xiaoruireading.util.ImageUtil;
@@ -49,6 +52,7 @@ public class ArticleFragment extends BaseFragment implements ViewPager.OnPageCha
     private ListView mArticleListView;
     private ArticleListAdapter mListAdapter;
     private List<Article> articles;
+    private List<PersonalModel.User> users;
 
     ArticlePresenter articlePresenter;
 
@@ -96,14 +100,21 @@ public class ArticleFragment extends BaseFragment implements ViewPager.OnPageCha
         mUpdateTurn();
         List<Bitmap> bitmaps = new ArrayList<>();
         List<Article> articleList = new ArrayList<>();
-
+        List<Bitmap> photos = new ArrayList<>();
+        List<String> names = new ArrayList<>();
         for(int i=mNumPerTurn;i<articles.size();i++){
             Bitmap bitmap = ImageUtil.getHttpBitmap(HttpUtil.baseUri + articles.get(i).getArticleImg());
             bitmaps.add(bitmap);
             articleList.add(articles.get(i));
+            photos.add(ImageUtil.getHttpBitmap(HttpUtil.baseUri + users.get(i).getUserPhoto()));
+            names.add(users.get(i).getUserNickName());
         }
         mListAdapter = new ArticleListAdapter(mContext, R.layout.item_article_list, articleList);
         mListAdapter.setBitmaps(bitmaps);
+        mListAdapter.setAuthorPhotos(photos);
+        mListAdapter.setUserNames(names);
+
+
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -147,14 +158,25 @@ public class ArticleFragment extends BaseFragment implements ViewPager.OnPageCha
     }
     private  void mSetAllListener(){
         mArticlePager.setOnPageChangeListener(this);
+        mArticleListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                mShowDetail(mNumPerTurn+position);
+            }
+        });
         mAdapter.setmListener(new ArticleTurnAdapter.LPagerImgClickListener() {
             @Override
             public void ImgClick(int position) {
-                mShowMessage("图片" + position + "被点击了");
+                mShowDetail(position);
             }
         });
     }
 
+    private void mShowDetail(int ind){
+        Intent intent = new Intent(getActivity(), ArticleDetailActivity.class);
+        intent.putExtra("articleId", articles.get(ind).getArticleId()-1);
+        startActivity(intent);
+    }
     private void mUpdateData(){
         articlePresenter.mGetArticles();
     }
@@ -163,7 +185,8 @@ public class ArticleFragment extends BaseFragment implements ViewPager.OnPageCha
     @Override
     public void onActionSucc(BaseModel result) {
         articles = ((ArticleModel)result).getArticles();
-       mUpdateTurnAndList();
+        users = ((ArticleModel)result).getUsers();
+        mUpdateTurnAndList();
     }
 
     private void mInitData() {
@@ -236,5 +259,8 @@ public class ArticleFragment extends BaseFragment implements ViewPager.OnPageCha
     @Override
     public void onPageScrollStateChanged(int state) {
     }
+
+
+
 
 }

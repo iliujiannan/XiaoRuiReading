@@ -21,6 +21,9 @@ import java.util.List;
 public class ArticleListAdapter extends ArrayAdapter {
     int mResourceId;
     List<Bitmap> bitmaps;
+    List<String> userNames;
+    List<Bitmap> authorPhotos;
+
     public ArticleListAdapter(Context context, int resource, List objects) {
         super(context, resource, objects);
         this.mResourceId = resource;
@@ -30,6 +33,14 @@ public class ArticleListAdapter extends ArrayAdapter {
 
     public void setBitmaps(List<Bitmap> bitmaps) {
         this.bitmaps = bitmaps;
+    }
+
+    public void setUserNames(List<String> userNames) {
+        this.userNames = userNames;
+    }
+
+    public void setAuthorPhotos(List<Bitmap> authorPhotos) {
+        this.authorPhotos = authorPhotos;
     }
 
     @Override
@@ -43,10 +54,20 @@ public class ArticleListAdapter extends ArrayAdapter {
         TextView description = (TextView) view.findViewById(R.id.article_list_description);
         ImageView img = (ImageView) view.findViewById(R.id.article_list_image);
 
-        if(article.getArticleTitle()!=null){
+        if (article.getArticleTitle() != null) {
             img.setImageBitmap(bitmaps.get(position));
-            title.setText(article.getArticleTitle());
-            description.setText(article.getArticleDescription());
+            String tempTitle = article.getArticleTitle();
+            if (article.getArticleTitle().length() > 10) {
+                tempTitle = article.getArticleTitle().substring(0, 10) + "...";
+            }
+            String tempDes = article.getArticleDescription();
+            if(article.getArticleDescription().length()>40){
+                tempDes = article.getArticleDescription().substring(0, 40) + "...";
+            }
+            title.setText(tempTitle);
+            description.setText(tempDes);
+            photo.setImageBitmap(authorPhotos.get(position));
+            nickname.setText(userNames.get(position));
         }
 
         //set resource

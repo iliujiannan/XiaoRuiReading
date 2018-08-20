@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+    <RelativeLayout
+            android:id="@+id/top_bar"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/top_bar_height"
+            android:background="@color/sys_divider"
+            android:fitsSystemWindows="true">
+        <ImageView
+                android:id="@+id/article_back_button"
+                android:layout_width="@dimen/topbar_back_size"
+                android:layout_height="@dimen/topbar_back_size"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="@dimen/topbar_back_padding"
+                android:layout_marginLeft="@dimen/topbar_back_padding"
+                android:src="@drawable/ic_back_black"
+        />
+
+        <TextView
+                android:id="@+id/article_text_bar"
+                android:layout_toEndOf="@+id/article_back_button"
+                android:layout_width="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="@dimen/topbar_back_padding"
+                android:layout_marginStart="10dp"
+                android:layout_height="wrap_content"
+                android:text="文章"
+                android:textColor="@color/sys_black"
+                android:textSize="@dimen/sys_general_font_size" />
+
+        <View android:layout_width="match_parent"
+              android:layout_height="0.4dp"
+              android:background="@color/sys_line"
+              android:layout_alignParentBottom="true"/>
+
+    </RelativeLayout>
+
+    <ScrollView android:layout_width="match_parent" android:layout_height="wrap_content">
+        <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            <RelativeLayout android:layout_width="match_parent" android:layout_height="wrap_content">
+                <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+                    <TextView
+                            android:id="@+id/article_detail_title"
+                            android:textSize="@dimen/sys_large_font_size"
+                            android:textStyle="bold"
+                            android:padding="15dp"
+                            android:text="花嫁"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+                    <TextView
+                            android:id="@+id/article_detail_ra"
+                            android:text="1080人阅读"
+                            android:paddingLeft="15dp"
+                            android:textColor="@color/sys_font_gray"
+                            android:textSize="@dimen/sys_mini_font_size"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+                </LinearLayout>
+
+            </RelativeLayout>
+            <TextView
+                    android:id="@+id/article_detail_text1"
+                    android:text="@string/sys_article_example"
+                    android:textSize="@dimen/sys_general_font_size"
+                    android:textColor="@color/sys_black"
+                    android:padding="20dp"
+                    android:layout_marginTop="40dp"
+                    android:marqueeRepeatLimit="marquee_forever"
+                    android:ellipsize="marquee"
+                    android:lineSpacingExtra = "8dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+            <RelativeLayout android:layout_width="match_parent" android:layout_height="wrap_content">
+                <ImageView
+                        android:id="@+id/article_detail_img"
+                        android:src="@drawable/sys_article"
+                        android:layout_centerHorizontal="true"
+                        android:scaleType="centerCrop"
+                        android:layout_width="260dp"
+                        android:layout_height="400dp"/>
+            </RelativeLayout>
+
+
+            <TextView
+                    android:id="@+id/article_detail_text2"
+                    android:text="@string/sys_article_example"
+                    android:textSize="@dimen/sys_general_font_size"
+                    android:textColor="@color/sys_black"
+                    android:padding="20dp"
+                    android:layout_marginTop="40dp"
+                    android:marqueeRepeatLimit="marquee_forever"
+                    android:ellipsize="marquee"
+                    android:lineSpacingExtra = "8dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>

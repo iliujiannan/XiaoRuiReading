@@ -1,15 +1,13 @@
 package com.ljn.xiaoruireading.presenter;
 
 import android.os.Looper;
-import com.ljn.xiaoruireading.base.BaseModel;
 import com.ljn.xiaoruireading.base.BasePresenter;
 import com.ljn.xiaoruireading.base.ICallback;
 import com.ljn.xiaoruireading.model.RegModel;
-import com.ljn.xiaoruireading.util.PhoneNumberCheck;
+import com.ljn.xiaoruireading.util.PhoneNumberCheckUtil;
 import com.ljn.xiaoruireading.view.abstract_views.IRegView;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by 12390 on 2018/8/10.
@@ -51,7 +49,7 @@ public class RegPresenter extends BasePresenter<IRegView> {
         if (!isViewAttached()) {
             return;
         }
-        if(PhoneNumberCheck.isMobiPhoneNum(phone)){
+        if(PhoneNumberCheckUtil.isMobiPhoneNum(phone)){
             RegModel.mDoGetCheckCode(phone, new ICallback<RegModel>() {
                 @Override
                 public void onSuccess(RegModel data) {

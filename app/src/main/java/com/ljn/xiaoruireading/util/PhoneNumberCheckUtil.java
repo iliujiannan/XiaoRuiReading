@@ -7,7 +7,7 @@ import java.util.regex.Pattern;
 /**
  * Created by 12390 on 2018/8/17.
  */
-public class PhoneNumberCheck {
+public class PhoneNumberCheckUtil {
 
     /**
      * 通用判断

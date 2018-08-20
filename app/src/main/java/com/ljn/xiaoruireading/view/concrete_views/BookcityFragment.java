@@ -141,6 +141,12 @@ public class BookcityFragment extends BaseFragment implements View.OnClickListen
         //每一页的listview
 
         ListView mBookCityListView = (ListView) pgView.findViewById(R.id.page_bookcity_listview);
+        mBookCityListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                mShowBookDetail(position-1);
+            }
+        });
         BookCityListAdapter mBookCityListAdapter =
                 new BookCityListAdapter(mContext, R.layout.item_bookcity_list, mBookList.get(ind));
 
@@ -156,7 +162,7 @@ public class BookcityFragment extends BaseFragment implements View.OnClickListen
         mTurnAdapter.setmListener(new BookCityTurnAdapter.LPagerImgClickListener() {
             @Override
             public void ImgClick(int position) {
-                mShowMessage("图片" + position + "被点击了");
+                mShowBookDetail(position);
             }
         });
 
@@ -167,16 +173,6 @@ public class BookcityFragment extends BaseFragment implements View.OnClickListen
         mBookCityListAdapterList.add(mBookCityListAdapter);
         mTurnAdapterList.add(mTurnAdapter);
         mPagers.add(pgView);
-
-        mBookCityListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(getActivity(), BookDetailActivity.class);
-                intent.putExtra("bookId", position);
-                startActivityForResult(intent, 99);
-
-            }
-        });
     }
 
 
@@ -249,6 +245,13 @@ public class BookcityFragment extends BaseFragment implements View.OnClickListen
     }
 
 
+
+    private void mShowBookDetail(int ind){
+        Intent intent = new Intent(getActivity(), BookDetailActivity.class);
+        System.out.println("ind***" + ind);
+        intent.putExtra("bookId", mBookList.get(mCurrPage).get(ind).getBookId());
+        startActivityForResult(intent, 999);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

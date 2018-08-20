@@ -10,42 +10,33 @@ import okhttp3.FormBody;
 import okhttp3.Response;
 
 import java.io.IOException;
-import java.util.List;
 
 /**
- * Created by 12390 on 2018/8/15.
+ * Created by 12390 on 2018/8/20.
  */
-public class ArticleModel extends BaseModel {
-    private List<Article> articles;
-    private List<PersonalModel.User> users;
+public class ArticleDetailModel extends BaseModel {
+    private Article article;
 
-    public List<Article> getArticles() {
-        return articles;
+    public Article getArticle() {
+        return article;
     }
 
-    public void setArticles(List<Article> articles) {
-        this.articles = articles;
+    public void setArticle(Article article) {
+        this.article = article;
     }
 
-    public List<PersonalModel.User> getUsers() {
-        return users;
-    }
-
-    public void setUsers(List<PersonalModel.User> users) {
-        this.users = users;
-    }
-
-    public static void mDoGetArticles(final ICallback<ArticleModel> callback){
+    public static void mDoGetArticleDetail(Integer articleId, final ICallback callback){
         HttpUtil httpUtil = new HttpUtil();
 
         FormBody.Builder form = new FormBody.Builder();
-        httpUtil.mDoPost(form, "get_articles", new BaseModelCallBack(callback) {
+        form.add("articleId", articleId.toString());
+        httpUtil.mDoPost(form, "get_one_article", new BaseModelCallBack(callback) {
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 Gson gson = new Gson();
                 String s = response.body().string();
                 System.out.println(s);
-                ArticleModel articleModel = gson.fromJson(s, ArticleModel.class);
+                ArticleDetailModel articleModel = gson.fromJson(s, ArticleDetailModel.class);
                 callback.onSuccess(articleModel);
             }
         });

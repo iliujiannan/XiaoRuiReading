@@ -95,6 +95,7 @@
                         android:layout_toEndOf="@+id/book_detail_txt_infor"
                         android:layout_height="match_parent">
             <ImageView
+                    android:id="@+id/book_detail_bookimg"
                     android:src="@drawable/sys_article"
                     android:scaleType="centerCrop"
                     android:layout_width="120dp"
@@ -134,6 +135,7 @@
               android:layout_alignParentBottom="true"/>
     </RelativeLayout>
     <RelativeLayout
+            android:id="@+id/book_detail_bott"
             android:layout_width="match_parent"
             android:background="@color/sys_red"
             android:layout_height="match_parent">

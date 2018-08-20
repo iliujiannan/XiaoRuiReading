@@ -74,6 +74,7 @@ public class ArticleTurnAdapter extends PagerAdapter {
             isFirst = false;
         }else {
 
+            System.out.println(imageViews.size());
             int ind = 0;
             for (ImageView img: imageViews) {
                 if(ind<mTurnViews.size()){

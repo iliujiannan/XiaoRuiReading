@@ -6,14 +6,22 @@ package com.ljn.xiaoruireading.model;
 public class Article {
     private Integer articleId;
     private String articleTitle;
-    private Integer articleAuthor;
+    private Integer articleAuthorId;
     private String articleImg;
     private String articleUrl;
-    private String articleReadingAmount;
+    private Integer articleReadingAmount;
     private String articleDescription;
 
     public Integer getArticleId() {
         return articleId;
+    }
+
+    public Integer getArticleAuthorId() {
+        return articleAuthorId;
+    }
+
+    public void setArticleAuthorId(Integer articleAuthorId) {
+        this.articleAuthorId = articleAuthorId;
     }
 
     public void setArticleId(Integer articleId) {
@@ -28,13 +36,6 @@ public class Article {
         this.articleTitle = articleTitle;
     }
 
-    public Integer getArticleAuthor() {
-        return articleAuthor;
-    }
-
-    public void setArticleAuthor(Integer articleAuthor) {
-        this.articleAuthor = articleAuthor;
-    }
 
     public String getArticleImg() {
         return articleImg;
@@ -52,11 +53,11 @@ public class Article {
         this.articleUrl = articleUrl;
     }
 
-    public String getArticleReadingAmount() {
+    public Integer getArticleReadingAmount() {
         return articleReadingAmount;
     }
 
-    public void setArticleReadingAmount(String articleReadingAmount) {
+    public void setArticleReadingAmount(Integer articleReadingAmount) {
         this.articleReadingAmount = articleReadingAmount;
     }
 
