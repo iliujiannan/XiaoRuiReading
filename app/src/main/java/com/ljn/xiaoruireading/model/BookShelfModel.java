@@ -1,7 +1,6 @@
 package com.ljn.xiaoruireading.model;
 
 
-import android.os.Handler;
 import com.google.gson.Gson;
 import com.ljn.xiaoruireading.base.BaseModel;
 import com.ljn.xiaoruireading.base.BaseModelCallBack;
@@ -12,9 +11,7 @@ import okhttp3.FormBody;
 import okhttp3.Response;
 
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by 12390 on 2018/8/14.
@@ -36,7 +33,7 @@ public class BookShelfModel extends BaseModel{
         FormBody.Builder form = new FormBody.Builder();
         form.add("userId", userId.toString());
         form.add("secretKey", secretKey);
-        httpUtil.mDoPost(form, "get_shelf", new BaseModelCallBack(callback) {
+        httpUtil.mDoPost(form, "get_bookshelf", new BaseModelCallBack(callback) {
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 Gson gson = new Gson();

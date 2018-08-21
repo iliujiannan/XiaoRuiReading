@@ -22,5 +22,6 @@
     <dimen name="sys_mid_font_size">14sp</dimen>
     <dimen name="sys_small_font_size">12sp</dimen>
     <dimen name="sys_large_font_size">18sp</dimen>
+    <dimen name="sys_huge_font_size">24sp</dimen>
     <dimen name="dot_size">6dp</dimen>
 </resources>

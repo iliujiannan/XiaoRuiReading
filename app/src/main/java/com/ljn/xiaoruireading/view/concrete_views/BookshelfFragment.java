@@ -12,6 +12,7 @@ import com.ljn.xiaoruireading.base.BaseActivity;
 import com.ljn.xiaoruireading.base.BaseFragment;
 import com.ljn.xiaoruireading.base.BaseModel;
 import com.ljn.xiaoruireading.model.Book;
+import com.ljn.xiaoruireading.model.BookShelfModel;
 import com.ljn.xiaoruireading.presenter.BookShelfPresenter;
 import com.ljn.xiaoruireading.util.HttpUtil;
 import com.ljn.xiaoruireading.util.ImageUtil;
@@ -30,8 +31,10 @@ public class BookshelfFragment extends BaseFragment implements IBookShelfView {
     private ShelfAdapter mMyAdapter;
     private GridView mGridView;
     private TextView mReadTime;
+
     private TextView mSaying;
     private TextView mSayingAuthor;
+
     private List<Book> books;
 
     private BookShelfPresenter bookShelfPresenter;
@@ -55,6 +58,8 @@ public class BookshelfFragment extends BaseFragment implements IBookShelfView {
         mSaying = (TextView) view.findViewById(R.id.bookshelf_saying);
         mSayingAuthor = (TextView) view.findViewById(R.id.bookshelf_saying_author);
 
+        mReadTime.setText(dailyReadTime.toString());
+
         mGridView.setAdapter(mMyAdapter);
         mSetAllListener();
         String[] array = BookShelfViewUtil.listAssets(view.getContext());
@@ -72,7 +77,7 @@ public class BookshelfFragment extends BaseFragment implements IBookShelfView {
         mSharedPreferences = getActivity().getSharedPreferences(BaseActivity.SP_NAME, getActivity().MODE_PRIVATE);
         userId = mSharedPreferences.getInt("userId", 0);
         secretKey = mSharedPreferences.getString("secretKey", "");
-        userId = mSharedPreferences.getInt("dailyReadTime", 0);
+        dailyReadTime = mSharedPreferences.getInt("dailyReadTime", 0);
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
@@ -153,7 +158,7 @@ public class BookshelfFragment extends BaseFragment implements IBookShelfView {
 
 
     public void mUpdateShelf() {
-        //bookShelfPresenter.mGetBookShelfData(userId, secretKey);
+        bookShelfPresenter.mGetBookShelfData(userId, secretKey);
     }
 
     private boolean mIsLegle(String temp) {
@@ -196,6 +201,7 @@ public class BookshelfFragment extends BaseFragment implements IBookShelfView {
 
     @Override
     public void onActionSucc(BaseModel result) {
+        books = ((BookShelfModel)result).getBooks();
         List<String> names = new ArrayList<>();
         for (Book b: books) {
             names.add(b.getBookImg());

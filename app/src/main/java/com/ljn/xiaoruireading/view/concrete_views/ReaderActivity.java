@@ -1,5 +1,6 @@
 package com.ljn.xiaoruireading.view.concrete_views;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.view.PagerAdapter;
@@ -64,12 +65,12 @@ public class ReaderActivity extends BaseActivity implements ViewPager.OnPageChan
     }
 
     private void mInitData() {
-//        Intent intent = getIntent();
-//        if (intent != null) {
-//            mBookId = intent.getIntExtra("bookId", -1);
-//            mBookname = intent.getStringExtra("bookName");
-//            mCap = intent.getIntExtra("bookCap", -1);
-//        }
+        Intent intent = getIntent();
+        if (intent != null) {
+            mBookId = intent.getIntExtra("bookId", -1);
+            mBookname = intent.getStringExtra("bookName");
+            mCap = intent.getIntExtra("bookCap", -1);
+        }
         mGetOneCap();
     }
 
@@ -141,10 +142,26 @@ public class ReaderActivity extends BaseActivity implements ViewPager.OnPageChan
 
     @Override
     public void onClick(View v) {
-        mChangePageSettingState();
+        switch (v.getId()){
+            case R.id.item_page1_text:
+            case R.id.item_page2_text:
+                mChangePageSettingState();
+                break;
+            case R.id.page_back_button:
+                finish();
+                setResult(1);
+                break;
+            case R.id.page_setting:
+                mShowSettingDialog();
+                break;
+        }
+
     }
 
 
+    private void mShowSettingDialog(){
+
+    }
     private void mUpdateOnePage(int position){
         if(mCurrentCat<=mCap) {
             mCurrentPage = position;
@@ -207,6 +224,7 @@ public class ReaderActivity extends BaseActivity implements ViewPager.OnPageChan
             mShowMessage("已经是最后一章啦");
         }
     }
+
     class MPagerAdaper extends PagerAdapter {
 
         @Override
