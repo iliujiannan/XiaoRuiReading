@@ -11,4 +11,8 @@ public interface IBookShelfView extends IBaseView {
     void mOnDelSucc(BaseModel result);
 
     void mOnDelFailed(String msg);
+
+    void mOnSetSucc(BaseModel result);
+
+    void mOnSetFailed(String msg);
 }

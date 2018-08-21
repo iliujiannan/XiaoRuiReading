@@ -125,7 +125,7 @@ public class BookDetailActivity extends BaseActivity implements View.OnClickList
                     mBottBt.setText("加入书架");
                 } else {
                     mBottImg.setImageResource(R.drawable.ic_shopcart_white);
-                    mBottBt.setText("加入购物车");
+                    mBottBt.setText("购买并加入书架");
                 }
             }
         });

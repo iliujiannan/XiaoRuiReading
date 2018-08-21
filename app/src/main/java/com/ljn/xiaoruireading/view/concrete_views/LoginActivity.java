@@ -119,6 +119,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener{
         mSharedPreferences = getSharedPreferences(BaseActivity.SP_NAME, MODE_PRIVATE);
         mSharedPreferences.edit().putString("secretKey", ((LoginModel)result).getSecretKey()).commit();
         mSharedPreferences.edit().putInt("userId", ((LoginModel)result).getUserId()).commit();
+        mSharedPreferences.edit().putInt("dailyReadTime", ((LoginModel)result).getDailyRead());
         if (getIntent().getStringExtra("from") == null) {
             setResult(1);
             finish();

@@ -20,6 +20,15 @@ public class LoginModel extends BaseModel {
 
     private Integer userId;
     private String secretKey;
+    private Integer dailyRead;
+
+    public Integer getDailyRead() {
+        return dailyRead;
+    }
+
+    public void setDailyRead(Integer dailyRead) {
+        this.dailyRead = dailyRead;
+    }
 
     public Integer getUserId() {
         return userId;

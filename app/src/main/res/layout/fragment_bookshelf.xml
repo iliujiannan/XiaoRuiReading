@@ -8,7 +8,7 @@
 
     <TextView android:layout_width="wrap_content"
               android:id="@+id/bookshelf_top_text_1"
-              android:text="本周已读"
+              android:text="今日已读"
               android:layout_marginTop="40dp"
               android:textSize="@dimen/sys_mini_font_size"
               android:textColor="@color/sys_white"

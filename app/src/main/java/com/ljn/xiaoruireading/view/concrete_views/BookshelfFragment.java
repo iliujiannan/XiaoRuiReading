@@ -1,8 +1,11 @@
 package com.ljn.xiaoruireading.view.concrete_views;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.os.Looper;
+import android.support.v7.app.AlertDialog;
 import android.view.*;
 import android.widget.AdapterView;
 import android.widget.GridView;
@@ -16,11 +19,13 @@ import com.ljn.xiaoruireading.model.BookShelfModel;
 import com.ljn.xiaoruireading.presenter.BookShelfPresenter;
 import com.ljn.xiaoruireading.util.HttpUtil;
 import com.ljn.xiaoruireading.util.ImageUtil;
+import com.ljn.xiaoruireading.util.MyDateUtil;
 import com.ljn.xiaoruireading.view.abstract_views.IBookShelfView;
 import com.ljn.xiaoruireading.view.custom_view.bookshelf.BookShelfViewUtil;
 import com.ljn.xiaoruireading.view.custom_view.bookshelf.ShelfAdapter;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -44,6 +49,10 @@ public class BookshelfFragment extends BaseFragment implements IBookShelfView {
     private String secretKey = "";
     private Integer dailyReadTime = 0;
 
+    private String beginTime;
+
+    private Integer lastBookId;
+
 
     @Override
     public int mGetContentViewId() {
@@ -64,10 +73,12 @@ public class BookshelfFragment extends BaseFragment implements IBookShelfView {
         mSetAllListener();
         String[] array = BookShelfViewUtil.listAssets(view.getContext());
         List<String> names = new ArrayList<>();
-        for(int i=0;i<array.length;i++){
+        for (int i = 0; i < array.length; i++) {
             names.add(array[i]);
         }
         updateView(true, names);
+
+        mUpdateShelf();
     }
 
     @Override
@@ -75,10 +86,17 @@ public class BookshelfFragment extends BaseFragment implements IBookShelfView {
         bookShelfPresenter = new BookShelfPresenter();
         bookShelfPresenter.attachView(this);
         mSharedPreferences = getActivity().getSharedPreferences(BaseActivity.SP_NAME, getActivity().MODE_PRIVATE);
+        updateUserData();
+
+
+        return super.onCreateView(inflater, container, savedInstanceState);
+    }
+
+    private void updateUserData() {
         userId = mSharedPreferences.getInt("userId", 0);
         secretKey = mSharedPreferences.getString("secretKey", "");
         dailyReadTime = mSharedPreferences.getInt("dailyReadTime", 0);
-        return super.onCreateView(inflater, container, savedInstanceState);
+
     }
 
     private void mSetAllListener() {
@@ -88,10 +106,12 @@ public class BookshelfFragment extends BaseFragment implements IBookShelfView {
 
                 if (!mIsLongPress) {
                     Intent intent = new Intent(getActivity(), ReaderActivity.class);
-                    if(books!=null) {
+                    if (books != null) {
+                        lastBookId = books.get(position).getBookId();
                         intent.putExtra("bookId", books.get(position).getBookId());
                         intent.putExtra("bookName", books.get(position).getBookName());
                         intent.putExtra("bookCap", books.get(position).getBookChapterAmount());
+                        beginTime = MyDateUtil.dateToString(new Date());
                     }
                     startActivityForResult(intent, 998);
                     //update
@@ -105,7 +125,14 @@ public class BookshelfFragment extends BaseFragment implements IBookShelfView {
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
 
                 //doDelete
-                mShowMessage("item " + position + "被长按");
+                final int pos = position;
+                AlertDialog.Builder delDialog = new AlertDialog.Builder(mContext);
+                delDialog.setNeutralButton("删除", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        bookShelfPresenter.mDelBook(userId, secretKey, books.get(pos).getBookId());
+                    }
+                }).show();
                 mIsLongPress = true;
                 return false;
             }
@@ -115,6 +142,13 @@ public class BookshelfFragment extends BaseFragment implements IBookShelfView {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(!secretKey.equals("")) {
+            long time = MyDateUtil.getDistanceTimeInMinute(beginTime, MyDateUtil.dateToString(new Date()));
+            Integer readtime = Integer.valueOf((int) time);
+            dailyReadTime +=readtime;
+            mSharedPreferences.edit().putInt("dailyReadTime", dailyReadTime);
+            bookShelfPresenter.mSetReadTime(userId, secretKey, readtime, lastBookId);
+        }
         mUpdateShelf();
     }
 
@@ -138,12 +172,12 @@ public class BookshelfFragment extends BaseFragment implements IBookShelfView {
             ShelfAdapter.Item item = new ShelfAdapter.Item();
             item.filename = name;
             mMyAdapter.items.add(item);
-            if(!isFirst){
+            if (!isFirst) {
                 Bitmap bitmap = ImageUtil.getHttpBitmap(HttpUtil.baseUri + name);
                 bitmaps.add(bitmap);
             }
         }
-        if(!isFirst){
+        if (!isFirst) {
             mMyAdapter.setFirst(false);
             mMyAdapter.setBitmapList(bitmaps);
         }
@@ -158,7 +192,12 @@ public class BookshelfFragment extends BaseFragment implements IBookShelfView {
 
 
     public void mUpdateShelf() {
-        bookShelfPresenter.mGetBookShelfData(userId, secretKey);
+        userId = mSharedPreferences.getInt("userId", 0);
+        secretKey = mSharedPreferences.getString("secretKey", "");
+        dailyReadTime = mSharedPreferences.getInt("dailyReadTime", 0);
+        if (!secretKey.equals("")) {
+            bookShelfPresenter.mGetBookShelfData(userId, secretKey);
+        }
     }
 
     private boolean mIsLegle(String temp) {
@@ -191,6 +230,9 @@ public class BookshelfFragment extends BaseFragment implements IBookShelfView {
 
     @Override
     public void mOnDelSucc(BaseModel result) {
+        Looper.prepare();
+        mShowMessage("成功");
+        Looper.loop();
         mUpdateShelf();
     }
 
@@ -200,10 +242,20 @@ public class BookshelfFragment extends BaseFragment implements IBookShelfView {
     }
 
     @Override
+    public void mOnSetSucc(BaseModel result) {
+        onActionFailed(result.getMsg());
+    }
+
+    @Override
+    public void mOnSetFailed(String msg) {
+        onActionFailed(msg);
+    }
+
+    @Override
     public void onActionSucc(BaseModel result) {
-        books = ((BookShelfModel)result).getBooks();
+        books = ((BookShelfModel) result).getBooks();
         List<String> names = new ArrayList<>();
-        for (Book b: books) {
+        for (Book b : books) {
             names.add(b.getBookImg());
         }
         updateView(false, names);

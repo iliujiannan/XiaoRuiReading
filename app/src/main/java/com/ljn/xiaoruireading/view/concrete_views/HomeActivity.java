@@ -8,6 +8,9 @@ import android.widget.TextView;
 import com.ljn.xiaoruireading.R;
 import com.ljn.xiaoruireading.base.BaseActivity;
 import com.ljn.xiaoruireading.base.BaseModel;
+import com.ljn.xiaoruireading.util.MyDateUtil;
+
+import java.util.Date;
 
 /**
  * Created by 12390 on 2018/8/8.
@@ -22,11 +25,16 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener{
     private FragmentTransaction transaction;
     private Fragment mBookcityFragment,mBookhouseFragment,mBookshelfFragment,mPersonalFragment;
 
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_base);
+
         mInitComponent();
+        mSharedPreferences = getSharedPreferences(BaseActivity.SP_NAME, MODE_PRIVATE);
 
         mSetStatusBar(getResources().getColor(R.color.sys_transparent));
     }
@@ -131,4 +139,5 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener{
     public void mUpdateAllFragmentData(BaseModel result){
         ((PersonalFragment)mPersonalFragment).mUpdateData(result);
     }
+
 }

@@ -61,7 +61,7 @@ public class ArticleDetailActivity extends BaseActivity{
     public void onActionSucc(BaseModel result) {
         final Article article = ((ArticleDetailModel)result).getArticle();
         final Bitmap bitmap = ImageUtil.getHttpBitmap(HttpUtil.baseUri + article.getArticleImg());
-        String content = FileUtil.getFileContent(HttpUtil.baseUri + article.getArticleUrl());
+        String content = FileUtil.getFileContentUTF(HttpUtil.baseUri + article.getArticleUrl());
         final String content1,content2;
         content1 = content.substring(0,content.length()/2);
         content2 = content.substring(content.length()/2+1, content.length()-1);

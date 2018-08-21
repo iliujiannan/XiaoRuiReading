@@ -45,4 +45,27 @@ public class BookShelfModel extends BaseModel{
         });
 
     }
+
+    public static void mDoSetReadTime(Integer userId, String secretKey,Integer readTime, Integer bookId, final ICallback<BaseModel> callback){
+        FormBody.Builder formBody = new FormBody.Builder();//创建表单请求体
+
+        formBody.add("userId", userId.toString());
+        formBody.add("secretKey", secretKey);
+        formBody.add("readTime", readTime.toString());
+        formBody.add("bookId", bookId.toString());
+
+        HttpUtil httpUtil = new HttpUtil();
+        httpUtil.mDoPost(formBody, "set_total_readTime", new BaseModelCallBack(callback));
+    }
+
+    public static void mDoDelBook(Integer userId, String secretKey, Integer bookId, final ICallback<BaseModel> callback){
+        FormBody.Builder formBody = new FormBody.Builder();//创建表单请求体
+
+        formBody.add("userId", userId.toString());
+        formBody.add("secretKey", secretKey);
+        formBody.add("bookId", bookId.toString());
+
+        HttpUtil httpUtil = new HttpUtil();
+        httpUtil.mDoPost(formBody, "delete_bookshelf", new BaseModelCallBack(callback));
+    }
 }
