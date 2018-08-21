@@ -76,10 +76,11 @@ public class ShelfAdapter extends BaseAdapter {
             holder = (ViewHolder)convertView.getTag();
         }
 
-        Item item = items.get(position);
+
         Bitmap bitmap;
         if(isFirst) {
 
+            Item item = items.get(position);
             bitmap = BookShelfViewUtil.readCover(item.filename, mContext);
         }else{
             bitmap = bitmapList.get(position);

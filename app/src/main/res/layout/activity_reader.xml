@@ -3,6 +3,13 @@
                 android:layout_width="match_parent"
                 android:background="@drawable/reader_bg"
                 android:layout_height="match_parent">
+
+    <android.support.v4.view.ViewPager
+            android:id="@+id/page_pager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+    </android.support.v4.view.ViewPager>
     <RelativeLayout
             android:id="@+id/page_topbar"
             android:background="@color/sys_black"
@@ -10,7 +17,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/page_top_bar">
         <ImageView
-                android:id="@+id/page_back_button"
+                android:id="@+id/page_back"
                 android:layout_width="@dimen/topbar_back_size"
                 android:layout_height="@dimen/topbar_back_size"
                 android:scaleType="centerInside"
@@ -33,12 +40,6 @@
                 android:layout_height="@dimen/topbar_more_size"/>
 
     </RelativeLayout>
-    <android.support.v4.view.ViewPager
-            android:id="@+id/page_pager"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-    </android.support.v4.view.ViewPager>
     <RelativeLayout
             android:layout_alignParentBottom="true"
             android:id="@+id/page_bottombar"

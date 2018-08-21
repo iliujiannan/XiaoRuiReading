@@ -1,23 +1,25 @@
 package com.ljn.xiaoruireading.view.concrete_views;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.*;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
+import android.widget.*;
 import com.ljn.xiaoruireading.R;
 import com.ljn.xiaoruireading.base.BaseActivity;
 import com.ljn.xiaoruireading.util.FileUtil;
+import com.ljn.xiaoruireading.view.concrete_views.Adapter.DialogListAdapter;
 import com.ljn.xiaoruireading.view.custom_view.ReaderText.ReaderTextView;
 
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.zip.Inflater;
 
 /**
  * Created by 12390 on 2018/8/11.
@@ -43,6 +45,8 @@ public class ReaderActivity extends BaseActivity implements ViewPager.OnPageChan
     private Integer userId = 0;
     private String secretKey = "";
     private String content = "";
+
+    private Integer mCurrentFontSize = 16;
 
     private List<View> mViews;
 
@@ -91,7 +95,7 @@ public class ReaderActivity extends BaseActivity implements ViewPager.OnPageChan
 
         mPageTopBar = (RelativeLayout) findViewById(R.id.page_topbar);
         mPageBottomBar = (RelativeLayout) findViewById(R.id.page_bottombar);
-        mBackButton = (ImageView) findViewById(R.id.page_back_button);
+        mBackButton = (ImageView) findViewById(R.id.page_back);
         mMoreButton = (ImageView) findViewById(R.id.page_more_button);
         mCatalogButton = (TextView) findViewById(R.id.page_catalog);
         mSettingButton = (TextView) findViewById(R.id.page_setting);
@@ -100,6 +104,10 @@ public class ReaderActivity extends BaseActivity implements ViewPager.OnPageChan
         mPageTopBar.setVisibility(View.INVISIBLE);
         mPageBottomBar.setVisibility(View.INVISIBLE);
 
+
+        mBackButton.setOnClickListener(this);
+        mSettingButton.setOnClickListener(this);
+        mCatalogButton.setOnClickListener(this);
 
         mInitTowPage();
 
@@ -122,7 +130,6 @@ public class ReaderActivity extends BaseActivity implements ViewPager.OnPageChan
         mViewPager.setAdapter(mPagerAdapter);
         mViewPager.setOnPageChangeListener(this);
 
-        mBackButton.setOnClickListener(this);
     }
 
     @Override
@@ -147,19 +154,90 @@ public class ReaderActivity extends BaseActivity implements ViewPager.OnPageChan
             case R.id.item_page2_text:
                 mChangePageSettingState();
                 break;
-            case R.id.page_back_button:
+            case R.id.page_back:
+//                System.out.println("back");
                 finish();
-                setResult(1);
                 break;
             case R.id.page_setting:
+                mChangePageSettingState();
                 mShowSettingDialog();
+                break;
+            case R.id.page_catalog:
+                mChangePageSettingState();
+                mShowCaDialog();
                 break;
         }
 
     }
 
-
     private void mShowSettingDialog(){
+//        System.out.println("show");
+        WindowManager m = getWindowManager();
+        Display d = m.getDefaultDisplay();
+        final Dialog dialog = new Dialog(this);
+        dialog.setContentView(R.layout.dialog_page_setting);
+        Window window = dialog.getWindow();
+        WindowManager.LayoutParams lp = window.getAttributes();
+        window.setGravity(Gravity.CENTER_VERTICAL | Gravity.BOTTOM);
+        lp.height = (int) (d.getHeight() * 0.3);
+        lp.width = getResources().getDisplayMetrics().widthPixels;
+        window.setAttributes(lp);
+        dialog.show();
+
+        TextView addBt = (TextView) window.findViewById(R.id.font_setting_right);
+        TextView reduceBt = (TextView) window.findViewById(R.id.font_setting_left);
+        final TextView size = (TextView) window.findViewById(R.id.font_setting_size);
+
+        addBt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mCurrentFontSize++;
+                size.setText(mCurrentFontSize.toString());
+                mUpdateOnePage(mCurrentPage);
+            }
+        });
+        reduceBt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mCurrentFontSize--;
+                size.setText(mCurrentFontSize.toString());
+                mUpdateOnePage(mCurrentPage);
+            }
+        });
+        size.setText(mCurrentFontSize.toString());
+
+    }
+
+    private void mShowCaDialog(){
+//        System.out.println("show");
+        WindowManager m = getWindowManager();
+        Display d = m.getDefaultDisplay();
+        final Dialog dialog = new Dialog(this);
+        dialog.setContentView(R.layout.dialog_page_ca);
+        Window window = dialog.getWindow();
+        WindowManager.LayoutParams lp = window.getAttributes();
+        window.setGravity(Gravity.CENTER_VERTICAL | Gravity.BOTTOM);
+        lp.height = (int) (d.getHeight()*0.6);
+        lp.width = getResources().getDisplayMetrics().widthPixels;
+        window.setAttributes(lp);
+        dialog.show();
+
+        ListView listView = (ListView) window.findViewById(R.id.dialog_page_ca_list);
+        List<Integer> caps = new ArrayList<>();
+        for(int i=1;i<=mCap;i++){
+            caps.add(mCap);
+        }
+        DialogListAdapter adapter = new DialogListAdapter(this, R.layout.item_dialog_list, caps);
+        listView.setAdapter(adapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                mCurrentCat = position+1;
+                mCurrentPage = 0;
+                dialog.cancel();
+                mGetOneCap();
+            }
+        });
 
     }
     private void mUpdateOnePage(int position){
@@ -185,6 +263,8 @@ public class ReaderActivity extends BaseActivity implements ViewPager.OnPageChan
                 pageNumText = (TextView) findViewById(R.id.page1_page_num);
             }
 
+            System.out.println("maxsize=" + contentText.getEstimatedLength());
+            contentText.setTextSize(TypedValue.COMPLEX_UNIT_SP, mCurrentFontSize);
 
             String realContent;
 //            System.out.println("length:" + content.length());

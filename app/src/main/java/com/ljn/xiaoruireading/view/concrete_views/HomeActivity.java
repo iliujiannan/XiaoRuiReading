@@ -1,8 +1,12 @@
 package com.ljn.xiaoruireading.view.concrete_views;
 
+import android.Manifest;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.TextView;
 import com.ljn.xiaoruireading.R;
@@ -36,6 +40,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener{
         mInitComponent();
         mSharedPreferences = getSharedPreferences(BaseActivity.SP_NAME, MODE_PRIVATE);
 
+        requestAllPower();
         mSetStatusBar(getResources().getColor(R.color.sys_transparent));
     }
 
@@ -140,4 +145,17 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener{
         ((PersonalFragment)mPersonalFragment).mUpdateData(result);
     }
 
+    public void requestAllPower() {
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+            } else {
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                                Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
+            }
+        }
+    }
 }

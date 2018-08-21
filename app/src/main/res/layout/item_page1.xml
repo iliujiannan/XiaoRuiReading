@@ -25,7 +25,7 @@
             android:layout_centerVertical="true"
             android:textColor="@color/sys_black"
             android:layout_width="match_parent"
-            android:layout_height="500dp"/>
+            android:layout_height="520dp"/>
     <TextView
             android:id="@+id/page1_read_rate"
             android:text="0.00%"

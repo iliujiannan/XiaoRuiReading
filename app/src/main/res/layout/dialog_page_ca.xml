@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:orientation="vertical"
+              android:background="@drawable/text_cap_border"
+              android:alpha="0.8"
+              android:layout_height="match_parent">
+    <TextView
+            android:textSize="@dimen/sys_large_font_size"
+            android:textStyle="bold"
+            android:textColor="@color/sys_white"
+            android:text="选择章节"
+            android:padding="15dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    <ListView
+            android:id="@+id/dialog_page_ca_list"
+            android:dividerHeight="0.4dp"
+            android:layout_marginTop="40dp"
+            android:divider="@color/sys_divider"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+</LinearLayout>
