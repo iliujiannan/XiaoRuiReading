@@ -249,6 +249,8 @@ public class BookcityFragment extends BaseFragment implements View.OnClickListen
     private void mShowBookDetail(int ind){
         Intent intent = new Intent(getActivity(), BookDetailActivity.class);
         System.out.println("ind***" + ind);
+        System.out.println(mBookList.get(mCurrPage).get(ind).getBookName());
+        System.out.println(mBookList.get(mCurrPage).get(ind).getBookId());
         intent.putExtra("bookId", mBookList.get(mCurrPage).get(ind).getBookId());
         startActivityForResult(intent, 999);
     }
@@ -305,7 +307,7 @@ public class BookcityFragment extends BaseFragment implements View.OnClickListen
 
         @Override
         public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-            System.out.println(position);
+//            System.out.println(position);
 
         }
 

@@ -167,7 +167,7 @@ public class ArticleFragment extends BaseFragment implements ViewPager.OnPageCha
         mAdapter.setmListener(new ArticleTurnAdapter.LPagerImgClickListener() {
             @Override
             public void ImgClick(int position) {
-                mShowDetail(position);
+                mShowDetail(position+1);
             }
         });
     }

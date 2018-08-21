@@ -1,7 +1,9 @@
 package com.ljn.xiaoruireading.view.concrete_views;
 
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.os.Looper;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.ImageView;
@@ -13,13 +15,17 @@ import com.ljn.xiaoruireading.base.BaseModel;
 import com.ljn.xiaoruireading.model.Book;
 import com.ljn.xiaoruireading.model.BookDetailModel;
 import com.ljn.xiaoruireading.presenter.BookDetailPresenter;
+import com.ljn.xiaoruireading.util.FileUtil;
 import com.ljn.xiaoruireading.util.HttpUtil;
 import com.ljn.xiaoruireading.util.ImageUtil;
+import com.ljn.xiaoruireading.view.abstract_views.IBookDetailView;
+
+import java.io.File;
 
 /**
  * Created by 12390 on 2018/8/18.
  */
-public class BookDetailActivity extends BaseActivity implements View.OnClickListener {
+public class BookDetailActivity extends BaseActivity implements View.OnClickListener, IBookDetailView {
 
     private ImageView mBackButton;
     private TextView mTitle;
@@ -35,21 +41,34 @@ public class BookDetailActivity extends BaseActivity implements View.OnClickList
 
     private RelativeLayout mBott;
 
-    public static String[] labels = {"全部","出版", "女生", "男生", "悬疑"};
+    private Integer userId = -1;
+    private String secretKey = "";
+    private Integer mBookId = -1;
+
+    private Book book;
+
+    public static String[] labels = {"全部", "出版", "女生", "男生", "悬疑"};
 
     private BookDetailPresenter bookDetailPresenter;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_book_detail);
         bookDetailPresenter = new BookDetailPresenter();
         bookDetailPresenter.attachView(this);
+
+        mSharedPreferences = getSharedPreferences(BaseActivity.SP_NAME, MODE_PRIVATE);
+        userId = mSharedPreferences.getInt("userId", -1);
+        secretKey = mSharedPreferences.getString("secretKey", "");
+        mBookId = getIntent().getIntExtra("bookId", -1);
         mInitComponent();
+
     }
 
     @Override
     protected void mInitComponent() {
-        System.out.println("id is:" + getIntent().getIntExtra("bookId", 0));
+        System.out.println("id is:" + mBookId);
 
         mBackButton = (ImageView) findViewById(R.id.book_detail_back_bt);
         mTitle = (TextView) findViewById(R.id.book_detail_title);
@@ -68,12 +87,12 @@ public class BookDetailActivity extends BaseActivity implements View.OnClickList
 
         mBott.setOnClickListener(this);
 
-        bookDetailPresenter.mGetBookDetail(getIntent().getIntExtra("bookId", 0));
+        bookDetailPresenter.mGetBookDetail(mBookId);
     }
 
     @Override
     public void onActionSucc(final BaseModel result) {
-        final Book book = ((BookDetailModel) result).getBook();
+        book = ((BookDetailModel) result).getBook();
 
         final Bitmap bitmap = ImageUtil.getHttpBitmap(HttpUtil.baseUri + book.getBookImg());
         runOnUiThread(new Runnable() {
@@ -89,15 +108,15 @@ public class BookDetailActivity extends BaseActivity implements View.OnClickList
                 mBookImg.setImageBitmap(bitmap);
                 String des = book.getBookDescription();
                 des.replaceAll(" ", "");
-                if(des.length()>200){
-                    des = book.getBookDescription().substring(0,200) + "...";
+                if (des.length() > 200) {
+                    des = book.getBookDescription().substring(0, 200) + "...";
                 }
 
                 mDes.setText(des);
-                if(book.getBookPrice()==0){
+                if (book.getBookPrice() == 0) {
                     mBottImg.setImageResource(R.drawable.ic_add2shelf);
                     mBottBt.setText("加入书架");
-                }else {
+                } else {
                     mBottImg.setImageResource(R.drawable.ic_shopcart_white);
                     mBottBt.setText("加入购物车");
                 }
@@ -108,6 +127,77 @@ public class BookDetailActivity extends BaseActivity implements View.OnClickList
 
     @Override
     public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.book_detail_back_bt:
+                finish();
+                break;
+            case R.id.book_detail_bott:
+                if (userId != -1) {
+                    if (mBottBt.getText().toString().equals("加入书架")) {
+                        mAddBook(1);
+                    } else {
+                        mAddBook(0);
+                    }
+                } else {
+                    mShowMessage("请先登录后再操作");
+                }
+                break;
+        }
+    }
 
+    private void mAddBook(int flag) {
+        bookDetailPresenter.mAddBook(userId, secretKey, mBookId, flag);
+    }
+
+    @Override
+    public void mOnAddSucc(BaseModel result) {
+        mDoLoad();
+    }
+
+    private void mDoLoad() {
+        Looper.prepare();
+        mCheckPermission();
+
+
+        String fileDir = FileUtil.mGetRootPath() + FileUtil.mCachePath + book.getBookName();
+        String result = "下载成功";
+        if (FileUtil.mCreateCacheDir(fileDir)) {
+            System.out.println("mkdir succ");
+            for (int i = 0; i < book.getBookChapterAmount(); i++) {
+                Integer si = i+1;
+                String content = FileUtil.getFileContent(HttpUtil.baseUri + book.getBookLocation() + si.toString() + FileUtil.mFileType);
+                System.out.println(content);
+                if (FileUtil.mSaveFile(content, fileDir + "/noval_" + si.toString() + ".txt")) {
+                    System.out.println(fileDir + "/noval_" + si.toString() + ".txt");
+                } else {
+                    result = "下载失败";
+                }
+
+            }
+
+        }else{
+            result = "下载失败";
+        }
+
+        mShowMessage(result);
+        Looper.loop();
+    }
+
+    @Override
+    public void mOnAddFailed(String msg) {
+        onActionFailed(msg);
+    }
+
+
+    private void mCheckPermission(){
+        PackageManager pm = getPackageManager();
+        boolean permission = (PackageManager.PERMISSION_GRANTED ==
+                pm.checkPermission("android.permission.WRITE_EXTERNAL_STORAGE", "com.ljn.xiaoruireading"));
+        if(!permission){
+            mShowMessage("未获得文件读取权限，请添加权限后重新打开此应用");
+            finish();
+        }else{
+            mShowMessage("权限已获得");
+        }
     }
 }

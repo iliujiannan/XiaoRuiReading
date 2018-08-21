@@ -41,4 +41,18 @@ public class ArticleDetailModel extends BaseModel {
             }
         });
     }
+
+    public static void mDoAddBook(Integer userId, String secretKey,
+                                  Integer bookId, Integer flag, ICallback<BaseModel> callback){
+        HttpUtil httpUtil = new HttpUtil();
+
+        FormBody.Builder form = new FormBody.Builder();
+        form.add("userId", userId.toString());
+        form.add("secretKey", secretKey);
+        form.add("bookId", bookId.toString());
+        form.add("flag", flag.toString());
+
+        httpUtil.mDoPost(form, "add_books",new BaseModelCallBack(callback));
+
+    }
 }
