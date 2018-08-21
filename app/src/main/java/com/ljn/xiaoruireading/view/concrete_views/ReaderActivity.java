@@ -1,6 +1,5 @@
 package com.ljn.xiaoruireading.view.concrete_views;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.view.PagerAdapter;
@@ -12,7 +11,10 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.ljn.xiaoruireading.R;
 import com.ljn.xiaoruireading.base.BaseActivity;
+import com.ljn.xiaoruireading.util.FileUtil;
+import com.ljn.xiaoruireading.view.custom_view.ReaderText.ReaderTextView;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,12 +32,18 @@ public class ReaderActivity extends BaseActivity implements ViewPager.OnPageChan
     private ImageView mMoreButton;
     private TextView mCatalogButton;
     private TextView mSettingButton;
+    private ReaderTextView mText;
+
+    private Integer mCurrentCat = 1;
+    private Integer mCurrentPage = 0;
+    private String mBookname = "侯府春暖";
+    private Integer mCap = 5;
+    private Integer mBookId;
+    private Integer userId = 0;
+    private String secretKey = "";
+    private String content = "";
 
     private List<View> mViews;
-    public static String[] mData = {"一路上黎簇都没有说话，他看着窗外的街道，心中想着，自己是否应该跳下车去，然后一路狂奔。 可是自己能狂奔回哪儿呢？老娘那里？算了吧，老娘虽然还是关心他，但是，老娘已经有了自己的家庭，那里是容不下他的。老爹那里？估计又是一顿胖揍。 自己竟然是在这种时候，明白了什么叫无家可归，他觉得有些可笑。" +
-            "", "page1", "page2", "page3", "page4", "page5", "page6", "page7", "page8", "page9"};
-
-    private Integer mCurrentRealPageNums = 0;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -45,24 +53,41 @@ public class ReaderActivity extends BaseActivity implements ViewPager.OnPageChan
         //设置当前窗体为全屏显示
         window.setFlags(flag, flag);
         setContentView(R.layout.activity_reader);
-        mInitData();
+        mSharedPreferences = getSharedPreferences(BaseActivity.SP_NAME, MODE_PRIVATE);
+        userId = mSharedPreferences.getInt("userId", 0);
+        secretKey = mSharedPreferences.getString("secretKey", "");
+
+
         mInitComponent();
+        mInitData();
+
     }
 
     private void mInitData() {
-        Intent intent = getIntent();
-        if (intent != null) {
-            Integer bookId = intent.getIntExtra("book_id", -1);
-            Integer uri_type = intent.getIntExtra("uri_type", -1);
-            Log.i("ljn:", "" + bookId);
+//        Intent intent = getIntent();
+//        if (intent != null) {
+//            mBookId = intent.getIntExtra("bookId", -1);
+//            mBookname = intent.getStringExtra("bookName");
+//            mCap = intent.getIntExtra("bookCap", -1);
+//        }
+        mGetOneCap();
+    }
+
+    private void mGetOneCap() {
+
+        if (mCurrentCat <= mCap) {
+            content = FileUtil.readFileByChars(FileUtil.mGetRootPath() + FileUtil.mCachePath + mBookname + FileUtil.mFileMid + mCurrentCat.toString() + FileUtil.mFileType);
+            mInitTowPage();
+        } else {
+            mShowMessage("已经是最后一章啦");
         }
+
+
     }
 
     protected void mInitComponent() {
         mViewPager = (ViewPager) findViewById(R.id.page_pager);
-        LayoutInflater inflater = getLayoutInflater();
-        mPage1 = inflater.inflate(R.layout.item_page1, null);
-        mPage2 = inflater.inflate(R.layout.item_page2, null);
+
         mPageTopBar = (RelativeLayout) findViewById(R.id.page_topbar);
         mPageBottomBar = (RelativeLayout) findViewById(R.id.page_bottombar);
         mBackButton = (ImageView) findViewById(R.id.page_back_button);
@@ -74,6 +99,17 @@ public class ReaderActivity extends BaseActivity implements ViewPager.OnPageChan
         mPageTopBar.setVisibility(View.INVISIBLE);
         mPageBottomBar.setVisibility(View.INVISIBLE);
 
+
+        mInitTowPage();
+
+
+    }
+
+
+    private void mInitTowPage() {
+        LayoutInflater inflater = getLayoutInflater();
+        mPage1 = inflater.inflate(R.layout.item_page1, null);
+        mPage2 = inflater.inflate(R.layout.item_page2, null);
         mViews = new ArrayList<>();// 将要分页显示的View装入数组中
         mViews.add(mPage1);
         mViews.add(mPage2);
@@ -85,33 +121,12 @@ public class ReaderActivity extends BaseActivity implements ViewPager.OnPageChan
         mViewPager.setAdapter(mPagerAdapter);
         mViewPager.setOnPageChangeListener(this);
 
-
+        mBackButton.setOnClickListener(this);
     }
 
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-        mCurrentRealPageNums = position;
-
-//        Log.i("mCurrentRealPageNums*", Integer.valueOf(position).toString());
-
-        TextView contentText,chapterText, readRateText, pageNumText;
-
-        int id = R.id.item_page1_text;
-        if (mCurrentRealPageNums % 2 == 1) {
-            id = R.id.item_page2_text;
-        }
-
-        //初始化每一页的四个view
-        contentText = (TextView) findViewById(id);
-        chapterText = (TextView) findViewById(id);
-        readRateText = (TextView) findViewById(id);
-        pageNumText = (TextView) findViewById(id);
-
-
-        contentText.setText(mData[mCurrentRealPageNums]);
-        contentText.setOnClickListener(this);
-
-
+        mUpdateOnePage(position);
     }
 
     @Override
@@ -130,7 +145,68 @@ public class ReaderActivity extends BaseActivity implements ViewPager.OnPageChan
     }
 
 
+    private void mUpdateOnePage(int position){
+        if(mCurrentCat<=mCap) {
+            mCurrentPage = position;
 
+//        Log.i("mCurrentRealPageNums*", Integer.valueOf(position).toString());
+
+            ReaderTextView contentText;
+            TextView chapterText, readRateText, pageNumText;
+
+            if (mCurrentPage % 2 == 1) {
+                //初始化每一页的四个view
+                contentText = (ReaderTextView) findViewById(R.id.item_page2_text);
+                chapterText = (TextView) findViewById(R.id.page2_chapter_id);
+                readRateText = (TextView) findViewById(R.id.page2_read_rate);
+                pageNumText = (TextView) findViewById(R.id.page2_page_num);
+            } else {
+                //初始化每一页的四个view
+                contentText = (ReaderTextView) findViewById(R.id.item_page1_text);
+                chapterText = (TextView) findViewById(R.id.page1_chapter_id);
+                readRateText = (TextView) findViewById(R.id.page1_read_rate);
+                pageNumText = (TextView) findViewById(R.id.page1_page_num);
+            }
+
+
+            String realContent;
+//            System.out.println("length:" + content.length());
+            Integer start = contentText.getEstimatedLength() * mCurrentPage;
+//            System.out.println("start:" + start);
+            if (mCurrentPage >= (content.length() / contentText.getEstimatedLength())) {
+                realContent = content.substring(start, content.length() - 1);
+
+
+            } else {
+                realContent = content.substring(start, contentText.getEstimatedLength() * (mCurrentPage + 1));
+            }
+            contentText.setText(realContent);
+
+            chapterText.setText("第" + mCurrentCat.toString() + "章");
+
+
+            double a = ((mCurrentPage + 1) * contentText.getEstimatedLength());
+            double b = content.length();
+            NumberFormat nbf = NumberFormat.getNumberInstance();
+            nbf.setMinimumFractionDigits(1);
+            String rate = nbf.format(a / b);
+            readRateText.setText(rate + "%");
+
+            Integer c = mCurrentPage + 1;
+            pageNumText.setText(c.toString());
+
+            contentText.setOnClickListener(this);
+
+
+            if (mCurrentPage >= (content.length() / contentText.getEstimatedLength())) {
+                mCurrentCat++;
+                mCurrentPage = 0;
+                mGetOneCap();
+            }
+        }else{
+            mShowMessage("已经是最后一章啦");
+        }
+    }
     class MPagerAdaper extends PagerAdapter {
 
         @Override

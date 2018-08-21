@@ -10,12 +10,15 @@ import android.widget.ImageView;
 import com.ljn.xiaoruireading.R;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by 12390 on 2018/8/9.
  */
 public class ShelfAdapter extends BaseAdapter {
 
+    private List<Bitmap> bitmapList;
+    private boolean isFirst = true;
 
     public final ArrayList<Item> items = new ArrayList<Item>();
     private LayoutInflater mInflater;
@@ -24,6 +27,22 @@ public class ShelfAdapter extends BaseAdapter {
     public ShelfAdapter(Context context) {
         mContext = context;
         mInflater = LayoutInflater.from(context);
+    }
+
+    public boolean isFirst() {
+        return isFirst;
+    }
+
+    public void setFirst(boolean first) {
+        isFirst = first;
+    }
+
+    public List<Bitmap> getBitmapList() {
+        return bitmapList;
+    }
+
+    public void setBitmapList(List<Bitmap> bitmapList) {
+        this.bitmapList = bitmapList;
     }
 
     @Override
@@ -58,8 +77,13 @@ public class ShelfAdapter extends BaseAdapter {
         }
 
         Item item = items.get(position);
+        Bitmap bitmap;
+        if(isFirst) {
 
-        Bitmap bitmap = BookShelfViewUtil.readCover(item.filename, mContext);
+            bitmap = BookShelfViewUtil.readCover(item.filename, mContext);
+        }else{
+            bitmap = bitmapList.get(position);
+        }
 
         holder.iv_image.setImageBitmap(bitmap);
 

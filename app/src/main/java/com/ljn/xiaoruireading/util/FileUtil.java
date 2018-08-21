@@ -11,6 +11,7 @@ public class FileUtil {
     public final static String mCachePath = "/XRR_CACHE/";
 
     public final static String mFileType = ".txt";
+    public final static String mFileMid = "/noval_";
 
     public static String getFileContent(String path) {
         OutputStreamWriter out = null;
@@ -89,5 +90,32 @@ public class FileUtil {
         }
 
 
+    }
+
+    public static String readFileByChars(String fileName) {
+        File file = new File(fileName);
+        String result = "";
+
+        Reader reader = null;
+        try {
+            // 一次读一个字符
+            reader = new InputStreamReader(new FileInputStream(file));
+            int tempchar;
+            while ((tempchar = reader.read()) != -1) {
+                // 对于windows下，\r\n这两个字符在一起时，表示一个换行。
+                // 但如果这两个字符分开显示时，会换两次行。
+                // 因此，屏蔽掉\r，或者屏蔽\n。否则，将会多出很多空行。
+                result+=(char) tempchar;
+//                if (((char) tempchar)) {
+//                    //System.out.print((char) tempchar);
+//
+//                }
+            }
+            reader.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result;
     }
 }

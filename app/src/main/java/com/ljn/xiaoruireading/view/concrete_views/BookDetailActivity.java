@@ -19,6 +19,7 @@ import com.ljn.xiaoruireading.util.FileUtil;
 import com.ljn.xiaoruireading.util.HttpUtil;
 import com.ljn.xiaoruireading.util.ImageUtil;
 import com.ljn.xiaoruireading.view.abstract_views.IBookDetailView;
+import org.michaelevans.colorart.library.ColorArt;
 
 import java.io.File;
 
@@ -38,6 +39,7 @@ public class BookDetailActivity extends BaseActivity implements View.OnClickList
     private TextView mBottBt;
     private ImageView mBottImg;
     private ImageView mBookImg;
+    private RelativeLayout mTopBar;
 
     private RelativeLayout mBott;
 
@@ -82,6 +84,7 @@ public class BookDetailActivity extends BaseActivity implements View.OnClickList
         mBottImg = (ImageView) findViewById(R.id.book_detail_botoomic);
         mBott = (RelativeLayout) findViewById(R.id.book_detail_bott);
         mBookImg = (ImageView) findViewById(R.id.book_detail_bookimg);
+        mTopBar = (RelativeLayout) findViewById(R.id.book_detail_top_bar);
 
         mBackButton.setOnClickListener(this);
 
@@ -95,6 +98,9 @@ public class BookDetailActivity extends BaseActivity implements View.OnClickList
         book = ((BookDetailModel) result).getBook();
 
         final Bitmap bitmap = ImageUtil.getHttpBitmap(HttpUtil.baseUri + book.getBookImg());
+
+        final ColorArt colorArt = new ColorArt(bitmap);
+
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -106,6 +112,7 @@ public class BookDetailActivity extends BaseActivity implements View.OnClickList
                 mPrice.setText("￥" + book.getBookPrice().toString() + "书币");
                 mLa.setText(book.getBookLoadingAmount().toString() + "次下载");
                 mBookImg.setImageBitmap(bitmap);
+                mTopBar.setBackgroundColor(colorArt.getBackgroundColor());
                 String des = book.getBookDescription();
                 des.replaceAll(" ", "");
                 if (des.length() > 200) {
@@ -162,20 +169,20 @@ public class BookDetailActivity extends BaseActivity implements View.OnClickList
         String fileDir = FileUtil.mGetRootPath() + FileUtil.mCachePath + book.getBookName();
         String result = "下载成功";
         if (FileUtil.mCreateCacheDir(fileDir)) {
-            System.out.println("mkdir succ");
+//            System.out.println("mkdir succ");
             for (int i = 0; i < book.getBookChapterAmount(); i++) {
-                Integer si = i+1;
+                Integer si = i + 1;
                 String content = FileUtil.getFileContent(HttpUtil.baseUri + book.getBookLocation() + si.toString() + FileUtil.mFileType);
-                System.out.println(content);
-                if (FileUtil.mSaveFile(content, fileDir + "/noval_" + si.toString() + ".txt")) {
-                    System.out.println(fileDir + "/noval_" + si.toString() + ".txt");
+//                System.out.println(content);
+                if (FileUtil.mSaveFile(content, fileDir + FileUtil.mFileMid + si.toString() + FileUtil.mFileType)) {
+                    System.out.println(fileDir + FileUtil.mFileMid + si.toString() + FileUtil.mFileType);
                 } else {
                     result = "下载失败";
                 }
 
             }
 
-        }else{
+        } else {
             result = "下载失败";
         }
 
@@ -189,14 +196,14 @@ public class BookDetailActivity extends BaseActivity implements View.OnClickList
     }
 
 
-    private void mCheckPermission(){
+    private void mCheckPermission() {
         PackageManager pm = getPackageManager();
         boolean permission = (PackageManager.PERMISSION_GRANTED ==
                 pm.checkPermission("android.permission.WRITE_EXTERNAL_STORAGE", "com.ljn.xiaoruireading"));
-        if(!permission){
+        if (!permission) {
             mShowMessage("未获得文件读取权限，请添加权限后重新打开此应用");
             finish();
-        }else{
+        } else {
             mShowMessage("权限已获得");
         }
     }

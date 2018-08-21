@@ -4,7 +4,7 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent">
     <RelativeLayout
-            android:id="@+id/top_bar"
+            android:id="@+id/book_detail_top_bar"
             android:layout_width="match_parent"
             android:layout_height="@dimen/large_bar"
             android:background="@color/sys_gray"

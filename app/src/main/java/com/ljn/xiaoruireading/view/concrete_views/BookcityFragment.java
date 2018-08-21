@@ -63,7 +63,7 @@ public class BookcityFragment extends BaseFragment implements View.OnClickListen
 
     private Integer mCurrPage = 0;
 
-    private Integer mNumPerTurn = 3;
+    private Integer mNumPerTurn = 4;
 
     @Override
     public int mGetContentViewId() {
@@ -144,7 +144,7 @@ public class BookcityFragment extends BaseFragment implements View.OnClickListen
         mBookCityListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                mShowBookDetail(position-1);
+                mShowBookDetail(position - 1 + mNumPerTurn);
             }
         });
         BookCityListAdapter mBookCityListAdapter =
@@ -176,13 +176,6 @@ public class BookcityFragment extends BaseFragment implements View.OnClickListen
     }
 
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(requestCode==1){
-            //update shelf
-        }
-    }
-
     private void mInitData() {
         mInitListViewData();
 
@@ -199,12 +192,13 @@ public class BookcityFragment extends BaseFragment implements View.OnClickListen
     }
 
 
-    private void mUpdatePageData(){
+    private void mUpdatePageData() {
         mUpdateTurnData();
 
         final List<Bitmap> bitmaps = new ArrayList<>();
-        for(Book book:mBookList.get(mCurrPage)){
-            Bitmap bitmap = ImageUtil.getHttpBitmap(HttpUtil.baseUri+book.getBookImg());
+        for (int i = mNumPerTurn; i < mBookList.get(mCurrPage).size(); i++) {
+            Book book = mBookList.get(mCurrPage).get(i);
+            Bitmap bitmap = ImageUtil.getHttpBitmap(HttpUtil.baseUri + book.getBookImg());
             bitmaps.add(bitmap);
         }
         getActivity().runOnUiThread(new Runnable() {
@@ -218,13 +212,13 @@ public class BookcityFragment extends BaseFragment implements View.OnClickListen
 
     }
 
-    private void mUpdateTurnData(){
+    private void mUpdateTurnData() {
         List<Book> books = new ArrayList<>();
-        for (int i=0;i<mNumPerTurn;i++){
+        for (int i = 0; i < mNumPerTurn; i++) {
             books.add(mBookList.get(mCurrPage).get(i));
         }
         final List<ImageView> imageViews = new ArrayList<>();
-        for (Book book: books){
+        for (Book book : books) {
             ImageView iv = new ImageView(mContext);
             iv.setScaleType(ImageView.ScaleType.CENTER_CROP);
 
@@ -237,20 +231,23 @@ public class BookcityFragment extends BaseFragment implements View.OnClickListen
     }
 
 
-    private void mUpdateListData(List<Bitmap> bitmaps){
+    private void mUpdateListData(List<Bitmap> bitmaps) {
+        List<Book> books = new ArrayList<>();
+        for (int i = mNumPerTurn; i < mBookList.get(mCurrPage).size(); i++) {
+            books.add(mBookList.get(mCurrPage).get(i));
+        }
         BookCityListAdapter mBookCityListAdapter =
-                new BookCityListAdapter(mContext, R.layout.item_bookcity_list, mBookList.get(mCurrPage));
+                new BookCityListAdapter(mContext, R.layout.item_bookcity_list, books);
         mBookCityListAdapter.setBitmaps(bitmaps);
         mBookCityListViewList.get(mCurrPage).setAdapter(mBookCityListAdapter);
     }
 
 
-
-    private void mShowBookDetail(int ind){
+    private void mShowBookDetail(int ind) {
         Intent intent = new Intent(getActivity(), BookDetailActivity.class);
-        System.out.println("ind***" + ind);
-        System.out.println(mBookList.get(mCurrPage).get(ind).getBookName());
-        System.out.println(mBookList.get(mCurrPage).get(ind).getBookId());
+//        System.out.println("ind***" + ind);
+//        System.out.println(mBookList.get(mCurrPage).get(ind).getBookName());
+//        System.out.println(mBookList.get(mCurrPage).get(ind).getBookId());
         intent.putExtra("bookId", mBookList.get(mCurrPage).get(ind).getBookId());
         startActivityForResult(intent, 999);
     }
@@ -284,21 +281,20 @@ public class BookcityFragment extends BaseFragment implements View.OnClickListen
 
     }
 
-    private void mUpdateData(){
+    private void mUpdateData() {
         bookCityPresenter.mGetBooks(mCurrPage.toString());
     }
 
     @Override
     public void onActionSucc(BaseModel result) {
         int i = mBookList.get(mCurrPage).size();
-        for(int j=0;j<i;j++){
+        for (int j = 0; j < i; j++) {
             mBookList.get(mCurrPage).remove(0);
         }
-        for (Book book: ((BookCityModel)result).getBooks()){
+        for (Book book : ((BookCityModel) result).getBooks()) {
             mBookList.get(mCurrPage).add(book);
         }
         mUpdatePageData();
-
 
 
     }

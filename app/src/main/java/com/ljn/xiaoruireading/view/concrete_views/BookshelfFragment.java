@@ -1,13 +1,21 @@
 package com.ljn.xiaoruireading.view.concrete_views;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.*;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.TextView;
 import com.ljn.xiaoruireading.R;
+import com.ljn.xiaoruireading.base.BaseActivity;
 import com.ljn.xiaoruireading.base.BaseFragment;
+import com.ljn.xiaoruireading.base.BaseModel;
+import com.ljn.xiaoruireading.model.Book;
+import com.ljn.xiaoruireading.presenter.BookShelfPresenter;
+import com.ljn.xiaoruireading.util.HttpUtil;
+import com.ljn.xiaoruireading.util.ImageUtil;
+import com.ljn.xiaoruireading.view.abstract_views.IBookShelfView;
 import com.ljn.xiaoruireading.view.custom_view.bookshelf.BookShelfViewUtil;
 import com.ljn.xiaoruireading.view.custom_view.bookshelf.ShelfAdapter;
 
@@ -17,15 +25,21 @@ import java.util.List;
 /**
  * Created by 12390 on 2018/8/9.
  */
-public class BookshelfFragment extends BaseFragment {
+public class BookshelfFragment extends BaseFragment implements IBookShelfView {
 
     private ShelfAdapter mMyAdapter;
     private GridView mGridView;
     private TextView mReadTime;
     private TextView mSaying;
     private TextView mSayingAuthor;
+    private List<Book> books;
 
+    private BookShelfPresenter bookShelfPresenter;
     private boolean mIsLongPress = false;
+
+    private Integer userId = 0;
+    private String secretKey = "";
+    private Integer dailyReadTime = 0;
 
 
     @Override
@@ -43,12 +57,22 @@ public class BookshelfFragment extends BaseFragment {
 
         mGridView.setAdapter(mMyAdapter);
         mSetAllListener();
-
-        updateView(view);
+        String[] array = BookShelfViewUtil.listAssets(view.getContext());
+        List<String> names = new ArrayList<>();
+        for(int i=0;i<array.length;i++){
+            names.add(array[i]);
+        }
+        updateView(true, names);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        bookShelfPresenter = new BookShelfPresenter();
+        bookShelfPresenter.attachView(this);
+        mSharedPreferences = getActivity().getSharedPreferences(BaseActivity.SP_NAME, getActivity().MODE_PRIVATE);
+        userId = mSharedPreferences.getInt("userId", 0);
+        secretKey = mSharedPreferences.getString("secretKey", "");
+        userId = mSharedPreferences.getInt("dailyReadTime", 0);
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
@@ -57,13 +81,16 @@ public class BookshelfFragment extends BaseFragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                if(!mIsLongPress) {
+                if (!mIsLongPress) {
                     Intent intent = new Intent(getActivity(), ReaderActivity.class);
-                    intent.putExtra("book_id", position);
-                    intent.putExtra("uri_type", 0);
-                    startActivity(intent);
+                    if(books!=null) {
+                        intent.putExtra("bookId", books.get(position).getBookId());
+                        intent.putExtra("bookName", books.get(position).getBookName());
+                        intent.putExtra("bookCap", books.get(position).getBookChapterAmount());
+                    }
+                    startActivityForResult(intent, 998);
                     //update
-                }else{
+                } else {
                     mIsLongPress = false;
                 }
             }
@@ -81,25 +108,52 @@ public class BookshelfFragment extends BaseFragment {
     }
 
 
-    private void updateView(View view) {
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        mUpdateShelf();
+    }
 
-        String[] array = BookShelfViewUtil.listAssets(view.getContext());
+    private void updateView(boolean isFirst, List<String> bookNames) {
+
+
         mMyAdapter.items.clear();
         List<String> realList = new ArrayList<>();
-        for (int i = 0; i < array.length; i++) {
-            String temp = array[i];
-            if (mIsLegle(temp)) {
+        for (int i = 0; i < bookNames.size(); i++) {
+            String temp = bookNames.get(i);
+            if (isFirst) {
+                if (mIsLegle(temp)) {
+                    realList.add(temp);
+                }
+            } else {
                 realList.add(temp);
             }
         }
+        List<Bitmap> bitmaps = new ArrayList<>();
         for (String name : realList) {
             ShelfAdapter.Item item = new ShelfAdapter.Item();
             item.filename = name;
-
             mMyAdapter.items.add(item);
+            if(!isFirst){
+                Bitmap bitmap = ImageUtil.getHttpBitmap(HttpUtil.baseUri + name);
+                bitmaps.add(bitmap);
+            }
         }
+        if(!isFirst){
+            mMyAdapter.setFirst(false);
+            mMyAdapter.setBitmapList(bitmaps);
+        }
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                mMyAdapter.notifyDataSetChanged();
+            }
+        });
 
-        mMyAdapter.notifyDataSetChanged();
+    }
+
+
+    public void mUpdateShelf() {
+        //bookShelfPresenter.mGetBookShelfData(userId, secretKey);
     }
 
     private boolean mIsLegle(String temp) {
@@ -130,5 +184,22 @@ public class BookshelfFragment extends BaseFragment {
     }
 
 
+    @Override
+    public void mOnDelSucc(BaseModel result) {
+        mUpdateShelf();
+    }
 
+    @Override
+    public void mOnDelFailed(String msg) {
+        onActionFailed(msg);
+    }
+
+    @Override
+    public void onActionSucc(BaseModel result) {
+        List<String> names = new ArrayList<>();
+        for (Book b: books) {
+            names.add(b.getBookImg());
+        }
+        updateView(false, names);
+    }
 }

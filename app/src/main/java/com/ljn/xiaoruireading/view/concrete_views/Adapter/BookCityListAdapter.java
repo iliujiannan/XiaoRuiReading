@@ -47,7 +47,7 @@ public class BookCityListAdapter extends ArrayAdapter {
         TextView author = (TextView) view.findViewById(R.id.bookcity_author);
         TextView la = (TextView) view.findViewById(R.id.bookcity_list_load);
         final ImageView img = (ImageView) view.findViewById(R.id.bookcity_list_image);
-        if(book.getBookName()!=null) {
+        if(book.getBookName()!=null&&bitmaps!=null) {
             bookName.setText(book.getBookName());
             description.setText(book.getBookDescription());
             author.setText(book.getBookAuthor());

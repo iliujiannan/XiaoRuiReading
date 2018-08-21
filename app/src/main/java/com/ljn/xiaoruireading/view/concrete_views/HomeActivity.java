@@ -87,6 +87,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener{
                 }else{
                     transaction.show(mBookshelfFragment);
                 }
+                ((BookshelfFragment)mBookshelfFragment).mUpdateShelf();
                 break;
 
             case R.id.txt_bookcity:

@@ -84,6 +84,8 @@ public class PersonalFragment extends BaseFragment implements View.OnClickListen
     }
 
     public void mUpdateData(final BaseModel result) {
+
+        mSharedPreferences.edit().putInt("dailyReadTime", ((PersonalModel) result).getUserData().getUserReadDailly()).commit();
         if (!secretKey.equals("")) {
             System.out.println(HttpUtil.baseUri + ((PersonalModel) result).getUserData().getUserPhoto());
             final Bitmap bm = ImageUtil.getHttpBitmap(HttpUtil.baseUri + ((PersonalModel) result).getUserData().getUserPhoto());
