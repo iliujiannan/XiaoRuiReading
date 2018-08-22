@@ -112,6 +112,10 @@ public class BookshelfFragment extends BaseFragment implements IBookShelfView {
                         intent.putExtra("bookName", books.get(position).getBookName());
                         intent.putExtra("bookCap", books.get(position).getBookChapterAmount());
                         beginTime = MyDateUtil.dateToString(new Date());
+                    }else{
+                        intent.putExtra("bookId", 0);
+                        intent.putExtra("bookName", "侯府春暖");
+                        intent.putExtra("bookCap", 5);
                     }
                     startActivityForResult(intent, 998);
                     //update
