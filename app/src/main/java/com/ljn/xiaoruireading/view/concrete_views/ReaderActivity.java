@@ -68,6 +68,7 @@ public class ReaderActivity extends BaseActivity implements ViewPager.OnPageChan
     private void mInitData() {
         Intent intent = getIntent();
         if (intent != null) {
+
             mBookname = intent.getStringExtra("bookName");
             mCap = intent.getIntExtra("bookCap", 5);
         }
@@ -78,7 +79,7 @@ public class ReaderActivity extends BaseActivity implements ViewPager.OnPageChan
 
         if (mCurrentCat <= mCap) {
             content = FileUtil.readFileByChars(FileUtil.mGetRootPath() + FileUtil.mCachePath + mBookname + FileUtil.mFileMid + mCurrentCat.toString() + FileUtil.mFileType);
-            mInitTowPage();
+            mInitThreePage();
         } else {
             mShowMessage("已经是最后一章啦");
         }
@@ -105,13 +106,13 @@ public class ReaderActivity extends BaseActivity implements ViewPager.OnPageChan
         mSettingButton.setOnClickListener(this);
         mCatalogButton.setOnClickListener(this);
 
-        mInitTowPage();
+        mInitThreePage();
 
 
     }
 
 
-    private void mInitTowPage() {
+    private void mInitThreePage() {
         LayoutInflater inflater = getLayoutInflater();
         mPage1 = inflater.inflate(R.layout.item_page1, null);
         mPage2 = inflater.inflate(R.layout.item_page2, null);
@@ -132,6 +133,7 @@ public class ReaderActivity extends BaseActivity implements ViewPager.OnPageChan
 
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+        mCurrentPage = position;
         mUpdateOnePage(position);
         if(position+1<=mMaxPage){
             mUpdateOnePage(position+1);
@@ -245,7 +247,7 @@ public class ReaderActivity extends BaseActivity implements ViewPager.OnPageChan
 
 
         if(mCurrentCat<=mCap) {
-            mCurrentPage = position;
+
 
 //        Log.i("mCurrentRealPageNums*", Integer.valueOf(position).toString());
 
