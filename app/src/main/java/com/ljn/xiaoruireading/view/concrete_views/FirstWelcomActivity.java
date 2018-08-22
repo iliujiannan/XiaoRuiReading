@@ -42,6 +42,7 @@ public class FirstWelcomActivity extends BaseActivity implements View.OnClickLis
                 intent = new Intent(FirstWelcomActivity.this,LoginActivity.class);
                 intent.putExtra("from", "wel");
                 startActivity(intent);
+                finish();
                 break;
             case R.id.first_welcome_reg_button:
 //                mShowMessage("reg");
@@ -51,9 +52,10 @@ public class FirstWelcomActivity extends BaseActivity implements View.OnClickLis
                 break;
             case R.id.first_welcome_visit_button:
                 startActivity(new Intent(FirstWelcomActivity.this,HomeActivity.class));
+                finish();
                 break;
         }
-        finish();
+
     }
 
 }
