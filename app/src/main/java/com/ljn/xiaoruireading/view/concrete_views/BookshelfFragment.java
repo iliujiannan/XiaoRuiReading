@@ -86,13 +86,13 @@ public class BookshelfFragment extends BaseFragment implements IBookShelfView {
         bookShelfPresenter = new BookShelfPresenter();
         bookShelfPresenter.attachView(this);
         mSharedPreferences = getActivity().getSharedPreferences(BaseActivity.SP_NAME, getActivity().MODE_PRIVATE);
-        updateUserData();
+        mUpdateUserData();
 
 
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
-    private void updateUserData() {
+    private void mUpdateUserData() {
         userId = mSharedPreferences.getInt("userId", 0);
         secretKey = mSharedPreferences.getString("secretKey", "");
         dailyReadTime = mSharedPreferences.getInt("dailyReadTime", 0);
@@ -246,7 +246,6 @@ public class BookshelfFragment extends BaseFragment implements IBookShelfView {
 
     @Override
     public void mOnSetSucc(BaseModel result) {
-        onActionFailed(result.getMsg());
     }
 
     @Override

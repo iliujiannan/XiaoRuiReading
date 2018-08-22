@@ -27,8 +27,6 @@ public class ReaderTextView extends TextView {
 
         int height = getHeight();
 //        Log.i("ljn:", String.valueOf(height));
-
-
         int lineHeight = getLineHeight();
 //        Log.i("ljn:", String.valueOf(lineHeight));
         int linecount = (height / lineHeight)-1;

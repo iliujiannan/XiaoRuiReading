@@ -47,6 +47,8 @@ public class ReaderActivity extends BaseActivity implements ViewPager.OnPageChan
 
     private Integer mMaxPage = -1;
 
+    private Integer mMaxFontNumPerPage = 472;
+
     private List<View> mViews;
 
     @Override
@@ -59,16 +61,32 @@ public class ReaderActivity extends BaseActivity implements ViewPager.OnPageChan
         setContentView(R.layout.activity_reader);
         mSharedPreferences = getSharedPreferences(BaseActivity.SP_NAME, MODE_PRIVATE);
 
-
         mInitComponent();
+
         mInitData();
 
+        mInitPos();
+
+    }
+
+    private void mInitPos(){
+        mCurrentCat = mSharedPreferences.getInt("lastCap", 0);
+        Integer lastReadPos = mSharedPreferences.getInt("lastFontPos", 0);
+        String bookName = mSharedPreferences.getString("lastReadBookName", "");
+        if(lastReadPos!=0&&bookName.equals(mBookname)){
+            mCurrentPage = lastReadPos/mMaxFontNumPerPage;
+            mViewPager.setCurrentItem(mCurrentPage);
+            mUpdateOnePage(mCurrentPage);
+            mShowMessage("已为您定位到上回阅读的地方");
+        }else{
+            mCurrentCat = 1;
+            mUpdateOnePage(mCurrentPage);
+        }
     }
 
     private void mInitData() {
         Intent intent = getIntent();
         if (intent != null) {
-
             mBookname = intent.getStringExtra("bookName");
             mCap = intent.getIntExtra("bookCap", 5);
         }
@@ -80,6 +98,7 @@ public class ReaderActivity extends BaseActivity implements ViewPager.OnPageChan
         if (mCurrentCat <= mCap) {
             content = FileUtil.readFileByChars(FileUtil.mGetRootPath() + FileUtil.mCachePath + mBookname + FileUtil.mFileMid + mCurrentCat.toString() + FileUtil.mFileType);
             mInitThreePage();
+
         } else {
             mShowMessage("已经是最后一章啦");
         }
@@ -97,16 +116,14 @@ public class ReaderActivity extends BaseActivity implements ViewPager.OnPageChan
         mCatalogButton = (TextView) findViewById(R.id.page_catalog);
         mSettingButton = (TextView) findViewById(R.id.page_setting);
 
-
         mPageTopBar.setVisibility(View.INVISIBLE);
         mPageBottomBar.setVisibility(View.INVISIBLE);
-
 
         mBackButton.setOnClickListener(this);
         mSettingButton.setOnClickListener(this);
         mCatalogButton.setOnClickListener(this);
 
-        mInitThreePage();
+        //mInitThreePage();
 
 
     }
@@ -243,6 +260,7 @@ public class ReaderActivity extends BaseActivity implements ViewPager.OnPageChan
         });
 
     }
+
     private void mUpdateOnePage(int position){
 
 
@@ -290,29 +308,31 @@ public class ReaderActivity extends BaseActivity implements ViewPager.OnPageChan
 
         }
 
+        mMaxFontNumPerPage = contentText.getEstimatedLength();
+        mMaxPage = content.length() / mMaxFontNumPerPage;
+        System.out.println("defalut:" + mMaxFontNumPerPage);
 
-        mMaxPage = content.length() / contentText.getEstimatedLength();
 
 //            System.out.println("maxsize=" + contentText.getEstimatedLength());
         contentText.setTextSize(TypedValue.COMPLEX_UNIT_SP, mCurrentFontSize);
 
         String realContent;
 //            System.out.println("length:" + content.length());
-        Integer start = contentText.getEstimatedLength() * pos;
+        Integer start = mMaxFontNumPerPage * pos;
 //            System.out.println("start:" + start);
         if (pos >= mMaxPage) {
             realContent = content.substring(start, content.length() - 1);
 
 
         } else {
-            realContent = content.substring(start, contentText.getEstimatedLength() * (pos + 1));
+            realContent = content.substring(start, mMaxFontNumPerPage * (pos + 1));
         }
         contentText.setText(realContent);
 
         chapterText.setText("第" + mCurrentCat.toString() + "章");
 
 
-        double a = ((pos + 1) * contentText.getEstimatedLength());
+        double a = ((pos + 1) * mMaxFontNumPerPage);
         double b = content.length();
         NumberFormat nbf = NumberFormat.getNumberInstance();
         nbf.setMinimumFractionDigits(1);
@@ -382,4 +402,11 @@ public class ReaderActivity extends BaseActivity implements ViewPager.OnPageChan
         mPageBottomBar.setVisibility((mPageBottomBar.getVisibility() == View.INVISIBLE) ? View.VISIBLE : View.INVISIBLE);
     }
 
+    @Override
+    protected void onDestroy() {
+        mSharedPreferences.edit().putString("lastReadBookName",mBookname).apply();
+        mSharedPreferences.edit().putInt("lastCap", mCurrentCat).apply();
+        mSharedPreferences.edit().putInt("lastFontPos", mCurrentPage*mMaxFontNumPerPage).apply();
+        super.onDestroy();
+    }
 }
