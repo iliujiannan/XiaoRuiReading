@@ -2,11 +2,14 @@ package com.ljn.xiaoruireading.view.custom_view.ReaderText;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.widget.TextView;
 
 /**
  * Created by 12390 on 2018/8/21.
  */
+
+
 public class ReaderTextView extends TextView {
     public ReaderTextView(Context context) {
         super(context);
@@ -20,16 +23,20 @@ public class ReaderTextView extends TextView {
         super(context, attrs, defStyleAttr);
     }
 
-
     // 构造函数略...
     public int getEstimatedLength() {
-        int height = getHeight();
-        int lineHeight = getLineHeight();
-        int linecount = height / lineHeight;
 
+        int height = getHeight();
+        Log.i("ljn:", String.valueOf(height));
+
+
+        int lineHeight = getLineHeight();
+        Log.i("ljn:", String.valueOf(lineHeight));
+        int linecount = (height / lineHeight)-1;
         float textSize = getTextSize();
         float linewords = getWidth() / textSize;
         return (int) (linecount * linewords);
+
     }
 
 }

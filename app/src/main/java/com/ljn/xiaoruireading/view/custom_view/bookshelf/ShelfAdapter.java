@@ -80,8 +80,12 @@ public class ShelfAdapter extends BaseAdapter {
         Bitmap bitmap;
         if(isFirst) {
 
-            Item item = items.get(position);
-            bitmap = BookShelfViewUtil.readCover(item.filename, mContext);
+            if(items.size()>=position+1) {
+                Item item = items.get(position);
+                bitmap = BookShelfViewUtil.readCover(item.filename, mContext);
+            }else{
+                bitmap = null;
+            }
         }else{
             bitmap = bitmapList.get(position);
         }

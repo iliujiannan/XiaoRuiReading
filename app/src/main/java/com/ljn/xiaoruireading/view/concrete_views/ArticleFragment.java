@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.*;
 import android.widget.AdapterView;
 import android.widget.ImageView;
@@ -131,7 +132,7 @@ public class ArticleFragment extends BaseFragment implements ViewPager.OnPageCha
             iv.setScaleType(ImageView.ScaleType.CENTER_CROP);
 
             Bitmap bitmap = ImageUtil.getHttpBitmap(HttpUtil.baseUri + articles.get(i).getArticleImg());
-            System.out.println(HttpUtil.baseUri + articles.get(i).getArticleImg());
+//            System.out.println(HttpUtil.baseUri + articles.get(i).getArticleImg());
             iv.setImageBitmap(bitmap);
             imageViews.add(iv);
 
@@ -161,20 +162,24 @@ public class ArticleFragment extends BaseFragment implements ViewPager.OnPageCha
         mArticleListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                mShowDetail(mNumPerTurn+position);
+                mShowDetail(mNumPerTurn+position-1);
             }
         });
         mAdapter.setmListener(new ArticleTurnAdapter.LPagerImgClickListener() {
             @Override
             public void ImgClick(int position) {
-                mShowDetail(position+1);
+                mShowDetail(position);
             }
         });
     }
 
     private void mShowDetail(int ind){
+
+        Log.i("ljn-articlesize：" , String.valueOf(articles.size()));
+        System.out.println("ljn-ind" + ind);
+
         Intent intent = new Intent(getActivity(), ArticleDetailActivity.class);
-        intent.putExtra("articleId", articles.get(ind).getArticleId()-1);
+        intent.putExtra("articleId", articles.get(ind).getArticleId());
         startActivity(intent);
     }
     private void mUpdateData(){

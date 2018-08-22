@@ -154,7 +154,6 @@ public class BookshelfFragment extends BaseFragment implements IBookShelfView {
 
     private void updateView(boolean isFirst, List<String> bookNames) {
 
-
         mMyAdapter.items.clear();
         List<String> realList = new ArrayList<>();
         for (int i = 0; i < bookNames.size(); i++) {
