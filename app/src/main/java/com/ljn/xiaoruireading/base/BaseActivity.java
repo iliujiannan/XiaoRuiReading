@@ -74,20 +74,6 @@ public abstract class BaseActivity extends AppCompatActivity implements IBaseVie
         return BaseActivity.this;
     }
 
-
-    @Override
-    public void onActionSucc(BaseModel result) {
-
-    }
-
-    @Override
-    public void onActionFailed(String msg) {
-        Looper.prepare();
-        mShowMessage(msg);
-        Looper.loop();
-    }
-
-
     public void mSetStatusBar(@ColorInt int color) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
 
@@ -116,5 +102,15 @@ public abstract class BaseActivity extends AppCompatActivity implements IBaseVie
     private boolean mIsLightColor(@ColorInt int color) {
         return ColorUtils.calculateLuminance(color) >= 0.5;
     }
+    @Override
+    public void onActionFailed(String msg) {
+        Looper.prepare();
+        mShowMessage(msg);
+        Looper.loop();
+    }
 
+    @Override
+    public void onActionSucc(BaseModel result) {
+
+    }
 }
