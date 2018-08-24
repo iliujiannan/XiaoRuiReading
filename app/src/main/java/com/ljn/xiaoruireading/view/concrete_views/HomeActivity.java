@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
+import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import com.ljn.xiaoruireading.R;
 import com.ljn.xiaoruireading.base.BaseActivity;
@@ -158,4 +159,5 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener{
             }
         }
     }
+
 }
