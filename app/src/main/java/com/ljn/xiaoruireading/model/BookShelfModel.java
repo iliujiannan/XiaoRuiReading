@@ -27,7 +27,7 @@ public class BookShelfModel extends BaseModel{
         this.books = books;
     }
 
-    public static void mDoGetShelfData(Integer userId, String secretKey, final ICallback<BookShelfModel> callback){
+    public static void mDoGetShelfData(Integer userId, String secretKey, final ICallback<BaseModel> callback){
         HttpUtil httpUtil = new HttpUtil();
 
         FormBody.Builder form = new FormBody.Builder();

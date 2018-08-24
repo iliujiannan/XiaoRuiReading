@@ -112,8 +112,11 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener{
                     mBookcityFragment = new BookcityFragment();
                     transaction.add(R.id.fragment_container,mBookcityFragment);
                 }else{
+                    ((BookcityFragment) mBookcityFragment).mUpdateData();
                     transaction.show(mBookcityFragment);
                 }
+
+
                 break;
 
             case R.id.txt_article:
@@ -123,8 +126,10 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener{
                     mBookhouseFragment = new ArticleFragment();
                     transaction.add(R.id.fragment_container,mBookhouseFragment);
                 }else{
+                    ((ArticleFragment) mBookhouseFragment).mUpdateData();
                     transaction.show(mBookhouseFragment);
                 }
+
                 break;
 
             case R.id.txt_personal:

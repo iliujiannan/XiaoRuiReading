@@ -1,7 +1,7 @@
 package com.ljn.xiaoruireading.presenter;
 
 import android.os.Handler;
-import android.os.Looper;
+import com.ljn.xiaoruireading.base.BaseModel;
 import com.ljn.xiaoruireading.base.BasePresenter;
 import com.ljn.xiaoruireading.base.IBaseView;
 import com.ljn.xiaoruireading.base.ICallback;
@@ -21,20 +21,18 @@ public class ArticlePresenter extends BasePresenter<IBaseView> {
         new Handler().post(new Runnable() {
             @Override
             public void run() {
-                ArticleModel.mDoGetArticles(new ICallback<ArticleModel>() {
+                ArticleModel.mDoGetArticles(new ICallback<BaseModel>() {
                     @Override
-                    public void onSuccess(ArticleModel data) {
-                        Looper.prepare();
+                    public void onSuccess(BaseModel data) {
                         if(data.getStatus()==1) {
                             getView().onActionSucc(data);
                         }else{
                             onFailure(data);
                         }
-                        Looper.loop();
                     }
 
                     @Override
-                    public void onFailure(ArticleModel data) {
+                    public void onFailure(BaseModel data) {
                         getView().onActionFailed(data.getMsg());
                     }
 

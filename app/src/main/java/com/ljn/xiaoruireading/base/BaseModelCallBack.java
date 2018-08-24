@@ -22,7 +22,7 @@ public class BaseModelCallBack implements Callback {
     public void onFailure(Call call, IOException e) {
         BaseModel model = new BaseModel();
         model.setStatus(0);
-        model.setMsg("server error");
+        model.setMsg("网络异常，请稍后重试");
         callback.onFailure(model);
     }
 
@@ -30,10 +30,15 @@ public class BaseModelCallBack implements Callback {
     public void onResponse(Call call, Response response) throws IOException {
 //                System.out.println("***************调用前7");
 //                System.out.println(response.body().string());
-        String s = response.body().string();
-        System.out.println(s);
-        BaseModel baseModel = new Gson().fromJson(s, BaseModel.class);
-        callback.onSuccess(baseModel);
+        System.out.println(response.code());
+        if(response.code()==200) {
+            String s = response.body().string();
+            System.out.println(s);
+            BaseModel baseModel = new Gson().fromJson(s, BaseModel.class);
+            callback.onSuccess(baseModel);
+        }else{
+            onFailure(call, new IOException());
+        }
     }
 }
 

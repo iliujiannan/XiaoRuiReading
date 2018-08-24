@@ -281,7 +281,7 @@ public class BookcityFragment extends BaseFragment implements View.OnClickListen
 
     }
 
-    private void mUpdateData() {
+    public void mUpdateData() {
         bookCityPresenter.mGetBooks(mCurrPage.toString());
     }
 

@@ -1,19 +1,26 @@
 package com.ljn.xiaoruireading.util;
 
-import com.google.gson.Gson;
-import com.ljn.xiaoruireading.model.LoginModel;
-import okhttp3.*;
+import okhttp3.Callback;
+import okhttp3.FormBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
 
-import java.io.IOException;
 import java.util.List;
-import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by 12390 on 2018/8/17.
  */
 public class HttpUtil{
     public static String baseUri = "http://10.25.42.19:8080/";
-    private OkHttpClient client = new OkHttpClient();//创建OkHttpClient对象。
+    private OkHttpClient client;//创建OkHttpClient对象。
+
+    public HttpUtil(){
+        client = new OkHttpClient.Builder()
+                .connectTimeout(5, TimeUnit.SECONDS)
+                .readTimeout(20, TimeUnit.SECONDS)
+                .build();
+    }
     public void mDoPost(List<String> keys, List<String> values, String url, Callback callback) {
         FormBody.Builder form = new FormBody.Builder();
         for (int i = 0; i < keys.size(); i++) {

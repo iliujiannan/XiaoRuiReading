@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Looper;
 import android.support.annotation.ColorInt;
 import android.support.annotation.Nullable;
 import android.support.v4.graphics.ColorUtils;
@@ -81,7 +82,9 @@ public abstract class BaseActivity extends AppCompatActivity implements IBaseVie
 
     @Override
     public void onActionFailed(String msg) {
+        Looper.prepare();
         mShowMessage(msg);
+        Looper.loop();
     }
 
 

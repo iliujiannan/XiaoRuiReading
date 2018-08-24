@@ -182,7 +182,7 @@ public class ArticleFragment extends BaseFragment implements ViewPager.OnPageCha
         intent.putExtra("articleId", articles.get(ind).getArticleId());
         startActivity(intent);
     }
-    private void mUpdateData(){
+    public void mUpdateData(){
         articlePresenter.mGetArticles();
     }
 

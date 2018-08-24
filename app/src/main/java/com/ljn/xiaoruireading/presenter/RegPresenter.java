@@ -1,6 +1,6 @@
 package com.ljn.xiaoruireading.presenter;
 
-import android.os.Looper;
+import com.ljn.xiaoruireading.base.BaseModel;
 import com.ljn.xiaoruireading.base.BasePresenter;
 import com.ljn.xiaoruireading.base.ICallback;
 import com.ljn.xiaoruireading.model.RegModel;
@@ -20,9 +20,9 @@ public class RegPresenter extends BasePresenter<IRegView> {
             return;
         }
         if(values.get(1).equals(values.get(2))){
-            RegModel.mDoReg(keys,values, new ICallback<RegModel>() {
+            RegModel.mDoReg(keys,values, new ICallback<BaseModel>() {
                 @Override
-                public void onSuccess(RegModel data) {
+                public void onSuccess(BaseModel data) {
                     if(data.getStatus()==1){
                         getView().mOnRegSuccess(data);
                     }else{
@@ -31,10 +31,8 @@ public class RegPresenter extends BasePresenter<IRegView> {
                 }
 
                 @Override
-                public void onFailure(RegModel data) {
-                    Looper.prepare();
+                public void onFailure(BaseModel data) {
                     getView().onActionFailed(data.getMsg());
-                    Looper.loop();
                 }
 
             });
@@ -50,9 +48,9 @@ public class RegPresenter extends BasePresenter<IRegView> {
             return;
         }
         if(PhoneNumberCheckUtil.isMobiPhoneNum(phone)){
-            RegModel.mDoGetCheckCode(phone, new ICallback<RegModel>() {
+            RegModel.mDoGetCheckCode(phone, new ICallback<BaseModel>() {
                 @Override
-                public void onSuccess(RegModel data) {
+                public void onSuccess(BaseModel data) {
                     if(data.getStatus()==1) {
 //                        System.out.println("还没爆**********111");
 
@@ -64,10 +62,8 @@ public class RegPresenter extends BasePresenter<IRegView> {
                 }
 
                 @Override
-                public void onFailure(RegModel data) {
-                    Looper.prepare();
+                public void onFailure(BaseModel data) {
                     getView().onActionFailed(data.getMsg());
-                    Looper.loop();
                 }
             });
         }else{

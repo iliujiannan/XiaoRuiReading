@@ -35,7 +35,7 @@ public class ArticleModel extends BaseModel {
         this.users = users;
     }
 
-    public static void mDoGetArticles(final ICallback<ArticleModel> callback){
+    public static void mDoGetArticles(final ICallback<BaseModel> callback){
         HttpUtil httpUtil = new HttpUtil();
 
         FormBody.Builder form = new FormBody.Builder();

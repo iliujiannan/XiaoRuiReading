@@ -46,7 +46,7 @@ public class LoginModel extends BaseModel {
         this.secretKey = secretKey;
     }
 
-    public static void mDoLogin(final Map user, final ICallback<LoginModel> callback) {
+    public static void mDoLogin(final Map user, final ICallback<BaseModel> callback) {
         FormBody.Builder formBody = new FormBody.Builder();//创建表单请求体
 
         formBody.add("userPhone", (String) user.get("userPhone"));//传递键值对参数

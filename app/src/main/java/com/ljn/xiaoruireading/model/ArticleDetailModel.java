@@ -39,6 +39,11 @@ public class ArticleDetailModel extends BaseModel {
                 ArticleDetailModel articleModel = gson.fromJson(s, ArticleDetailModel.class);
                 callback.onSuccess(articleModel);
             }
+
+            @Override
+            public void onFailure(Call call, IOException e) {
+
+            }
         });
     }
 

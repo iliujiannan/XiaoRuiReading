@@ -27,7 +27,7 @@ public class BookCityModel extends BaseModel{
         this.books = books;
     }
 
-    public static void mDoGetBooks(String lable, final ICallback<BookCityModel> callback){
+    public static void mDoGetBooks(String lable, final ICallback<BaseModel> callback){
         HttpUtil httpUtil = new HttpUtil();
 
         FormBody.Builder form = new FormBody.Builder();

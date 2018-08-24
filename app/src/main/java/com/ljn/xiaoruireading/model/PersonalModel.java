@@ -128,7 +128,7 @@ public class PersonalModel extends BaseModel{
     }
 
 
-    public static void mDoGetInformation(String secretKey, Integer userId, final ICallback<PersonalModel> callback){
+    public static void mDoGetInformation(String secretKey, Integer userId, final ICallback<BaseModel> callback){
         HttpUtil httpUtil = new HttpUtil();
 
         FormBody.Builder form = new FormBody.Builder();

@@ -25,7 +25,7 @@ public class BookDetailModel extends BaseModel {
         this.book = book;
     }
 
-    public static void mDoGetBookDetail(Integer bookId, final ICallback<BookDetailModel> callback){
+    public static void mDoGetBookDetail(Integer bookId, final ICallback<BaseModel> callback){
         HttpUtil httpUtil = new HttpUtil();
 
         FormBody.Builder form = new FormBody.Builder();

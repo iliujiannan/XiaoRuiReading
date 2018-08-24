@@ -18,7 +18,7 @@ import java.util.Map;
  * Created by 12390 on 2018/8/10.
  */
 public class RegModel extends BaseModel{
-    public static void mDoReg(final List<String> keys, final List<String> values, final ICallback<RegModel> callback){
+    public static void mDoReg(final List<String> keys, final List<String> values, final ICallback<BaseModel> callback){
         HttpUtil httpUtil = new HttpUtil();
 
         httpUtil.mDoPost(keys, values, "register", new Callback() {
@@ -42,7 +42,7 @@ public class RegModel extends BaseModel{
 
     }
 
-    public static void mDoGetCheckCode(final String phone, final ICallback<RegModel> callback){
+    public static void mDoGetCheckCode(final String phone, final ICallback<BaseModel> callback){
         HttpUtil httpUtil = new HttpUtil();
 
         FormBody.Builder form = new FormBody.Builder();

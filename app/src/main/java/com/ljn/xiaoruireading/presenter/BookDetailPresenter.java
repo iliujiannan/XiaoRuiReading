@@ -1,11 +1,8 @@
 package com.ljn.xiaoruireading.presenter;
 
-import android.content.pm.PackageManager;
 import android.os.Handler;
-import android.os.Looper;
 import com.ljn.xiaoruireading.base.BaseModel;
 import com.ljn.xiaoruireading.base.BasePresenter;
-import com.ljn.xiaoruireading.base.IBaseView;
 import com.ljn.xiaoruireading.base.ICallback;
 import com.ljn.xiaoruireading.model.ArticleDetailModel;
 import com.ljn.xiaoruireading.model.BookDetailModel;
@@ -24,17 +21,17 @@ public class BookDetailPresenter extends BasePresenter<IBookDetailView> {
         new Handler().post(new Runnable() {
             @Override
             public void run() {
-                BookDetailModel.mDoGetBookDetail(bookId, new ICallback<BookDetailModel>() {
+                BookDetailModel.mDoGetBookDetail(bookId, new ICallback<BaseModel>() {
                     @Override
-                    public void onSuccess(BookDetailModel data) {
+                    public void onSuccess(BaseModel data) {
                         getView().onActionSucc(data);
                     }
 
                     @Override
-                    public void onFailure(BookDetailModel data) {
-                        Looper.prepare();
+                    public void onFailure(BaseModel data) {
+
                         getView().onActionFailed(data.getMsg());
-                        Looper.loop();
+
                     }
                 });
             }
@@ -60,9 +57,7 @@ public class BookDetailPresenter extends BasePresenter<IBookDetailView> {
 
                     @Override
                     public void onFailure(BaseModel data) {
-                        Looper.prepare();
                         getView().mOnAddFailed(data.getMsg());
-                        Looper.loop();
                     }
                 });
             }

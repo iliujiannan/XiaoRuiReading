@@ -1,7 +1,7 @@
 package com.ljn.xiaoruireading.presenter;
 
 import android.os.Handler;
-import android.os.Looper;
+import com.ljn.xiaoruireading.base.BaseModel;
 import com.ljn.xiaoruireading.base.BasePresenter;
 import com.ljn.xiaoruireading.base.IBaseView;
 import com.ljn.xiaoruireading.base.ICallback;
@@ -19,20 +19,20 @@ public class BookCityPresenter extends BasePresenter<IBaseView> {
         new Handler().post(new Runnable() {
             @Override
             public void run() {
-                BookCityModel.mDoGetBooks(label, new ICallback<BookCityModel>() {
+                BookCityModel.mDoGetBooks(label, new ICallback<BaseModel>() {
                     @Override
-                    public void onSuccess(BookCityModel data) {
-                        Looper.prepare();
+                    public void onSuccess(BaseModel data) {
+
                         if(data.getStatus()==1) {
                             getView().onActionSucc(data);
                         }else{
                             onFailure(data);
                         }
-                        Looper.loop();
+
                     }
 
                     @Override
-                    public void onFailure(BookCityModel data) {
+                    public void onFailure(BaseModel data) {
                         getView().onActionFailed(data.getMsg());
                     }
                 });

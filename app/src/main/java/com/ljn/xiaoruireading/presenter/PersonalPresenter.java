@@ -1,15 +1,11 @@
 package com.ljn.xiaoruireading.presenter;
 
 import android.os.Handler;
-import android.os.Looper;
 import com.ljn.xiaoruireading.base.BaseModel;
 import com.ljn.xiaoruireading.base.BasePresenter;
 import com.ljn.xiaoruireading.base.ICallback;
 import com.ljn.xiaoruireading.model.PersonalModel;
-import com.ljn.xiaoruireading.model.RegModel;
 import com.ljn.xiaoruireading.view.abstract_views.IPersonalView;
-
-import java.util.Map;
 
 /**
  * Created by 12390 on 2018/8/14.
@@ -26,9 +22,9 @@ public class PersonalPresenter extends BasePresenter<IPersonalView> {
             @Override
             public void run() {
 //                System.out.println("***************调用前4");
-                PersonalModel.mDoGetInformation(secretKey, userId, new ICallback<PersonalModel>() {
+                PersonalModel.mDoGetInformation(secretKey, userId, new ICallback<BaseModel>() {
                     @Override
-                    public void onSuccess(PersonalModel data) {
+                    public void onSuccess(BaseModel data) {
 //                        System.out.println("***************调用前5");
                         if(data.getStatus()==1){
                             getView().onActionSucc(data);
@@ -38,10 +34,8 @@ public class PersonalPresenter extends BasePresenter<IPersonalView> {
                     }
 
                     @Override
-                    public void onFailure(PersonalModel data) {
-                        Looper.prepare();
+                    public void onFailure(BaseModel data) {
                         getView().onActionFailed(data.getMsg());
-                        Looper.loop();
                     }
                 });
             }
@@ -68,9 +62,7 @@ public class PersonalPresenter extends BasePresenter<IPersonalView> {
 
                     @Override
                     public void onFailure(BaseModel data) {
-                        Looper.prepare();
                         getView().mLogoutFailed(data.getMsg());
-                        Looper.loop();
                     }
                 });
             }
@@ -95,9 +87,7 @@ public class PersonalPresenter extends BasePresenter<IPersonalView> {
 
                     @Override
                     public void onFailure(BaseModel data) {
-                        Looper.prepare();
                         getView().mChangeNicknameFailed(data.getMsg());
-                        Looper.loop();
                     }
                 });
             }
@@ -123,9 +113,9 @@ public class PersonalPresenter extends BasePresenter<IPersonalView> {
 
                     @Override
                     public void onFailure(BaseModel data) {
-                        Looper.prepare();
+
                         getView().mChangePswFailed(data.getMsg());
-                        Looper.loop();
+
                     }
                 });
             }
@@ -144,9 +134,9 @@ public class PersonalPresenter extends BasePresenter<IPersonalView> {
                     @Override
                     public void onSuccess(BaseModel data) {
                         if(data.getStatus()==1){
-                            Looper.prepare();
+
                             getView().mRechargeSucc(data);
-                            Looper.loop();
+
                         }else{
                             onFailure(data);
                         }
@@ -154,9 +144,9 @@ public class PersonalPresenter extends BasePresenter<IPersonalView> {
 
                     @Override
                     public void onFailure(BaseModel data) {
-                        Looper.prepare();
+
                         getView().mRechargeFailed(data.getMsg());
-                        Looper.loop();
+
                     }
                 });
             }
@@ -181,9 +171,8 @@ public class PersonalPresenter extends BasePresenter<IPersonalView> {
 
                     @Override
                     public void onFailure(BaseModel data) {
-                        Looper.prepare();
+
                         getView().mGetMoneyInfoFailed(data.getMsg());
-                        Looper.loop();
                     }
                 });
             }
